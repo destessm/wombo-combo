@@ -43,7 +43,13 @@ const int indexCount = 6*(heightMapWidth-1)*(heightMapHeight-1);
 int heightMapIndices[indexCount];
 
 GLuint gVao, gVbo, gIbo, program;
+GLuint textures[4];
 GLuint modelViewLoc, projectionLoc, vPositionLoc, vNormalLoc;
+
+GLubyte* rockTexture;
+GLubyte* grassTexture;
+GLubyte* dirtTexture;
+GLubyte* snowTexture;
 
 mat4 modelView;
 mat4 projection;
@@ -86,8 +92,21 @@ void loadTextures(){
     // This is where the error currently is coming up, when I call stbi_load(...)
     // Obviously this function isn't finished, but when I started writing it I built
     // just to make sure that it worked and it didn't.
-    int width, height, channels;
-    unsigned char* pixels = stbi_load("rock.JPG", &width, &height, &channels, 0);
+    int rockWidth, rockHeight, rockChannels;
+    rockTexture = stbi_load("rock.JPG", &rockWidth, &rockHeight, &rockChannels, 0);
+    int grassWidth, grassHeight, grassChannels;
+    grassTexture = stbi_load("grass.JPG", &grassWidth, &grassHeight, &grassChannels, 0);
+    int dirtWidth, dirtHeight, dirtChannels;
+    dirtTexture = stbi_load("dirt.JPG", &dirtWidth, &dirtHeight, &dirtChannels, 0);
+    int snowWidth, snowHeight, snowChannels;
+    snowTexture = stbi_load("snow.JPG", &snowWidth, &snowHeight, &snowChannels, 0);
+    
+    glGenTextures(4, textures);
+    
+    glBindTexture(GL_TEXTURE_2D, textures[0]);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, rockWidth, rockHeight, 0,
+                 GL_RGB, GL_UNSIGNED_BYTE, rockTexture);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     
 }
 
