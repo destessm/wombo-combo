@@ -22,8 +22,9 @@ int windowWidth = 512;
 int windowHeight = 512;
 
 
-const int heightMapWidth = 257;
-const int heightMapHeight = 257;
+//I know this is bad, I just never got around to fixing it
+const int heightMapWidth = 512;
+const int heightMapHeight = 512;
 
 
 // HeightMap Height Values
@@ -79,7 +80,7 @@ void readHeightMap(char* filename, int width, int height){
             heightMapValues[count] = (float) heightMapBytes[(i*heightMapHeight+j)*3];
             float curVal = heightMapValues[count]/64;
             float curCol = heightMapValues[count]/256;
-            heightMapVectors[count] = vec3((float)j/16, curVal, (float)i/16);
+            heightMapVectors[count] = vec3((float)j/32, curVal, (float)i/32);
             heightMapColors[count] = vec4(curCol, curCol, curCol, 1);
             count++;
         }
@@ -229,7 +230,7 @@ void init(){
     vNormalLoc = glGetAttribLocation(program, "vNormal");
     vTexCoordLoc = glGetUniformLocation(program, "vTexCoord");
     
-    readHeightMap("heightmapWiki.ppm", 257, 257);
+    readHeightMap("heightmap512_1.ppm", 512, 512);
     genTriangles();
     avgNormals();
     
@@ -275,9 +276,13 @@ void init(){
     snowTexture = glmReadPPM("snow.ppm", &snowWidth, &snowHeight);
     //snowTexture = stbi_load("snow.JPG", &snowWidth, &snowHeight, &snowChannels, 0);
     
+    glUniform1i(glGetUniformLocation(program, "rockTex"), 0);
+    glUniform1i(glGetUniformLocation(program, "grassTex"), 1);
+    glUniform1i(glGetUniformLocation(program, "dirtTex"), 2);
+    glUniform1i(glGetUniformLocation(program, "snowTex"), 3);
+
     glGenTextures(4, textures);
 
-    glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, textures[0]);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, rockWidth, rockHeight, 0,
                  GL_RGB, GL_UNSIGNED_BYTE, rockTexture);
@@ -286,10 +291,6 @@ void init(){
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_REPEAT);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_REPEAT);
     
-    glUniform1i(glGetUniformLocation(program, "Texture0"), 0);
-
-    
-    glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, textures[1]);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, grassWidth, grassHeight, 0,
                  GL_RGB, GL_UNSIGNED_BYTE, grassTexture);
@@ -298,10 +299,6 @@ void init(){
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_REPEAT);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_REPEAT);
     
-    glUniform1i(glGetUniformLocation(program, "Texture1"), 1);
-
-    
-    glActiveTexture(GL_TEXTURE2);
     glBindTexture(GL_TEXTURE_2D, textures[2]);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, dirtWidth, dirtHeight, 0,
                  GL_RGB, GL_UNSIGNED_BYTE, dirtTexture);
@@ -310,25 +307,29 @@ void init(){
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_REPEAT);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_REPEAT);
     
-    glUniform1i(glGetUniformLocation(program, "Texture2"), 2);
-
-    
-    glActiveTexture(GL_TEXTURE3);
     glBindTexture(GL_TEXTURE_2D, textures[3]);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 512, 512, 0,
-                 GL_RGB, GL_UNSIGNED_BYTE, rockTexture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, snowWidth, snowHeight, 0,
+                 GL_RGB, GL_UNSIGNED_BYTE, snowTexture);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_REPEAT);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_REPEAT);
     
-    glUniform1i(glGetUniformLocation(program, "Texture3"), 3);
+    
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, textures[0]);
 
-    
-    
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, textures[1]);
+
+    glActiveTexture(GL_TEXTURE2);
+    glBindTexture(GL_TEXTURE_2D, textures[2]);
+
+    glActiveTexture(GL_TEXTURE3);
+    glBindTexture(GL_TEXTURE_2D, textures[3]);
+
 
     glBindVertexArrayAPPLE(0);
-    
     
     
     

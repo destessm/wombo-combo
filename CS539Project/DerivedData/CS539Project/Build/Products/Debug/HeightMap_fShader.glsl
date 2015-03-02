@@ -3,10 +3,10 @@ varying vec3 fPosition;
 varying vec3 fNormal;  //get the interpolated color from the vertex shader
 varying vec2 fTexCoord;
 
-uniform sampler2D Texture0;
-uniform sampler2D Texture1;
-uniform sampler2D Texture2;
-uniform sampler2D Texture3;
+uniform sampler2D rockTex;
+uniform sampler2D grassTex;
+uniform sampler2D dirtTex;
+uniform sampler2D snowTex;
 
 
 vec4 materialAmbient = vec4(0.3,0.3,0.3,1.0);
@@ -71,21 +71,21 @@ void main()
     float steepnessHigh = (acos((dot(vec3(0,1,0), fNormal)))*180.0/3.1415926)/90.0;
     float steepnessLow = 1.0-steepnessHigh;
     
-    vec4 grass = texture2D(Texture1, fTexCoord);
+    vec4 grass = texture2D(grassTex, fTexCoord);
     grass.a = (0.7*heightLow) + (0.3*steepnessLow);
-    vec4 dirt = texture2D(Texture2, fTexCoord);
-    dirt.a = (0.5*heightLow) + (0.5*steepnessHigh);
-    vec4 rock = texture2D(Texture0, fTexCoord);
+    vec4 dirt = texture2D(dirtTex, fTexCoord);
+    dirt.a = (0.6*heightLow) + (0.4*steepnessHigh);
+    vec4 rock = texture2D(rockTex, fTexCoord);
     rock.a = (0.4*heightHigh) + (0.6*steepnessHigh);
-    vec4 snow = texture2D(Texture3, fTexCoord);
+    vec4 snow = texture2D(snowTex, fTexCoord);
     snow.a = (0.7*heightHigh) + (0.3*steepnessLow);
     
-    vec4 mix1 = mix(grass, dirt, 0.5);
-    vec4 mix2 = mix(rock, snow, 0.5);
+    vec4 mix1 = mix(grass, dirt, 0.5); //not sure if this would work
+    vec4 mix2 = mix(rock, snow, 0.5); // ''
     
     totalLighting = totalLighting+diffuse+specular;
 
-    gl_FragColor = totalLighting;// * mix(mix1, mix2, 0.5);  //apply the uniform color to the fragment
+    gl_FragColor = totalLighting;//  * mix(mix1, mix2, 0.5);  //Uncomment this to see it not work. This SHOULD render with the four textures splatted as it is supposed to, but it doesn't work.
    // gl_FragColor.a = 1.0;
 } 
 
