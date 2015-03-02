@@ -260,6 +260,10 @@ void init(){
     glEnableVertexAttribArray(vTexCoordLoc);
     glVertexAttribPointer(vTexCoordLoc, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeof(heightMapVectors)+sizeof(heightMapAvgNormals)));
     
+    
+    // **NOTE** the following commented lines SHOULD work using stb_image.h, but for some reason they weren't working for me.
+    // I think I found that you can get the height and width from these as well. [for the record I tried using number values
+    // to see if that would make my textures render and it didn't work]
     int rockWidth, rockHeight, rockChannels;
     rockTexture = glmReadPPM("rock.ppm", &rockWidth, &rockWidth);
     //rockTexture = stbi_load("rock.JPG", &rockWidth, &rockWidth, &rockChannels, 0);
@@ -275,6 +279,8 @@ void init(){
     int snowWidth, snowHeight, snowChannels;
     snowTexture = glmReadPPM("snow.ppm", &snowWidth, &snowHeight);
     //snowTexture = stbi_load("snow.JPG", &snowWidth, &snowHeight, &snowChannels, 0);
+    
+    //**NOTE** not sure why my textures don't work. It's a mystery to me. Hopefully we can try to work it out after class?
     
     glUniform1i(glGetUniformLocation(program, "rockTex"), 0);
     glUniform1i(glGetUniformLocation(program, "grassTex"), 1);

@@ -85,7 +85,7 @@ void main()
     
     totalLighting = totalLighting+diffuse+specular;
 
-    gl_FragColor = totalLighting;//  * mix(mix1, mix2, 0.5);  //Uncomment this to see it not work. This SHOULD render with the four textures splatted as it is supposed to, but it doesn't work.
+    gl_FragColor = totalLighting;// * mix(mix1, mix2, 0.5);  //Uncomment this to see it not work. This SHOULD render with the four textures splatted as it is supposed to, but it doesn't work.
    // gl_FragColor.a = 1.0;
 } 
 
