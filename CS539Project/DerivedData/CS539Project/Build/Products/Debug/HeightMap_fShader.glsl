@@ -1,6 +1,9 @@
 #version 120
 varying vec3 fPosition;
 varying vec3 fNormal;  //get the interpolated color from the vertex shader
+varying vec2 fTexCoord;
+
+uniform sampler2D texture;
 
 vec4 materialAmbient = vec4(0.3,0.3,0.3,1.0);
 vec4 materialDiffuse = vec4(1.0,1.0,1.0,1.0);
@@ -61,7 +64,7 @@ void main()
     
     totalLighting = totalLighting+diffuse+specular;
 
-    gl_FragColor = totalLighting;  //apply the uniform color to the fragment
-    gl_FragColor.a = 1.0;
+    gl_FragColor = totalLighting * texture2D(texture, fTexCoord);  //apply the uniform color to the fragment
+   // gl_FragColor.a = 1.0;
 } 
 

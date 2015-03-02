@@ -41,21 +41,24 @@ vec3 heightMapAvgNormals[heightMapWidth*heightMapHeight];
 // size for the index buffer data
 const int indexCount = 6*(heightMapWidth-1)*(heightMapHeight-1);
 int heightMapIndices[indexCount];
+// Texture Coordinates
+vec2 textureCoord[indexCount];
 
-GLuint gVao, gVbo, gIbo, program;
+
+GLuint gVao, gVbo, gIbo, program, gVaoTex;
 GLuint textures[4];
-GLuint modelViewLoc, projectionLoc, vPositionLoc, vNormalLoc;
+GLuint modelViewLoc, projectionLoc, vPositionLoc, vNormalLoc, vTexCoordLoc;
 
 GLubyte* rockTexture;
 GLubyte* grassTexture;
 GLubyte* dirtTexture;
 GLubyte* snowTexture;
-
+GLuint rockTexLoc, grassTexLoc, dirtTexLoc, snowTexLoc;
 mat4 modelView;
 mat4 projection;
 
 vec4 at = vec4(8,0,8,0);
-vec4 eye = vec4(7.5,5,7.5,1);
+vec4 eye = vec4(-3,9,0,1);
 vec4 up = vec4(0,1,0,0);
 
 // ***** Methods *****
@@ -89,24 +92,59 @@ void readHeightMap(char* filename, int width, int height){
 }
 
 void loadTextures(){
-    // This is where the error currently is coming up, when I call stbi_load(...)
-    // Obviously this function isn't finished, but when I started writing it I built
-    // just to make sure that it worked and it didn't.
     int rockWidth, rockHeight, rockChannels;
-    rockTexture = stbi_load("rock.JPG", &rockWidth, &rockHeight, &rockChannels, 0);
+    rockTexture = glmReadPPM("rock.ppm", &rockWidth, &rockWidth);
+    //rockTexture = stbi_load("rock.JPG", &rockWidth, &rockWidth, &rockChannels, 0);
     int grassWidth, grassHeight, grassChannels;
-    grassTexture = stbi_load("grass.JPG", &grassWidth, &grassHeight, &grassChannels, 0);
+    grassTexture = glmReadPPM("grass.ppm", &grassWidth, &grassHeight);
+    //grassTexture = stbi_load("grass.JPG", &grassWidth, &grassHeight, &grassChannels, 0);
     int dirtWidth, dirtHeight, dirtChannels;
-    dirtTexture = stbi_load("dirt.JPG", &dirtWidth, &dirtHeight, &dirtChannels, 0);
+    dirtTexture = glmReadPPM("dirt.ppm", 512, 512);
+    //dirtTexture = stbi_load("dirt.JPG", &dirtWidth, &dirtHeight, &dirtChannels, 0);
     int snowWidth, snowHeight, snowChannels;
-    snowTexture = stbi_load("snow.JPG", &snowWidth, &snowHeight, &snowChannels, 0);
+    snowTexture = glmReadPPM("dirt.ppm", &dirtWidth, &snowHeight);
+    //snowTexture = stbi_load("snow.JPG", &snowWidth, &snowHeight, &snowChannels, 0);
+    
     
     glGenTextures(4, textures);
     
-    glBindTexture(GL_TEXTURE_2D, textures[0]);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, rockWidth, rockHeight, 0,
-                 GL_RGB, GL_UNSIGNED_BYTE, rockTexture);
+//    glBindTexture(GL_TEXTURE_2D, textures[0]);
+//    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, rockWidth, rockHeight, 0,
+//                 GL_RGB, GL_UNSIGNED_BYTE, rockTexture);
+//    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+//    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+//    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_REPEAT);
+//    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_REPEAT);
+//
+//    glBindTexture(GL_TEXTURE_2D, textures[1]);
+//    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, grassWidth, grassHeight, 0,
+//                 GL_RGB, GL_UNSIGNED_BYTE, grassTexture);
+//    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+//    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+//    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_REPEAT);
+//    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_REPEAT);
+
+    glBindTexture(GL_TEXTURE_2D, textures[2]);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 512, 512, 0,
+                 GL_RGB, GL_UNSIGNED_BYTE, dirtTexture);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_REPEAT);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_REPEAT);
+
+//    glBindTexture(GL_TEXTURE_2D, textures[3]);
+//    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, snowWidth, snowHeight, 0,
+//                 GL_RGB, GL_UNSIGNED_BYTE, rockTexture);
+//    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+//    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+//    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_REPEAT);
+//    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_REPEAT);
+
+    
+    
+
+
+
     
 }
 
@@ -125,12 +163,15 @@ void genTriangles(){
         for(int j=0; j<heightMapHeight-1;j++){
             heightMapIndices[index] = j*heightMapWidth+i;
             curVecStart = heightMapVectors[heightMapIndices[index]];
+            textureCoord[index] = vec2(0.0,0.0);
             index++;
             heightMapIndices[index] = j*heightMapWidth+i+heightMapWidth;
             curVecA = heightMapVectors[heightMapIndices[index]];
+            textureCoord[index] = vec2(0.0,1.0);
             index++;
             heightMapIndices[index] = j*heightMapWidth+i+1;
             curVecB = heightMapVectors[heightMapIndices[index]];
+            textureCoord[index] = vec2(1.0,1.0);
             index++;
             
             heightMapTriNormals[normalIndex] = normalize(cross((curVecA-curVecStart), (curVecB-curVecStart)));
@@ -138,12 +179,15 @@ void genTriangles(){
             
             heightMapIndices[index] = j*heightMapWidth+i+1;
             curVecStart = heightMapVectors[heightMapIndices[index]];
+            textureCoord[index] = vec2(0.0,0.0);
             index++;
             heightMapIndices[index] = j*heightMapWidth+i+heightMapWidth;
             curVecA = heightMapVectors[heightMapIndices[index]];
+            textureCoord[index] = vec2(1.0,1.0);
             index++;
             heightMapIndices[index] = j*heightMapWidth+i+heightMapWidth+1;
             curVecB = heightMapVectors[heightMapIndices[index]];
+            textureCoord[index] = vec2(1.0,0.0);
             index++;
             
             heightMapTriNormals[normalIndex] = normalize(cross((curVecA-curVecStart), (curVecB-curVecStart)));
@@ -235,17 +279,17 @@ void avgNormals(){
 
 void init(){
     
-    
-    
     program = InitShader("HeightMap_vShader.glsl", "HeightMap_fShader.glsl");
     modelViewLoc = glGetUniformLocation(program, "modelView");
     projectionLoc = glGetUniformLocation(program, "projection");
     vPositionLoc = glGetAttribLocation(program, "vPosition");
     vNormalLoc = glGetAttribLocation(program, "vNormal");
+    vTexCoordLoc = glGetUniformLocation(program, "vTexCoord");
     
     readHeightMap("heightmapWiki.ppm", 257, 257);
     genTriangles();
     avgNormals();
+    
     
     glGenBuffers(1, &gIbo);
     glGenBuffers(1, &gVbo);
@@ -256,9 +300,11 @@ void init(){
     glBindVertexArrayAPPLE(gVao);
     
     glBindBuffer(GL_ARRAY_BUFFER, gVbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(heightMapVectors) + sizeof(heightMapAvgNormals), NULL, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(heightMapVectors) + sizeof(heightMapAvgNormals) + sizeof(textureCoord), NULL, GL_STATIC_DRAW);
     glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(heightMapVectors), heightMapVectors);
     glBufferSubData(GL_ARRAY_BUFFER, sizeof(heightMapVectors), sizeof(heightMapAvgNormals), heightMapAvgNormals);
+    glBufferSubData(GL_ARRAY_BUFFER, sizeof(heightMapVectors)+sizeof(heightMapAvgNormals), sizeof(textureCoord) , textureCoord);
+
     
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gIbo);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(heightMapIndices), heightMapIndices, GL_STATIC_DRAW);
@@ -267,7 +313,77 @@ void init(){
     glVertexAttribPointer(vPositionLoc, 3, GL_FLOAT, GL_FALSE, 0, 0);
     glEnableVertexAttribArray(vNormalLoc);
     glVertexAttribPointer(vNormalLoc, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeof(heightMapVectors)));
+    glEnableVertexAttribArray(vTexCoordLoc);
+    glVertexAttribPointer(vTexCoordLoc, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeof(heightMapVectors)+sizeof(heightMapAvgNormals)));
     
+    int rockWidth, rockHeight, rockChannels;
+    rockTexture = glmReadPPM("rock.ppm", &rockWidth, &rockWidth);
+    //rockTexture = stbi_load("rock.JPG", &rockWidth, &rockWidth, &rockChannels, 0);
+    
+    int grassWidth, grassHeight, grassChannels;
+    grassTexture = glmReadPPM("grass.ppm", &grassWidth, &grassHeight);
+    //grassTexture = stbi_load("grass.JPG", &grassWidth, &grassHeight, &grassChannels, 0);
+    
+    int dirtWidth, dirtHeight, dirtChannels;
+    dirtTexture = glmReadPPM("dirt.ppm", 512, 512);
+    //dirtTexture = stbi_load("dirt.JPG", &dirtWidth, &dirtHeight, &dirtChannels, 0);
+    
+    int snowWidth, snowHeight, snowChannels;
+    snowTexture = glmReadPPM("snow.ppm", &snowWidth, &snowHeight);
+    //snowTexture = stbi_load("snow.JPG", &snowWidth, &snowHeight, &snowChannels, 0);
+    
+    glActiveTexture(GL_TEXTURE0);
+    glGenTextures(4, textures);
+
+    glBindTexture(GL_TEXTURE_2D, textures[0]);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, rockWidth, rockHeight, 0,
+                 GL_RGB, GL_UNSIGNED_BYTE, rockTexture);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_REPEAT);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_REPEAT);
+    
+    glBindTexture(GL_TEXTURE_2D, textures[1]);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, grassWidth, grassHeight, 0,
+                 GL_RGB, GL_UNSIGNED_BYTE, grassTexture);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_REPEAT);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_REPEAT);
+    
+    glBindTexture(GL_TEXTURE_2D, textures[2]);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 512, 512, 0,
+                 GL_RGB, GL_UNSIGNED_BYTE, dirtTexture);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_REPEAT);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_REPEAT);
+    
+    glBindTexture(GL_TEXTURE_2D, textures[3]);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 512, 512, 0,
+                 GL_RGB, GL_UNSIGNED_BYTE, rockTexture);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_REPEAT);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_REPEAT);
+    
+//    rockTexLoc = glGetUniformLocation(program, "rockTex");
+//    grassTexLoc = glGetUniformLocation(program, "grassTex");
+//    dirtTexLoc = glGetUniformLocation(program, "dirtTex");
+//    snowTexLoc = glGetUniformLocation(program, "snowTex");
+    
+    //glUniform1i(glGetUniformLocation(program, "dirtTex"), 0);
+
+//        glActiveTexture(textures[0]);
+//        glUniform1i(rockTexLoc, 0);
+//        glActiveTexture(textures[1]);
+//        glUniform1i(grassTexLoc, 0);
+//        glActiveTexture(textures[2]);
+//        glUniform1i(dirtTexLoc, 0);
+//        glActiveTexture(textures[3]);
+//        glUniform1i(snowTexLoc, 0);
+//        glBindTexture(GL_TEXTURE_2D, textures[2]);
+
     glBindVertexArrayAPPLE(0);
     
     
