@@ -243,8 +243,8 @@ void init(){
     avgNormals();
     
     OTNode root = genOctree(heightMapIndices, indexCount, heightMapVectors, vec3(8,0,8), 8.0);
-    goThroughTree(root);
-    //redLineVertices = generateVertices(root);
+    goThroughTree(&root);
+    redLineVertices = generateVertices(&root);
     
     glGenBuffers(1, &gIbo);
     glGenBuffers(2, gVbo);
@@ -464,6 +464,7 @@ void keyboard(unsigned char key, int x, int y){
             eye.z += 0.2;
             glutPostRedisplay();
             break;
+        
         default:
             break;
     }
