@@ -9,12 +9,12 @@ uniform sampler2D dirtTex;
 uniform sampler2D snowTex;
 
 
-vec4 materialAmbient = vec4(0.3,0.3,0.3,1.0);
+vec4 materialAmbient = vec4(0.5,0.5,0.5,1.0);
 vec4 materialDiffuse = vec4(1.0,1.0,1.0,1.0);
 vec4 materialSpecular = vec4(1.0,0.0,0.0,1.0);
 float materialShininess = 25.0;
 
-vec4 lightPosition = vec4(8.0,1.0,8.0,1.0);
+vec4 lightPosition = vec4(8.0,3.0,8.0,1.0);
 vec4 lightAmbient = vec4(0.5,0.5,0.5,1.0);
 vec4 lightDiffuse = vec4(1.0,1.0,1.0,1.0);
 vec4 lightSpecular = vec4(0.0,0.3,7.0,1.0);
@@ -72,20 +72,28 @@ void main()
     float steepnessLow = 1.0-steepnessHigh;
     
     vec4 grass = texture2D(grassTex, fTexCoord);
-    grass.a = (0.7*heightLow) + (0.3*steepnessLow);
-    vec4 dirt = texture2D(dirtTex, fTexCoord);
-    dirt.a = (0.6*heightLow) + (0.4*steepnessHigh);
-    vec4 rock = texture2D(rockTex, fTexCoord);
-    rock.a = (0.4*heightHigh) + (0.6*steepnessHigh);
-    vec4 snow = texture2D(snowTex, fTexCoord);
-    snow.a = (0.7*heightHigh) + (0.3*steepnessLow);
+    //grass.a =heightLow; //(0.7*heightLow) + (0.3*steepnessHigh);
     
-    vec4 mix1 = mix(grass, dirt, 0.5); //not sure if this would work
-    vec4 mix2 = mix(rock, snow, 0.5); // ''
+    vec4 dirt = texture2D(dirtTex, fTexCoord);
+    //dirt.a = (0.6*heightLow) + (0.4*steepnessHigh);
+    
+    vec4 mix1 = mix(grass, dirt, steepnessHigh);
+    
+    vec4 rock = texture2D(rockTex, fTexCoord);
+    //rock.a = (0.4*heightHigh) + (0.6*steepnessHigh);
+    
+    vec4 snow = texture2D(snowTex, fTexCoord);
+    //snow.a = heightHigh;// (0.7*heightHigh) + (0.3*steepnessLow);
+    
+    vec4 mix2 = mix(snow, rock, steepnessHigh);
+    
+    //vec4 mix1 = mix(grass, dirt, 2.0); //not sure if this would work
+    //vec4 mix2 = mix(rock, snow, 2.0); // ''
     
     totalLighting = totalLighting+diffuse+specular;
 
-    gl_FragColor = totalLighting;// * mix(mix1, mix2, 0.5);  //Uncomment this to see it not work. This SHOULD render with the four textures splatted as it is supposed to, but it doesn't work.
-   // gl_FragColor.a = 1.0;
+    gl_FragColor = totalLighting * mix(mix1, mix2, heightHigh);  //Uncomment this to see it not work. This SHOULD render with the four textures splatted as it is supposed to, but it doesn't work.
+    //gl_FragColor = texture2D(grassTex, fTexCoord);
+    //gl_FragColor.a = 1.0;
 } 
 

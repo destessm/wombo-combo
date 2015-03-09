@@ -12,6 +12,7 @@
 #include "Angel.h"
 #include "glm.h"
 #include "stb_image.h"
+#include "Octree.h"
 
 using namespace std;
 
@@ -45,10 +46,12 @@ int heightMapIndices[indexCount];
 // Texture Coordinates
 vec2 textureCoord[indexCount];
 
+std::vector<vec3> redLineVertices;
 
-GLuint gVao, gVbo, gIbo, program, gVaoTex;
+
+GLuint gVao[2], gVbo[2], gIbo, program, lineProgram;
 GLuint textures[4];
-GLuint modelViewLoc, projectionLoc, vPositionLoc, vNormalLoc, vTexCoordLoc;
+GLuint modelViewLoc, projectionLoc, vPositionLoc, vNormalLoc, vTexCoordLoc, vPositionLineLoc, modelViewLineLoc, projectionLineLoc;
 
 GLubyte* rockTexture;
 GLubyte* grassTexture;
@@ -59,7 +62,7 @@ mat4 modelView;
 mat4 projection;
 
 vec4 at = vec4(8,0,8,0);
-vec4 eye = vec4(-3,9,0,1);
+vec4 eye = vec4(3,5,3,1);
 vec4 up = vec4(0,1,0,0);
 
 // ***** Methods *****
@@ -228,30 +231,38 @@ void init(){
     projectionLoc = glGetUniformLocation(program, "projection");
     vPositionLoc = glGetAttribLocation(program, "vPosition");
     vNormalLoc = glGetAttribLocation(program, "vNormal");
-    vTexCoordLoc = glGetUniformLocation(program, "vTexCoord");
+    vTexCoordLoc = glGetAttribLocation(program, "vTexCoord");
+    
+    lineProgram = InitShader("vShaderRedLine.glsl", "fShaderRedLine.glsl");
+    modelViewLineLoc = glGetUniformLocation(lineProgram, "modelView");
+    projectionLineLoc = glGetUniformLocation(lineProgram, "projection");
+    vPositionLineLoc = glGetAttribLocation(lineProgram, "vPosition");
     
     readHeightMap("heightmap512_1.ppm", 512, 512);
     genTriangles();
     avgNormals();
     
+    OTNode root = genOctree(heightMapIndices, indexCount, heightMapVectors, vec3(8,0,8), 8.0);
+    redLineVertices = generateVertices(root);
     
     glGenBuffers(1, &gIbo);
-    glGenBuffers(1, &gVbo);
+    glGenBuffers(2, gVbo);
     
     glEnableVertexAttribArray(0);
     glBindVertexArrayAPPLE(0);
-    glGenVertexArraysAPPLE(1, &gVao);
-    glBindVertexArrayAPPLE(gVao);
+    glGenVertexArraysAPPLE(2, gVao);
+    glBindVertexArrayAPPLE(gVao[0]);
     
-    glBindBuffer(GL_ARRAY_BUFFER, gVbo);
+    glBindBuffer(GL_ARRAY_BUFFER, gVbo[0]);
     glBufferData(GL_ARRAY_BUFFER, sizeof(heightMapVectors) + sizeof(heightMapAvgNormals) + sizeof(textureCoord), NULL, GL_STATIC_DRAW);
     glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(heightMapVectors), heightMapVectors);
     glBufferSubData(GL_ARRAY_BUFFER, sizeof(heightMapVectors), sizeof(heightMapAvgNormals), heightMapAvgNormals);
     glBufferSubData(GL_ARRAY_BUFFER, sizeof(heightMapVectors)+sizeof(heightMapAvgNormals), sizeof(textureCoord) , textureCoord);
-
+    
     
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gIbo);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(heightMapIndices), heightMapIndices, GL_STATIC_DRAW);
+    
     
     glEnableVertexAttribArray(vPositionLoc);
     glVertexAttribPointer(vPositionLoc, 3, GL_FLOAT, GL_FALSE, 0, 0);
@@ -265,7 +276,7 @@ void init(){
     // I think I found that you can get the height and width from these as well. [for the record I tried using number values
     // to see if that would make my textures render and it didn't work]
     int rockWidth, rockHeight, rockChannels;
-    rockTexture = glmReadPPM("rock.ppm", &rockWidth, &rockWidth);
+    rockTexture = glmReadPPM("rock.ppm", &rockWidth, &rockHeight);
     //rockTexture = stbi_load("rock.JPG", &rockWidth, &rockWidth, &rockChannels, 0);
     
     int grassWidth, grassHeight, grassChannels;
@@ -280,12 +291,13 @@ void init(){
     snowTexture = glmReadPPM("snow.ppm", &snowWidth, &snowHeight);
     //snowTexture = stbi_load("snow.JPG", &snowWidth, &snowHeight, &snowChannels, 0);
     
-    //**NOTE** not sure why my textures don't work. It's a mystery to me. Hopefully we can try to work it out after class?
+    
     
     glUniform1i(glGetUniformLocation(program, "rockTex"), 0);
     glUniform1i(glGetUniformLocation(program, "grassTex"), 1);
     glUniform1i(glGetUniformLocation(program, "dirtTex"), 2);
     glUniform1i(glGetUniformLocation(program, "snowTex"), 3);
+    
 
     glGenTextures(4, textures);
 
@@ -294,32 +306,33 @@ void init(){
                  GL_RGB, GL_UNSIGNED_BYTE, rockTexture);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_REPEAT);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_REPEAT);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     
     glBindTexture(GL_TEXTURE_2D, textures[1]);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, grassWidth, grassHeight, 0,
                  GL_RGB, GL_UNSIGNED_BYTE, grassTexture);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_REPEAT);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_REPEAT);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     
     glBindTexture(GL_TEXTURE_2D, textures[2]);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, dirtWidth, dirtHeight, 0,
                  GL_RGB, GL_UNSIGNED_BYTE, dirtTexture);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_REPEAT);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_REPEAT);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     
     glBindTexture(GL_TEXTURE_2D, textures[3]);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, snowWidth, snowHeight, 0,
                  GL_RGB, GL_UNSIGNED_BYTE, snowTexture);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_REPEAT);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_REPEAT);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    
     
     
     glActiveTexture(GL_TEXTURE0);
@@ -336,6 +349,15 @@ void init(){
 
 
     glBindVertexArrayAPPLE(0);
+    glBindVertexArrayAPPLE(gVao[1]);
+    glBindBuffer(GL_ARRAY_BUFFER, gVbo[1]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(&redLineVertices[0]), &redLineVertices[0], GL_STATIC_DRAW);
+    
+    glEnableVertexAttribArray(vPositionLineLoc);
+    glVertexAttribPointer(vPositionLineLoc, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+    glBindVertexArrayAPPLE(0);
+
     
     
     
@@ -356,19 +378,46 @@ void display(){
     
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-    
     glUseProgram(program);
     
     modelView = LookAt(eye, at, up);
-    projection = Perspective(70, windowWidth/windowHeight, 1.0, 100);
+    projection = Perspective(70, windowWidth/windowHeight, 0.1, 100);
+    
+    
+    glUniform1i(glGetUniformLocation(program, "rockTex"), 0);
+    glUniform1i(glGetUniformLocation(program, "grassTex"), 1);
+    glUniform1i(glGetUniformLocation(program, "dirtTex"), 2);
+    glUniform1i(glGetUniformLocation(program, "snowTex"), 3);
+    
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, textures[0]);
+    
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, textures[1]);
+    
+    glActiveTexture(GL_TEXTURE2);
+    glBindTexture(GL_TEXTURE_2D, textures[2]);
+    
+    glActiveTexture(GL_TEXTURE3);
+    glBindTexture(GL_TEXTURE_2D, textures[3]);
     
     
     glUniformMatrix4fv(modelViewLoc, 1, GL_TRUE, modelView);
     glUniformMatrix4fv(projectionLoc, 1, GL_TRUE, projection);
     
-    glBindVertexArrayAPPLE(gVao);
+    glBindVertexArrayAPPLE(gVao[0]);
     glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0);
     glBindVertexArrayAPPLE(0);
+    
+    glUseProgram(lineProgram);
+    
+    glUniformMatrix4fv(modelViewLoc, 1, GL_TRUE, modelView);
+    glUniformMatrix4fv(projectionLoc, 1, GL_TRUE, projection);
+
+    glBindVertexArrayAPPLE(gVao[1]);
+    glDrawArrays(GL_LINES, 0, (GLsizei)redLineVertices.size());
+    glBindVertexArrayAPPLE(0);
+    
     
     
     

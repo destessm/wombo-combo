@@ -27,6 +27,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		367C2F011AAB731100E09427 /* Octree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Octree.h; sourceTree = "<group>"; };
 		367EC9FA1AA0CF660013325B /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 		367EC9FB1AA0CF660013325B /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		367EC9FE1AA0CFC80013325B /* Angel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Angel.h; sourceTree = "<group>"; };
@@ -389,6 +390,7 @@
 				367ECA031AA0CFC80013325B /* mat.h */,
 				367ECA041AA0CFC80013325B /* vec.h */,
 				36B72A6E1AA2D26E005940D5 /* stb_image.h */,
+				367C2F011AAB731100E09427 /* Octree.h */,
 			);
 			path = CS539Project;
 			sourceTree = "<group>";
