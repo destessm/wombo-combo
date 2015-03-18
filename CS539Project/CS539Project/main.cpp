@@ -121,7 +121,7 @@ void genTriangles(){
             textureCoord[index] = vec2(1.0,1.0);
             index++;
             
-            heightMapTriNormals[normalIndex] = normalize(cross((curVecA-curVecStart), (curVecB-curVecStart)));
+            heightMapTriNormals[normalIndex] = normalize(cross((vec4(curVecA, 1)-vec4(curVecStart, 1)), (vec4(curVecB, 1)-vec4(curVecStart, 1))));
             normalIndex++;
             
             heightMapIndices[index] = j*heightMapWidth+i+1;
@@ -137,7 +137,7 @@ void genTriangles(){
             textureCoord[index] = vec2(1.0,0.0);
             index++;
             
-            heightMapTriNormals[normalIndex] = normalize(cross((curVecA-curVecStart), (curVecB-curVecStart)));
+            heightMapTriNormals[normalIndex] = normalize(cross((vec4(curVecA, 1)-vec4(curVecStart, 1)), (vec4(curVecB, 1)-vec4(curVecStart, 1))));
             normalIndex++;
         }
     }
@@ -242,9 +242,9 @@ void init(){
     genTriangles();
     avgNormals();
     
-    OTNode root = genOctree(heightMapIndices, indexCount, heightMapVectors, vec3(8,0,8), 8.0);
-    //goThroughTree(&root);
-    //redLineVertices = generateVertices(&root);
+    OTNode* root = genOctree(heightMapIndices, indexCount, heightMapVectors, vec3(8,0,8), 8.0);
+    goThroughTree(root);
+    redLineVertices = generateVertices(root);
     
     glGenBuffers(1, &gIbo);
     glGenBuffers(2, gVbo);
@@ -289,7 +289,7 @@ void init(){
     //dirtTexture = stbi_load("dirt.JPG", &dirtWidth, &dirtHeight, &dirtChannels, 0);
     
     int snowWidth, snowHeight, snowChannels;
-    snowTexture = glmReadPPM("snow.ppm", &snowWidth, &snowHeight);
+    snowTexture = glmReadPPM("snowB.ppm", &snowWidth, &snowHeight);
     //snowTexture = stbi_load("snow.JPG", &snowWidth, &snowHeight, &snowChannels, 0);
     
     
@@ -410,13 +410,16 @@ void display(){
     glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0);
     glBindVertexArrayAPPLE(0);
     
+    
+    
+    
     glUseProgram(lineProgram);
     
-    glUniformMatrix4fv(modelViewLoc, 1, GL_TRUE, modelView);
-    glUniformMatrix4fv(projectionLoc, 1, GL_TRUE, projection);
+    glUniformMatrix4fv(modelViewLineLoc, 1, GL_TRUE, modelView);
+    glUniformMatrix4fv(projectionLineLoc, 1, GL_TRUE, projection);
 
     glBindVertexArrayAPPLE(gVao[1]);
-    glDrawArrays(GL_LINES, 0, (GLsizei)redLineVertices.size());
+    glDrawArrays(GL_LINES, 0, redLineVertices.size());
     glBindVertexArrayAPPLE(0);
     
     
