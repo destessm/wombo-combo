@@ -56,6 +56,7 @@ GLuint gVao[2], gVbo[2], gIbo, program, lineProgram;
 GLuint textures[4];
 GLuint modelViewLoc, projectionLoc, vPositionLoc, vNormalLoc, vTexCoordLoc, vPositionLineLoc, modelViewLineLoc, projectionLineLoc;
 
+
 GLubyte* rockTexture;
 GLubyte* grassTexture;
 GLubyte* dirtTexture;

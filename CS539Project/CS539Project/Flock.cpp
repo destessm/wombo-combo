@@ -70,32 +70,40 @@ void Flock::setDirection(vec4 newDir){
 
 void Flock::checkBounds(){
     for(int i =0; i<numBoids; i++){
-        
+        if(boids[i].position.x>upperBound.x || boids[i].position.x<lowerBound.x ||
+           boids[i].position.y>upperBound.y || boids[i].position.y<lowerBound.y ||
+           boids[i].position.z>upperBound.z || boids[i].position.z<lowerBound.z){
+            direction = normalize(vec4(8,3,8,1)-boids[i].position);
+            direction.w = 1;
+            std::cout<<"New Direction: "<<direction<<std::endl;
+        }
     }
 }
 
 void Flock::updateFlock(float deltaTime){
     avgBoidPosition = updateAvgBoidPos();
-    if(avgBoidPosition.x>upperBound.x || avgBoidPosition.x<lowerBound.x ||
-       avgBoidPosition.y>upperBound.y || avgBoidPosition.y<lowerBound.y ||
-       avgBoidPosition.z>upperBound.z || avgBoidPosition.z<lowerBound.z){
-        //direction = pickNewDirection(direction);
-        //std::cout<<"HIT WALL! NEW DIRECTION! " <<direction<<std::endl;
-    }
-    float sepWeight;
-    float aliWeight = 0.1; //??
-    float cohWeight;
-    //int closestBoids[3] = {NULL, NULL, NULL};
-    //float closestDistances[3] = {INFINITY,INFINITY,INFINITY};
-    int closestBoid;
-    float curDist;
-    float closestDistance;
+    checkBounds();
     
     for(int i=0; i < numBoids; i++){
-        boids[i].velocity += ruleSeparation(i) + ruleAlignment(i) + ruleCohesion(i);
+        vec4 separation = ruleSeparation(i);
+        std::cout<<"boid #" << boids[i].key << " Separation: " << '\t' << separation << std::endl;
+        vec4 alignment = ruleAlignment(i);
+        std::cout<<"boid #" << boids[i].key << " Alignment: " << '\t' << alignment << std::endl;
+        vec4 cohesion = ruleCohesion(i);
+        std::cout<<"boid #" << boids[i].key << " Cohesion: " << '\t' << cohesion << std::endl;
+        
+        boids[i].velocity += separation;
+        boids[i].velocity += alignment;
+        boids[i].velocity += cohesion;
+        boids[i].velocity.w = 1;
+        
+        std::cout<<"boid #" << boids[i].key << " Velocity: " << '\t' << boids[i].velocity << std::endl;
         boids[i].position += normalize(boids[i].velocity)*deltaTime;
+        boids[i].position.w = 0;
         std::cout<<"boid #" << boids[i].key << " POSITION: " << '\t' << boids[i].position <<std::endl;
+        std::cout<<std::endl;
     }
+    std::cout<<std::endl;
 }
 
 
@@ -115,11 +123,17 @@ vec4 Flock::ruleSeparation(int index){
         }
     }
     //std::cout<< "boid #" << boids[index].key<< " separation:"<<'\t'<<normalize(-boids[closestBoid].position)*closestDistance<<std::endl;
-    return normalize(-boids[closestBoid].position)*closestDistance*0.1; //??
+    vec4 output = normalize(-boids[closestBoid].position)*closestDistance*0.1;
+    output.w = 1;
+    return output;
 }
 
 vec4 Flock::ruleAlignment(int index){
-    return normalize(direction)*0.1;
+    /*vec3 center = vec3(8,3,8);
+    float distToCenter =sqrtf(powf(center.x-boids[index].position.x, 2)+
+                              powf(center.y-boids[index].position.y, 2)+
+                              powf(center.z-boids[index].position.z, 2));*/
+    return direction;
 }
 
 vec4 Flock::ruleCohesion(int index){
