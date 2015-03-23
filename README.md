@@ -9,21 +9,20 @@ x and X decrease and increase the y value respectively
 c and C decrease and increase the z value respectively
 (it always looks at the center of the terrain)
 you can sort-of zoom in and out by alternately hitting z and c (or Z and C). 
-
+I am so sorry for not fixing this yet. I keep meaning to set aside the time for it.
+I'll get to it this week!
 
 WHAT’S WRONG:
-I am unable to render the red cubes to represent the octree visually. I 
-instead am printing the sizes for each cube and whether they are leaves
-or internal nodes in the order that they are processed (depth first). I
-believe that my issue lies in my pointers (which I often have troubles
-with), and so when I try to run a function to read through the tree, it
-gets a bad-access error on a line that compares the node's first child
-to NULL. I was also having issues using break-points. XCode seemed to 
-be lying to me as to what was contained in my pointers (not sure why
-exactly), so I eventually had to resort to std::couts that would let me
-see more clearly what was going on. This didn't help in the problem 
-functions, though, since they both hit errors so quickly. In addition to
-this, I never got a chance to fix my camera. I will try to do this over
-break next week so that the next assignment will be easier to interact
-with. Also my textures still look awful. Not sure why, didn't get any
-time to fix it. 
+I am still having issues rendering my flock of boids. The boids themselves act
+as they should (or so it seems through print-statements), but for some reason
+I haven't gotten them to render. My boundaries are fairly 'loose', in that the
+flock will get partially outside of the boundaries before rubber-banding back
+inside of them. Another thing I didn't get to finish was rotating the boids,
+as I was waiting until I could properly see the boids to fix this. I didn't 
+account for how long this would take me, and I only started part-way through 
+this week. Hopefully we can fix this rendering issue in class but if not, I'll
+fix it before I get working on next week's assignment. I will also do my best
+to get a functional camera working. 
+
+The good news:
+I finally got my textures looking good! Woo! 

@@ -36,6 +36,7 @@ Flock::Flock(int num, vec3 UB, vec3 LB){
         boids[i].key=i;
     }
     direction = pickRandomDirection();
+    std::cout<<"RANDOM DIRECTION: "<<direction<<std::endl;
     upperBound = UB;
     lowerBound = LB;
 }
@@ -55,8 +56,9 @@ vec3 Flock::updateAvgBoidPos(){
 }
 
 vec4 Flock::pickRandomDirection(){
-    //return vec4((rand()%2)-1,(rand()%2)-1,(rand()%2)-1,1);
-    return vec4(1,0,0,1);
+    srand(time(NULL));
+    return vec4((rand()%100)/50.0-1,0,(rand()%100)/50.0-1,1);
+    //return vec4(1,0,0,1);
 }
 
 vec4 Flock::pickNewDirection(vec4 oldDirection){
@@ -189,14 +191,14 @@ void Flock::initFlock(){
     glBindVertexArrayAPPLE(vao);
     
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vec3)*4, boidModelVertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vec3)*4+sizeof(vec4)*4, NULL, GL_STATIC_DRAW);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vec3)*4, boidModelVertices);
+    glBufferSubData(GL_ARRAY_BUFFER, sizeof(vec3)*4, sizeof(vec4)*4, boidModelColors);
+    
     glEnableVertexAttribArray(vPositionLoc);
     glVertexAttribPointer(vPositionLoc, 3, GL_FLOAT, GL_FALSE, 0, 0);
     glEnableVertexAttribArray(vColorLoc);
     glVertexAttribPointer(vColorLoc, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeof(vec3)*4));
-    
-    
-    //notdone
 
     glBindVertexArrayAPPLE(0);
 }
@@ -207,16 +209,18 @@ void Flock::renderFlock(mat4 modelMatrix, mat4 projectionMatrix){
     glUniformMatrix4fv(modelMatrixLoc, 1, GL_TRUE, modelMatrix);
     glUniformMatrix4fv(projectionMatrixLoc, 1, GL_TRUE, projectionMatrix);
     // Loop through boids
-    glBindVertexArrayAPPLE(vao);
     for(int i=0; i<numBoids; i++){
+        glBindVertexArrayAPPLE(vao);
+
         //bind translate
         //bind rotatel
         //draw!
         glUniformMatrix4fv(translateLoc, 1, GL_TRUE, Translate(boids[i].position));
         //rotate???
         glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+        glBindVertexArrayAPPLE(0);
+
     }
-    glBindVertexArrayAPPLE(0);
 }
 
 
