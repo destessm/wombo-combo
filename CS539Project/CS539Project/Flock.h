@@ -38,6 +38,7 @@ public:
     GLuint program;
 private:
     int numBoids;
+    int count =0;
     std::vector<Boid> boids;
     vec4 direction;
     vec3 upperBound, lowerBound;

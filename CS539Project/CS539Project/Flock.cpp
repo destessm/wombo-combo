@@ -60,8 +60,11 @@ vec4 Flock::pickRandomDirection(){
 }
 
 vec4 Flock::pickNewDirection(vec4 oldDirection){
-    srand(time(NULL));
-    return (-oldDirection)+vec4(((rand()%1)-0.5), ((rand()%1)-0.5), ((rand()%1)-0.5), 0);
+    //srand(time(NULL));
+    //return (-oldDirection)+vec4(((rand()%1)-0.5), ((rand()%1)-0.5), ((rand()%1)-0.5), 0);
+    vec4 output =normalize(vec4(8,3,8,1)-avgBoidPosition);
+    output.w =1;
+    return output;
 }
 
 void Flock::setDirection(vec4 newDir){
@@ -69,39 +72,54 @@ void Flock::setDirection(vec4 newDir){
 }
 
 void Flock::checkBounds(){
-    for(int i =0; i<numBoids; i++){
+    /*for(int i =0; i<numBoids; i++){
         if(boids[i].position.x>upperBound.x || boids[i].position.x<lowerBound.x ||
            boids[i].position.y>upperBound.y || boids[i].position.y<lowerBound.y ||
            boids[i].position.z>upperBound.z || boids[i].position.z<lowerBound.z){
-            direction = normalize(vec4(8,3,8,1)-boids[i].position);
-            direction.w = 1;
+            //direction = normalize(vec4(8,3,8,1)-boids[i].position);
+            //direction.w = 1;
+            setDirection(-direction);
             std::cout<<"New Direction: "<<direction<<std::endl;
         }
+    }*/
+    
+    std::cout<<" *** AVERAGE BOID POSITION: " <<avgBoidPosition<< " *** "<<std::endl;
+    if(avgBoidPosition.x>upperBound.x || avgBoidPosition.x<lowerBound.x ||
+       avgBoidPosition.y>upperBound.y || avgBoidPosition.y<lowerBound.y ||
+       avgBoidPosition.z>upperBound.z || avgBoidPosition.z<lowerBound.z){
+        //direction = normalize(vec4(8,3,8,1)-boids[i].position);
+        //direction.w = 1;
+        direction = pickNewDirection(direction);
+        std::cout<<"New Direction: "<<direction<<std::endl;
     }
+
+    
 }
 
 void Flock::updateFlock(float deltaTime){
     avgBoidPosition = updateAvgBoidPos();
-    checkBounds();
-    
+    if(count%10 == 0){
+        checkBounds();
+    }
+    count++;
     for(int i=0; i < numBoids; i++){
         vec4 separation = ruleSeparation(i);
-        std::cout<<"boid #" << boids[i].key << " Separation: " << '\t' << separation << std::endl;
+        //std::cout<<"boid #" << boids[i].key << " Separation: " << '\t' << separation << std::endl;
         vec4 alignment = ruleAlignment(i);
-        std::cout<<"boid #" << boids[i].key << " Alignment: " << '\t' << alignment << std::endl;
+        //std::cout<<"boid #" << boids[i].key << " Alignment: " << '\t' << alignment << std::endl;
         vec4 cohesion = ruleCohesion(i);
-        std::cout<<"boid #" << boids[i].key << " Cohesion: " << '\t' << cohesion << std::endl;
+        //std::cout<<"boid #" << boids[i].key << " Cohesion: " << '\t' << cohesion << std::endl;
         
         boids[i].velocity += separation;
         boids[i].velocity += alignment;
         boids[i].velocity += cohesion;
         boids[i].velocity.w = 1;
         
-        std::cout<<"boid #" << boids[i].key << " Velocity: " << '\t' << boids[i].velocity << std::endl;
-        boids[i].position += normalize(boids[i].velocity)*deltaTime;
+        //std::cout<<"boid #" << boids[i].key << " Velocity: " << '\t' << boids[i].velocity << std::endl;
+        boids[i].position += normalize(boids[i].velocity*deltaTime);
         boids[i].position.w = 0;
         std::cout<<"boid #" << boids[i].key << " POSITION: " << '\t' << boids[i].position <<std::endl;
-        std::cout<<std::endl;
+        //std::cout<<std::endl;
     }
     std::cout<<std::endl;
 }
@@ -123,17 +141,25 @@ vec4 Flock::ruleSeparation(int index){
         }
     }
     //std::cout<< "boid #" << boids[index].key<< " separation:"<<'\t'<<normalize(-boids[closestBoid].position)*closestDistance<<std::endl;
-    vec4 output = normalize(-boids[closestBoid].position)*closestDistance*0.1;
+    vec4 output = normalize(-boids[closestBoid].position)*closestDistance;
     output.w = 1;
     return output;
 }
 
 vec4 Flock::ruleAlignment(int index){
-    /*vec3 center = vec3(8,3,8);
-    float distToCenter =sqrtf(powf(center.x-boids[index].position.x, 2)+
+    vec4 center = vec4(8,3,8,0);
+    /*float distToCenter =sqrtf(powf(center.x-boids[index].position.x, 2)+
                               powf(center.y-boids[index].position.y, 2)+
                               powf(center.z-boids[index].position.z, 2));*/
-    return direction;
+    
+    float distToCenter = length(center-boids[index].position);
+    //std::cout<<" ** DISTANCE TO CENTER: " << distToCenter <<" ** "<<std::endl;
+    if(distToCenter == 0){
+        return direction;
+    }
+    else{
+        return vec4(direction.x*distToCenter, direction.y*distToCenter, direction.z*distToCenter, 1);
+    }
 }
 
 vec4 Flock::ruleCohesion(int index){

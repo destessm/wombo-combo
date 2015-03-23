@@ -250,7 +250,7 @@ void init(){
     //goThroughTree(root);
     redLineVertices = generateVertices(root);
     
-    myFlock =  Flock(3, vec3(16,4,16), vec3(-16,2,-16));
+    myFlock =  Flock(50, vec3(16,4,16), vec3(0,2,0));
     myFlock.initFlock();
     
     

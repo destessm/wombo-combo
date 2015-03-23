@@ -10,5 +10,5 @@ void main(){
     
     fColor = vColor;
     
-    gl_Position = projectionMatrix*modelMatrix*vec4(vPosition,1.0);
+    gl_Position = projectionMatrix*translation*modelMatrix*vec4(vPosition,0.0);
 }

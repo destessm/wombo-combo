@@ -792,28 +792,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/Flock.cpp"
-            timestampString = "448765518.274741"
+            timestampString = "448771268.559924"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "76"
-            endingLineNumber = "76"
+            startingLineNumber = "79"
+            endingLineNumber = "79"
             landmarkName = "Flock::checkBounds()"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CS539Project/Flock.cpp"
-            timestampString = "448765745.073778"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "85"
-            endingLineNumber = "85"
-            landmarkName = "Flock::updateFlock(float deltaTime)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
