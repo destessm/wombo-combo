@@ -13,6 +13,7 @@
 #include "glm.h"
 #include "stb_image.h"
 #include "Octree.h"
+#include "Flock.h"
 
 using namespace std;
 
@@ -47,6 +48,8 @@ int heightMapIndices[indexCount];
 vec2 textureCoord[indexCount];
 
 std::vector<vec3> redLineVertices;
+
+Flock myFlock;
 
 
 GLuint gVao[2], gVbo[2], gIbo, program, lineProgram;
@@ -243,8 +246,12 @@ void init(){
     avgNormals();
     
     OTNode* root = genOctree(heightMapIndices, indexCount, heightMapVectors, vec3(8,0,8), 8.0);
-    goThroughTree(root);
+    //goThroughTree(root);
     redLineVertices = generateVertices(root);
+    
+    myFlock =  Flock(3, vec3(16,4,16), vec3(-16,2,-16));
+    myFlock.initFlock();
+    
     
     glGenBuffers(1, &gIbo);
     glGenBuffers(2, gVbo);
@@ -412,7 +419,6 @@ void display(){
     
     
     
-    
     glUseProgram(lineProgram);
     
     glUniformMatrix4fv(modelViewLineLoc, 1, GL_TRUE, modelView);
@@ -423,7 +429,11 @@ void display(){
     glBindVertexArrayAPPLE(0);
     
     
+    float time = glutGet(GLUT_ELAPSED_TIME);
     
+    //glUseProgram(myFlock.program);
+    myFlock.updateFlock(time/1000.0);
+    myFlock.renderFlock(modelView, projection);
     
     glutSwapBuffers();
 }
