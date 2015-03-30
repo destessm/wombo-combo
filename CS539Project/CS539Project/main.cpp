@@ -9,11 +9,14 @@
 // ***** Import Statements *****
 
 #include <iostream>
+#include <vector>
 #include "Angel.h"
 #include "glm.h"
 #include "stb_image.h"
 #include "Octree.h"
 #include "Flock.h"
+#include "Camera2.h"
+#include "Sphere.h"
 
 using namespace std;
 
@@ -28,6 +31,9 @@ int windowHeight = 512;
 const int heightMapWidth = 512;
 const int heightMapHeight = 512;
 
+Camera *cam;
+
+vector<Sphere> spheres;
 
 // HeightMap Height Values
 float heightMapValues[heightMapWidth*heightMapHeight];
@@ -49,7 +55,7 @@ vec2 textureCoord[indexCount];
 
 std::vector<vec3> redLineVertices;
 
-Flock myFlock;
+//Flock myFlock;
 
 
 GLuint gVao[2], gVbo[2], gIbo, program, lineProgram;
@@ -68,6 +74,8 @@ mat4 projection;
 vec4 at = vec4(8,0,8,0);
 vec4 eye = vec4(3,5,3,1);
 vec4 up = vec4(0,1,0,0);
+
+
 
 // ***** Methods *****
 
@@ -99,7 +107,20 @@ void readHeightMap(char* filename, int width, int height){
     delete[] heightMapBytes;
 }
 
+GLuint programSphere;
 
+void updateSpheres(){
+    for(int i=0; i<spheres.size(); i++){
+        spheres[i].update();
+        std::cout << "sphere #" << i << " is at " << spheres[i].getCenter() << std::endl;
+    }
+}
+
+void drawSpheres(mat4 model, mat4 projection){
+    for(int i=0; i<spheres.size(); i++){
+        spheres[i].draw(model, projection, programSphere);
+    }
+}
 
 // ***** Generate Triangles and Starting Normals *****
 
@@ -230,6 +251,8 @@ void avgNormals(){
 
 void init(){
     
+    cam = new Camera();
+    
     program = InitShader("HeightMap_vShader.glsl", "HeightMap_fShader.glsl");
     modelViewLoc = glGetUniformLocation(program, "modelView");
     projectionLoc = glGetUniformLocation(program, "projection");
@@ -246,12 +269,12 @@ void init(){
     genTriangles();
     avgNormals();
     
-    OTNode* root = genOctree(heightMapIndices, indexCount, heightMapVectors, vec3(8,0,8), 8.0);
+    //OTNode* root = genOctree(heightMapIndices, indexCount, heightMapVectors, vec3(8,0,8), 8.0);
     //goThroughTree(root);
-    redLineVertices = generateVertices(root);
+    //redLineVertices = generateVertices(root);
     
-    myFlock =  Flock(50, vec3(16,4,16), vec3(0,2,0));
-    myFlock.initFlock();
+    //myFlock =  Flock(50, vec3(16,4,16), vec3(0,2,0));
+    //myFlock.initFlock();
     
     
     glGenBuffers(1, &gIbo);
@@ -372,13 +395,11 @@ void init(){
     
     glEnable(GL_DEPTH_TEST);
     //glClearColor(0.0, 0.5, 0.7, 1.0);
-    glClearColor(0.0, 0.0, 0.0, 1.0);
+    glClearColor(0.2, 0.2, 0.5, 1.0);
     
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     cout<<"done init"<<endl;
-    
-    
 }
 
 // ***** Display *****
@@ -391,6 +412,10 @@ void display(){
     
     modelView = LookAt(eye, at, up);
     projection = Perspective(70, windowWidth/windowHeight, 0.1, 100);
+    
+    //glRotatef(cam->getRot().x, 1.0, 0.0, 0.0);
+    //glRotatef(cam->getRot().y, 0.0, 1.0, 0.0);
+    //glTranslated(cam->getEye().x*(-1), cam->getEye().y*(-1), cam->getEye().z*(-1));
     
     
     glUniform1i(glGetUniformLocation(program, "rockTex"), 0);
@@ -429,12 +454,16 @@ void display(){
     glDrawArrays(GL_LINES, 0, redLineVertices.size());
     glBindVertexArrayAPPLE(0);
     
+
+    updateSpheres();
+    drawSpheres(modelView, projection);
+    
     
     float time = glutGet(GLUT_ELAPSED_TIME);
     
     //glUseProgram(myFlock.program);
-    myFlock.updateFlock(time/1000.0);
-    myFlock.renderFlock(modelView, projection);
+    //myFlock.updateFlock(time/1000.0);
+    //myFlock.renderFlock(modelView, projection);
     
     glutSwapBuffers();
 }
@@ -454,6 +483,28 @@ void keyboard(unsigned char key, int x, int y){
         case 'q': case 'Q': case 033: // esc key
             exit( EXIT_SUCCESS);
             break;
+        case 032: case 'i':
+            spheres.push_back(Sphere(vec3(eye.x, eye.y, eye.z), 5,(at-eye), programSphere));
+            break;
+//        case 'w': case 'W':
+//            cam->moveForward();
+//            glutPostRedisplay();
+//            break;
+//        case 's': case 'S':
+//            cam->moveBackward();
+//            glutPostRedisplay();
+//        case 'a': case 'A':
+//            cam->turnLeft();
+//            glutPostRedisplay();
+//        case 'd': case 'D':
+//            cam->turnRight();
+//            glutPostRedisplay();
+//        case 'z': case 'Z':
+//            cam->xup();
+//            glutPostRedisplay();
+//        case 'c': case 'C':
+//            cam->xdown();
+//            glutPostRedisplay();
         case 'z':
             eye.x -= 0.2;
             glutPostRedisplay();
@@ -478,10 +529,33 @@ void keyboard(unsigned char key, int x, int y){
             eye.z += 0.2;
             glutPostRedisplay();
             break;
-        
         default:
             break;
     }
+}
+/*
+void keyboardUp(unsigned char key, int x, int y){
+    switch (key){
+        case 'w': case 'W':
+            cam->holdingForward = false;
+            glutPostRedisplay();
+            break;
+        case 's': case 'S':
+            cam->holdingBackward = false;
+            glutPostRedisplay();
+        case 'a': case 'A':
+            cam->holdingLeftStrafe = false;
+            glutPostRedisplay();
+        case 'd': case 'D':
+            cam->holdingRightStrafe = false;
+            glutPostRedisplay();
+        default:
+            break;
+    }
+}*/
+
+void handleMouseMove(int mouseX, int mouseY){
+    cam->mouseMovement(mouseX, mouseY);
 }
 
 // ***** Main *****
@@ -497,7 +571,9 @@ int main(int argc, char** argv) {
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
     glutKeyboardFunc(keyboard);
-    
+    glutPassiveMotionFunc(handleMouseMove);
+    glutIdleFunc(glutPostRedisplay);
+
     glutMainLoop();
     return 0;
 }
