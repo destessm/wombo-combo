@@ -122,6 +122,42 @@ void drawSpheres(mat4 model, mat4 projection){
     }
 }
 
+// **** COLLISION DETECTION ****
+//  not finished at all
+
+
+bool isCollidedWithTri(Sphere Sphr, Triangle tri){
+    // convert triangle to plane
+    // early out: normal directions
+    // if collided with plane
+    //    move sphere back to test if the point of collision is actually in the triangle
+    
+    // if you have a collision with the plane
+    //float d  = dot(plane.normal, sphere.center)-plane.distanceFromCenter //gives distance from center of sphere to plane
+    //float t = (sphere.radius – d) / dot(plane.normal, sphere.velocity) //time of collision
+    //vec3 pt = sphere.center + (t*sphere.velocity)-(sphere.radius*plane.normal) //point of collision
+    return false;
+}
+
+bool isCollided(Sphere Sphr){
+    bool isCollided = false;
+    for(int i = 0; i<(heightMapWidth*heightMapHeight); i+=3){
+        if(isCollidedWithTri(Sphr, Triangle(i, i, i, 0))){ // THIS LINE ISN'T RIGHT AT ALL
+            isCollided=true;
+        }
+    }
+    return isCollided;
+}
+
+void collisionDetection(){
+    for(int i=0; i<spheres.size(); i++){
+        if(isCollided(spheres[i])){
+            spheres[i].stop();
+        }
+    }
+}
+
+
 // ***** Generate Triangles and Starting Normals *****
 
 void genTriangles(){
@@ -304,9 +340,6 @@ void init(){
     glVertexAttribPointer(vTexCoordLoc, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeof(heightMapVectors)+sizeof(heightMapAvgNormals)));
     
     
-    // **NOTE** the following commented lines SHOULD work using stb_image.h, but for some reason they weren't working for me.
-    // I think I found that you can get the height and width from these as well. [for the record I tried using number values
-    // to see if that would make my textures render and it didn't work]
     int rockWidth, rockHeight, rockChannels;
     rockTexture = glmReadPPM("rock.ppm", &rockWidth, &rockHeight);
     //rockTexture = stbi_load("rock.JPG", &rockWidth, &rockWidth, &rockChannels, 0);
@@ -395,7 +428,7 @@ void init(){
     
     glEnable(GL_DEPTH_TEST);
     //glClearColor(0.0, 0.5, 0.7, 1.0);
-    glClearColor(0.2, 0.2, 0.5, 1.0);
+    glClearColor(0.0, 0.0, 0.0, 1.0);
     
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
@@ -412,11 +445,6 @@ void display(){
     
     modelView = LookAt(eye, at, up);
     projection = Perspective(70, windowWidth/windowHeight, 0.1, 100);
-    
-    //glRotatef(cam->getRot().x, 1.0, 0.0, 0.0);
-    //glRotatef(cam->getRot().y, 0.0, 1.0, 0.0);
-    //glTranslated(cam->getEye().x*(-1), cam->getEye().y*(-1), cam->getEye().z*(-1));
-    
     
     glUniform1i(glGetUniformLocation(program, "rockTex"), 0);
     glUniform1i(glGetUniformLocation(program, "grassTex"), 1);

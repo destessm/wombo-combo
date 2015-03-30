@@ -48,6 +48,7 @@ public:
     
     void update();
     void draw(mat4, mat4, GLuint);
+    void stop();
     
     vec3 getCenter()    {   return center;  }
     float getRadius()   {   return radius;  }

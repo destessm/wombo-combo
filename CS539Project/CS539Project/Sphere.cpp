@@ -120,3 +120,7 @@ void Sphere::draw(mat4 modelMatrix, mat4 projectionMatrix, GLuint program){
     glDrawArrays(GL_TRIANGLES, 0, M);
     glBindVertexArrayAPPLE(0);
 }
+
+void Sphere::stop(){
+    direction = vec3(0,0,0);
+}
