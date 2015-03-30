@@ -1,6 +1,19 @@
 # wombo-combo
 My CS539 Project
 
+Mid-point for Collision Detection
+
+Camera is still in the works, spent too much time on it with no results this 
+week, though if you want you can look at the code that I have written. Camera2
+is the more recent one.
+My spheres seem to move correctly, although I haven't fully implemented 
+collision detection. Still not rendering though. I'll have to keep working on
+what ever it is that is making things not render.
+
+
+
+
+//old stuff below
 Hi, here are some notes about my code!
 
 CAMERA CONTROLS:
