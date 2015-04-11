@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3671D5341AC845C80031C0EF /* Camera2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3671D5321AC845C80031C0EF /* Camera2.cpp */; };
 		3671D5371AC8B2580031C0EF /* Sphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3671D5351AC8B2580031C0EF /* Sphere.cpp */; };
+		3671D53A1AD0B3800031C0EF /* Plane.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3671D5381AD0B37F0031C0EF /* Plane.cpp */; };
 		367EC9FC1AA0CF660013325B /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 367EC9FA1AA0CF660013325B /* GLUT.framework */; };
 		367EC9FD1AA0CF660013325B /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 367EC9FB1AA0CF660013325B /* OpenGL.framework */; };
 		367ECA051AA0CFC80013325B /* glm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 367ECA001AA0CFC80013325B /* glm.cpp */; };
@@ -34,6 +35,8 @@
 		3671D5331AC845C80031C0EF /* Camera2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Camera2.h; sourceTree = "<group>"; };
 		3671D5351AC8B2580031C0EF /* Sphere.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Sphere.cpp; sourceTree = "<group>"; };
 		3671D5361AC8B2580031C0EF /* Sphere.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sphere.h; sourceTree = "<group>"; };
+		3671D5381AD0B37F0031C0EF /* Plane.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Plane.cpp; sourceTree = "<group>"; };
+		3671D5391AD0B37F0031C0EF /* Plane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Plane.h; sourceTree = "<group>"; };
 		367C2F011AAB731100E09427 /* Octree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Octree.h; sourceTree = "<group>"; };
 		367EC9FA1AA0CF660013325B /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 		367EC9FB1AA0CF660013325B /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -403,6 +406,8 @@
 				36B72A6E1AA2D26E005940D5 /* stb_image.h */,
 				3671D5321AC845C80031C0EF /* Camera2.cpp */,
 				3671D5331AC845C80031C0EF /* Camera2.h */,
+				3671D5381AD0B37F0031C0EF /* Plane.cpp */,
+				3671D5391AD0B37F0031C0EF /* Plane.h */,
 				367C2F011AAB731100E09427 /* Octree.h */,
 				36AB5A191AB9E405007935F7 /* Flock.cpp */,
 				36AB5A1A1AB9E405007935F7 /* Flock.h */,
@@ -471,6 +476,7 @@
 				36AB5A1B1AB9E406007935F7 /* Flock.cpp in Sources */,
 				367ECA061AA0CFC80013325B /* InitShader.cpp in Sources */,
 				3671D5371AC8B2580031C0EF /* Sphere.cpp in Sources */,
+				3671D53A1AD0B3800031C0EF /* Plane.cpp in Sources */,
 				36CEB6031AA0CE360033E923 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

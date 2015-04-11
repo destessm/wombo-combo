@@ -23,6 +23,7 @@ private:
     float radius;
     vec3 center;
     vec3 direction;
+    float velocity;
     point4 spherePoints[M];
     vec3 sphereNormalData[M];
     vec3 sphereNormals[M];
@@ -41,6 +42,7 @@ private:
     void triangle(point4, point4, point4);
     void divide_triangle(point4, point4, point4, int);
     void assignParametricNormals();
+    void assignGouraudNormals();
     void tetrahedron(int n);
     
 public:
@@ -50,8 +52,10 @@ public:
     void draw(mat4, mat4, GLuint);
     void stop();
     
-    vec3 getCenter()    {   return center;  }
-    float getRadius()   {   return radius;  }
+    float getRadius()   {   return radius;      }
+    vec3 getCenter()    {   return center;      }
+    vec3 getDirection() {   return direction;   }
+    float getVelocity() {   return velocity;    }
     
     void setCenter(vec3 c){
         center = c;

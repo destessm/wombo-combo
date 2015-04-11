@@ -17,6 +17,7 @@
 #include "Flock.h"
 #include "Camera2.h"
 #include "Sphere.h"
+#include "Plane.h"
 
 using namespace std;
 
@@ -49,6 +50,7 @@ vec3 heightMapAvgNormals[heightMapWidth*heightMapHeight];
 
 // size for the index buffer data
 const int indexCount = 6*(heightMapWidth-1)*(heightMapHeight-1);
+int indexCounter = indexCount;
 int heightMapIndices[indexCount];
 // Texture Coordinates
 vec2 textureCoord[indexCount];
@@ -125,34 +127,92 @@ void drawSpheres(mat4 model, mat4 projection){
 // **** COLLISION DETECTION ****
 //  not finished at all
 
+bool sameSide(vec3 p1, vec3 p2, vec3 a, vec3 b){
+    vec3 cp1 = cross(b-a, p1-a);
+    vec3 cp2 = cross(b-a, p2-a);
+    if( dot(cp1, cp2) >= 0)
+        return true;
+    else
+        return false;
+}
+
 
 bool isCollidedWithTri(Sphere Sphr, Triangle tri){
     // convert triangle to plane
+    
+    vec3 a = heightMapVectors[tri.indices[0]];
+    vec3 b = heightMapVectors[tri.indices[1]];
+    vec3 c = heightMapVectors[tri.indices[2]];
+    
+    //std::cout<< "Triangle:" << '\n' << "  point 1: " << a << " point 2: " << b << " point :3 " << c << std::endl;
+    
+    Plane pl = Plane(a, b, c);
+    
+    //std::cout<<"Plane:" << '\n' << "  normal: " << pl.getNormal() << " distance: " << pl.getDistance() << std::endl;
+    
+    bool isCollided = false;
+    
     // early out: normal directions
     // if collided with plane
-    //    move sphere back to test if the point of collision is actually in the triangle
+    //std::cout << "Is collided with plane?" << std::endl;
+    if(dot(pl.getNormal(),Sphr.getCenter())+pl.getDistance() < Sphr.getRadius()){
+        //std::cout << "   yes." << std::endl;
+        // move sphere back to test if the point of collision is actually in the triangle  [haven't done this yet]
+        
+        Sphr.setCenter(Sphr.getCenter()-normalize(Sphr.getDirection())*(Sphr.getRadius()-pl.getDistance())); //not sure if right
+        
+        float d = dot(pl.getNormal(), Sphr.getCenter())-pl.getDistance(); // gives distance from center of sphere to plane
+        float t = (Sphr.getRadius()-pl.getDistance()) / dot(pl.getNormal(), Sphr.getVelocity()); // time of collision
+        vec3 pt; // point of collision
+        pt.x = Sphr.getCenter().x + (t*0.1) - (Sphr.getRadius()*pl.getNormal().x);
+        pt.y = Sphr.getCenter().y + (t*0.1) - (Sphr.getRadius()*pl.getNormal().y);
+        pt.z = Sphr.getCenter().z + (t*0.1) - (Sphr.getRadius()*pl.getNormal().z);
+
+        
+        //is point in triangle?
+        if(sameSide(pt, a, b, c) &&
+           sameSide(pt, b, a, c) &&
+           sameSide(pt, c, a, b)){
+            isCollided = true;
+        }
+    }
     
     // if you have a collision with the plane
     //float d  = dot(plane.normal, sphere.center)-plane.distanceFromCenter //gives distance from center of sphere to plane
     //float t = (sphere.radius – d) / dot(plane.normal, sphere.velocity) //time of collision
     //vec3 pt = sphere.center + (t*sphere.velocity)-(sphere.radius*plane.normal) //point of collision
-    return false;
+    //std::cout << "is collided with triangle?" << '\n' << "   " << isCollided << std::endl;
+    return isCollided;
 }
 
 bool isCollided(Sphere Sphr){
     bool isCollided = false;
-    for(int i = 0; i<(heightMapWidth*heightMapHeight); i+=3){
-        if(isCollidedWithTri(Sphr, Triangle(i, i, i, 0))){ // THIS LINE ISN'T RIGHT AT ALL
+    int inin = 0;
+    for(int i = 0; i<indexCounter-2; i=i+3){
+        //std::cout << "--triangle count-- " << i << std::endl;
+        if(isCollidedWithTri(Sphr, Triangle(heightMapIndices[i], heightMapIndices[i+1], heightMapIndices[1+2], 0))){
             isCollided=true;
+            inin = i;
+            break;
         }
+        inin = i;
     }
+    std::cout<< "Ended at index: "<<inin<<std::endl;;
     return isCollided;
 }
 
 void collisionDetection(){
-    for(int i=0; i<spheres.size(); i++){
-        if(isCollided(spheres[i])){
-            spheres[i].stop();
+    if(spheres.size() != 0){
+        //std::cout<< "Collision Detection Initiated" << std::endl;
+        for(int i=0; i<spheres.size(); i++){
+            //std::cout<< "Sphere #" << i << ":" << std::endl;
+            if(spheres[i].getVelocity() != 0){
+                if(isCollided(spheres[i])){
+                    std::cout<< "Sphere stopped." << std::endl;
+                    std::cout<< "current eye position: " << eye <<std::endl;
+                    spheres[i].stop();
+                }
+            }
         }
     }
 }
@@ -305,13 +365,15 @@ void init(){
     genTriangles();
     avgNormals();
     
+    programSphere = InitShader("sphere_vShader.glsl", "sphere_fShader.glsl");
+
+    
     //OTNode* root = genOctree(heightMapIndices, indexCount, heightMapVectors, vec3(8,0,8), 8.0);
     //goThroughTree(root);
     //redLineVertices = generateVertices(root);
     
     //myFlock =  Flock(50, vec3(16,4,16), vec3(0,2,0));
     //myFlock.initFlock();
-    
     
     glGenBuffers(1, &gIbo);
     glGenBuffers(2, gVbo);
@@ -356,14 +418,11 @@ void init(){
     snowTexture = glmReadPPM("snowB.ppm", &snowWidth, &snowHeight);
     //snowTexture = stbi_load("snow.JPG", &snowWidth, &snowHeight, &snowChannels, 0);
     
+    //glUniform1i(glGetUniformLocation(program, "rockTex"), 0);
+    //glUniform1i(glGetUniformLocation(program, "grassTex"), 1);
+    //glUniform1i(glGetUniformLocation(program, "dirtTex"), 2);
+    //glUniform1i(glGetUniformLocation(program, "snowTex"), 3);
     
-    
-    glUniform1i(glGetUniformLocation(program, "rockTex"), 0);
-    glUniform1i(glGetUniformLocation(program, "grassTex"), 1);
-    glUniform1i(glGetUniformLocation(program, "dirtTex"), 2);
-    glUniform1i(glGetUniformLocation(program, "snowTex"), 3);
-    
-
     glGenTextures(4, textures);
 
     glBindTexture(GL_TEXTURE_2D, textures[0]);
@@ -398,8 +457,6 @@ void init(){
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     
-    
-    
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, textures[0]);
 
@@ -423,9 +480,6 @@ void init(){
 
     glBindVertexArrayAPPLE(0);
 
-    
-    
-    
     glEnable(GL_DEPTH_TEST);
     //glClearColor(0.0, 0.5, 0.7, 1.0);
     glClearColor(0.0, 0.0, 0.0, 1.0);
@@ -471,7 +525,7 @@ void display(){
     glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0);
     glBindVertexArrayAPPLE(0);
     
-    
+    //std::cout << "GL_ERROR: " << glGetError() << std::endl;
     
     glUseProgram(lineProgram);
     
@@ -483,6 +537,7 @@ void display(){
     glBindVertexArrayAPPLE(0);
     
 
+    collisionDetection();
     updateSpheres();
     drawSpheres(modelView, projection);
     
@@ -512,7 +567,7 @@ void keyboard(unsigned char key, int x, int y){
             exit( EXIT_SUCCESS);
             break;
         case 032: case 'i':
-            spheres.push_back(Sphere(vec3(eye.x, eye.y, eye.z), 5,(at-eye), programSphere));
+            spheres.push_back(Sphere(vec3(eye.x, eye.y, eye.z), 0.1,(at-eye), programSphere));
             break;
 //        case 'w': case 'W':
 //            cam->moveForward();

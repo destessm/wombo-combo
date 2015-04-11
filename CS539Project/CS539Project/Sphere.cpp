@@ -13,10 +13,15 @@ Sphere::Sphere(vec3 position, float rad, vec4 dir, GLuint program){
     divide_triangle(v[3], v[2], v[1], N );
     divide_triangle(v[0], v[3], v[1], N );
     divide_triangle(v[0], v[3], v[2], N );
+    
     assignParametricNormals();
+    assignGouraudNormals();
+    
     center = position;
     radius = rad;
     direction = vec3(dir.x, dir.y, dir.z);
+    velocity = 0.1;
+    
     initSphere(program);
 }
 
@@ -75,8 +80,41 @@ void Sphere::assignParametricNormals(){
     }
 }
 
+void Sphere::assignGouraudNormals(){
+    vec3 normalSum[M];
+    float counts[M];
+    
+    for(int i=0; i<M; i++){
+        normalSum[i] = vec3(0.0,0.0,0.0);
+        counts[i]=0.0;
+    }
+    
+    for(int i=0; i<M; i++){
+        float count = 0.0;
+        for(int j =0; j<M;j++){
+            if((spherePoints[i].x==spherePoints[j].x)&&
+               (spherePoints[i].y==spherePoints[j].y)&&
+               (spherePoints[i].z==spherePoints[j].z)){
+                count+=1.0;
+                normalSum[i].x+=sphereNormals[j].x;
+                normalSum[i].y+=sphereNormals[j].y;
+                normalSum[i].z+=sphereNormals[j].z;
+            }
+        }
+        counts[i] = count;
+    }
+    
+    for(int i=0;i<M;i++){
+        sphereNormals[i].x = normalSum[i].x/counts[i];
+        sphereNormals[i].y = normalSum[i].y/counts[i];
+        sphereNormals[i].z = normalSum[i].z/counts[i];
+    }
+}
+
+
 void Sphere::initSphere(GLuint program){
     //prog = InitShader("sphere_vShader.glsl", "sphere_fShader.glsl");
+    
     modelMatrixLoc = glGetUniformLocation(program, "modelMatrix");
     projectionMatrixLoc = glGetUniformLocation(program, "projectionMatrix");
     vPositionLoc = glGetAttribLocation(program, "vPosition");
@@ -102,19 +140,19 @@ void Sphere::initSphere(GLuint program){
 }
 
 void Sphere::update(){
-    center += normalize(direction)*0.1;
+    center += normalize(direction)*velocity; // * deltaTime???
 }
 
 
 void Sphere::draw(mat4 modelMatrix, mat4 projectionMatrix, GLuint program){
     glUseProgram(program);
     
+    
     glUniformMatrix4fv(modelMatrixLoc, 1, GL_TRUE, modelMatrix);
     glUniformMatrix4fv(projectionMatrixLoc, 1, GL_TRUE, projectionMatrix);
     
-    glUniform3fv(translationLoc, 1, center);
-    glUniform1f(scaleLoc, radius);
-    
+    glUniformMatrix4fv(translationLoc, 1, GL_TRUE, Translate(center));
+    glUniformMatrix4fv(scaleLoc, 1, GL_TRUE, Scale(radius, radius, radius));
     
     glBindVertexArrayAPPLE(vao);
     glDrawArrays(GL_TRIANGLES, 0, M);
@@ -122,5 +160,6 @@ void Sphere::draw(mat4 modelMatrix, mat4 projectionMatrix, GLuint program){
 }
 
 void Sphere::stop(){
-    direction = vec3(0,0,0);
+    //direction = vec3(0,0,0);
+    velocity = 0;
 }
