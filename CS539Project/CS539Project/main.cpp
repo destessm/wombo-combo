@@ -36,6 +36,8 @@ Camera *cam;
 
 vector<Sphere> spheres;
 
+OTNode* rt;
+
 // HeightMap Height Values
 float heightMapValues[heightMapWidth*heightMapHeight];
 // HeightMap Vectors
@@ -124,8 +126,38 @@ void drawSpheres(mat4 model, mat4 projection){
     }
 }
 
+
+
 // **** COLLISION DETECTION ****
 //  not finished at all
+
+
+bool tempCollision(Sphere sphr, Triangle tri){
+    vec3 a = heightMapVectors[tri.indices[0]];
+    vec3 b = heightMapVectors[tri.indices[1]];
+    vec3 c = heightMapVectors[tri.indices[2]];
+
+    vec3 p = sphr.getCenter();
+    
+    float distA = sqrt(pow(a.x-p.x, 2)+pow(a.y-p.y,2)+pow(a.z-p.z,2));
+    float distB = sqrt(pow(b.x-p.x, 2)+pow(b.y-p.y,2)+pow(b.z-p.z,2));
+    float distC = sqrt(pow(c.x-p.x, 2)+pow(c.y-p.y,2)+pow(c.z-p.z,2));
+    
+    float radius = sphr.getRadius();
+    
+    //std::cout << "Radius = " << radius << '\n' << "Distance A: " << distA << '\n' << "Distance B: " << distB<< '\n' << "Distance C: " << distC << std::endl;
+    
+    if(distA < radius || distB < radius || distC < radius){
+        //std::cout << "  true" <<std::endl;
+        return true;
+    }
+    else{
+        //std::cout << "  false" <<std::endl;
+        return false;
+    }
+}
+
+
 
 bool sameSide(vec3 p1, vec3 p2, vec3 a, vec3 b){
     vec3 cp1 = cross(b-a, p1-a);
@@ -190,12 +222,20 @@ bool isCollided(Sphere Sphr){
     int inin = 0;
     for(int i = 0; i<indexCounter-2; i=i+3){
         //std::cout << "--triangle count-- " << i << std::endl;
-        if(isCollidedWithTri(Sphr, Triangle(heightMapIndices[i], heightMapIndices[i+1], heightMapIndices[1+2], 0))){
+        
+        if(isCollidedWithTri(Sphr, Triangle(heightMapIndices[i], heightMapIndices[i+1], heightMapIndices[i+2], 0))){
             isCollided=true;
             inin = i;
             break;
         }
         inin = i;
+        
+        /*if(tempCollision(Sphr, Triangle(heightMapIndices[i], heightMapIndices[i+1], heightMapIndices[i+2], 0))){
+            isCollided=true;
+            inin = i;
+            break;
+        }
+        inin = i;*/
     }
     std::cout<< "Ended at index: "<<inin<<std::endl;;
     return isCollided;
@@ -368,7 +408,7 @@ void init(){
     programSphere = InitShader("sphere_vShader.glsl", "sphere_fShader.glsl");
 
     
-    //OTNode* root = genOctree(heightMapIndices, indexCount, heightMapVectors, vec3(8,0,8), 8.0);
+    rt = genOctree(heightMapIndices, indexCount, heightMapVectors, vec3(8,0,8), 8.0);
     //goThroughTree(root);
     //redLineVertices = generateVertices(root);
     

@@ -808,11 +808,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/main.cpp"
-            timestampString = "450477429.543901"
+            timestampString = "450495357.118823"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "404"
-            endingLineNumber = "404"
+            startingLineNumber = "444"
+            endingLineNumber = "444"
             landmarkName = "init()"
             landmarkType = "7">
          </BreakpointContent>
@@ -824,11 +824,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/main.cpp"
-            timestampString = "450477429.543901"
+            timestampString = "450495357.118823"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "553"
-            endingLineNumber = "553">
+            startingLineNumber = "593"
+            endingLineNumber = "593">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -838,11 +838,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/main.cpp"
-            timestampString = "450476323.589913"
+            timestampString = "450495357.118823"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "208"
-            endingLineNumber = "208"
+            startingLineNumber = "248"
+            endingLineNumber = "248"
             landmarkName = "collisionDetection()"
             landmarkType = "7">
          </BreakpointContent>
@@ -854,11 +854,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/main.cpp"
-            timestampString = "450477429.543901"
+            timestampString = "450495357.118823"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "213"
-            endingLineNumber = "213"
+            startingLineNumber = "253"
+            endingLineNumber = "253"
             landmarkName = "collisionDetection()"
             landmarkType = "7">
          </BreakpointContent>
@@ -870,11 +870,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/main.cpp"
-            timestampString = "450476323.589913"
+            timestampString = "450495357.118823"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "210"
-            endingLineNumber = "210"
+            startingLineNumber = "250"
+            endingLineNumber = "250"
             landmarkName = "collisionDetection()"
             landmarkType = "7">
          </BreakpointContent>
@@ -886,11 +886,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/main.cpp"
-            timestampString = "450476113.048149"
+            timestampString = "450495357.118823"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "191"
-            endingLineNumber = "191"
+            startingLineNumber = "223"
+            endingLineNumber = "223"
             landmarkName = "isCollided(Sphere Sphr)"
             landmarkType = "7">
          </BreakpointContent>
@@ -902,11 +902,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/main.cpp"
-            timestampString = "450476113.048149"
+            timestampString = "450495357.118823"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "193"
-            endingLineNumber = "193"
+            startingLineNumber = "226"
+            endingLineNumber = "226"
             landmarkName = "isCollided(Sphere Sphr)"
             landmarkType = "7">
          </BreakpointContent>
@@ -918,11 +918,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/main.cpp"
-            timestampString = "450476113.048149"
+            timestampString = "450495357.118823"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "195"
-            endingLineNumber = "195"
+            startingLineNumber = "228"
+            endingLineNumber = "228"
             landmarkName = "isCollided(Sphere Sphr)"
             landmarkType = "7">
          </BreakpointContent>
@@ -934,11 +934,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/main.cpp"
-            timestampString = "450476113.048149"
+            timestampString = "450495357.118823"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "201"
-            endingLineNumber = "201"
+            startingLineNumber = "241"
+            endingLineNumber = "241"
             landmarkName = "isCollided(Sphere Sphr)"
             landmarkType = "7">
          </BreakpointContent>
@@ -950,11 +950,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/main.cpp"
-            timestampString = "450475939.558311"
+            timestampString = "450495357.118823"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "162"
-            endingLineNumber = "162"
+            startingLineNumber = "194"
+            endingLineNumber = "194"
             landmarkName = "isCollidedWithTri(Sphere Sphr, Triangle tri)"
             landmarkType = "7">
          </BreakpointContent>
@@ -966,11 +966,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/main.cpp"
-            timestampString = "450476113.048149"
+            timestampString = "450495357.118823"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "189"
-            endingLineNumber = "189"
+            startingLineNumber = "221"
+            endingLineNumber = "221"
             landmarkName = "isCollided(Sphere Sphr)"
             landmarkType = "7">
          </BreakpointContent>
@@ -982,11 +982,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/main.cpp"
-            timestampString = "450475939.558311"
+            timestampString = "450495357.118823"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "150"
-            endingLineNumber = "150"
+            startingLineNumber = "182"
+            endingLineNumber = "182"
             landmarkName = "isCollidedWithTri(Sphere Sphr, Triangle tri)"
             landmarkType = "7">
          </BreakpointContent>
@@ -998,11 +998,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/main.cpp"
-            timestampString = "450475939.558311"
+            timestampString = "450495357.118823"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "158"
-            endingLineNumber = "158"
+            startingLineNumber = "190"
+            endingLineNumber = "190"
             landmarkName = "isCollidedWithTri(Sphere Sphr, Triangle tri)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1014,27 +1014,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/main.cpp"
-            timestampString = "450476113.048149"
+            timestampString = "450495357.118823"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "192"
-            endingLineNumber = "192"
-            landmarkName = "isCollided(Sphere Sphr)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CS539Project/main.cpp"
-            timestampString = "450476125.10994"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "200"
-            endingLineNumber = "200"
+            startingLineNumber = "224"
+            endingLineNumber = "224"
             landmarkName = "isCollided(Sphere Sphr)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1046,11 +1030,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/main.cpp"
-            timestampString = "450477429.543901"
+            timestampString = "450495357.118823"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "542"
-            endingLineNumber = "542"
+            startingLineNumber = "240"
+            endingLineNumber = "240"
+            landmarkName = "isCollided(Sphere Sphr)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CS539Project/main.cpp"
+            timestampString = "450495357.118823"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "582"
+            endingLineNumber = "582"
             landmarkName = "display()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1058,15 +1058,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/main.cpp"
-            timestampString = "450477607.372097"
+            timestampString = "450495357.118823"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "173"
-            endingLineNumber = "173"
+            startingLineNumber = "205"
+            endingLineNumber = "205"
             landmarkName = "isCollidedWithTri(Sphere Sphr, Triangle tri)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1074,16 +1074,96 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/main.cpp"
-            timestampString = "450477657.991199"
+            timestampString = "450495357.118823"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "176"
-            endingLineNumber = "176"
+            startingLineNumber = "208"
+            endingLineNumber = "208"
             landmarkName = "isCollidedWithTri(Sphere Sphr, Triangle tri)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CS539Project/main.cpp"
+            timestampString = "450495357.118823"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "152"
+            endingLineNumber = "152"
+            landmarkName = "tempCollision(Sphere sphr, Triangle tri)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CS539Project/main.cpp"
+            timestampString = "450495357.118823"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "156"
+            endingLineNumber = "156"
+            landmarkName = "tempCollision(Sphere sphr, Triangle tri)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CS539Project/main.cpp"
+            timestampString = "450495408.684036"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "138"
+            endingLineNumber = "138"
+            landmarkName = "tempCollision(Sphere sphr, Triangle tri)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CS539Project/main.cpp"
+            timestampString = "450495409.770695"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "137"
+            endingLineNumber = "137"
+            landmarkName = "tempCollision(Sphere sphr, Triangle tri)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CS539Project/main.cpp"
+            timestampString = "450495410.107674"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "136"
+            endingLineNumber = "136"
+            landmarkName = "tempCollision(Sphere sphr, Triangle tri)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
