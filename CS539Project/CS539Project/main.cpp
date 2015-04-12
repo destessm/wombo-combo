@@ -131,7 +131,105 @@ void drawSpheres(mat4 model, mat4 projection){
 // **** COLLISION DETECTION ****
 //  not finished at all
 
+bool pointOutsideNode(OTNode curNode, vec3 pt){
+    if(pt.x > root.cornerMax.x || pt.y > root.cornerMax.y || pt.z > root.cornerMax.z ||
+       pt.x < root.cornerMin.x || pt.y < root.cornerMin.y || pt.z < root.cornerMin.z){
+        //pt is outside node
+        return true;
+    }
+    else{
+        return false;
+    }
+}
 
+bool pointInsideNode(OTNode root, vec3 pt){
+    
+//    std::cout<<"Is point inside Node?"<<std::endl;
+//    std::cout<<"  Node: center = " << root.center << ", #triangles = " << root.data.size() << std::endl;
+//    std::cout<<"    corners: min = " << root.cornerMin << ", max = " << root.cornerMax << std::endl;
+//    std::cout<<"  Point: " << pt << std::endl;
+
+    
+    if((pt.x < root.cornerMax.x) && (pt.y < root.cornerMax.y) && (pt.z < root.cornerMax.z) &&
+       (pt.x > root.cornerMin.x) && (pt.y > root.cornerMin.y) && (pt.z > root.cornerMin.z)){
+//        std::cout<< " --> Point was inside Node." <<std::endl;
+        return true;
+    }
+    else{
+//        std::cout<< " --> Point was not inside Node." <<std::endl;
+        return false;
+    }
+}
+
+
+OTNode collisionNode(OTNode root, vec3 pt){
+    if(!pointInsideNode(root, pt)){
+//        std::cout<<"*** Point was not inside Node ***"<<std::endl;
+        std::cout<<"*** OOPS WAS NOT IN NODE! :( ***"<<std::endl;
+        std::vector<Triangle> noTries;
+        return OTNode(noTries, vec3(0,0,0), 0.0);
+    }
+    else{
+//        std::cout<<"*** Point was inside Node ***"<< '\n' << " check if has children"<<std::endl;
+        //if node has no children
+        if(root.hasChildren == false){
+//            std::cout<<"  Node has no children. Do collision detection on it."<<std::endl;
+            return root; // return the correct root
+        }
+        else{
+//            std::cout<<" Check if in child 0"<<std::endl;
+            if(pointInsideNode(*root.children[0], pt)){
+//                std::cout<<"  Point is inside child 0. Search further."<<std::endl;
+                return collisionNode(*root.children[0], pt);
+            }
+            
+//            std::cout<<" Check if in child 1"<<std::endl;
+            if(pointInsideNode(*root.children[1], pt)){
+//                std::cout<<"  Point is inside child 1. Search further."<<std::endl;
+                return collisionNode(*root.children[0], pt);
+            }
+            
+//            std::cout<<" Check if in child 2"<<std::endl;
+            if(pointInsideNode(*root.children[2], pt)){
+//                std::cout<<"  Point is inside child 2. Search further."<<std::endl;
+                return collisionNode(*root.children[2], pt);
+            }
+            
+//            std::cout<<" Check if in child 3"<<std::endl;
+            if(pointInsideNode(*root.children[3], pt)){
+//                std::cout<<"  Point is inside child 3. Search further."<<std::endl;
+                return collisionNode(*root.children[3], pt);
+            }
+            
+//            std::cout<<" Check if in child 4"<<std::endl;
+            if(pointInsideNode(*root.children[4], pt)){
+//                std::cout<<"  Point is inside child 4. Search further."<<std::endl;
+                return collisionNode(*root.children[4], pt);
+            }
+            
+//            std::cout<<" Check if in child 5"<<std::endl;
+            if(pointInsideNode(*root.children[5], pt)){
+//                std::cout<<"  Point is inside child 5. Search further."<<std::endl;
+                return collisionNode(*root.children[5], pt);
+            }
+            
+//            std::cout<<" Check if in child 6"<<std::endl;
+            if(pointInsideNode(*root.children[6], pt)){
+//                std::cout<<"  Point is inside child 6. Search further."<<std::endl;
+                return collisionNode(*root.children[6], pt);
+            }
+            else{
+//                std::cout<<" Check if in child 7"<<std::endl;
+                
+//                std::cout<<"  Point is inside child 7. Search further."<<std::endl;
+                return collisionNode(*root.children[7], pt);
+            }
+
+        }
+    }
+}
+
+/*
 bool tempCollision(Sphere sphr, Triangle tri){
     vec3 a = heightMapVectors[tri.indices[0]];
     vec3 b = heightMapVectors[tri.indices[1]];
@@ -156,7 +254,7 @@ bool tempCollision(Sphere sphr, Triangle tri){
         return false;
     }
 }
-
+*/
 
 
 bool sameSide(vec3 p1, vec3 p2, vec3 a, vec3 b){
@@ -222,20 +320,29 @@ bool isCollided(Sphere Sphr){
     int inin = 0;
     for(int i = 0; i<indexCounter-2; i=i+3){
         //std::cout << "--triangle count-- " << i << std::endl;
-        
         if(isCollidedWithTri(Sphr, Triangle(heightMapIndices[i], heightMapIndices[i+1], heightMapIndices[i+2], 0))){
             isCollided=true;
             inin = i;
             break;
         }
         inin = i;
-        
-        /*if(tempCollision(Sphr, Triangle(heightMapIndices[i], heightMapIndices[i+1], heightMapIndices[i+2], 0))){
+    }
+    std::cout<< "Ended at index: "<<inin<<std::endl;;
+    return isCollided;
+}
+
+bool isCollidedOT(Sphere Sphr){
+    bool isCollided = false;
+    int inin = 0;
+    OTNode colNode = collisionNode(root, Sphr.getCenter());
+    for(int i = 0; i<colNode.data.size(); i++){
+        //std::cout << "--triangle count-- " << i << std::endl;
+        if(isCollidedWithTri(Sphr, colNode.data[i])){
             isCollided=true;
             inin = i;
             break;
         }
-        inin = i;*/
+        inin = i;
     }
     std::cout<< "Ended at index: "<<inin<<std::endl;;
     return isCollided;
@@ -256,7 +363,21 @@ void collisionDetection(){
         }
     }
 }
-
+void collisionDetectionOT(){
+    if(spheres.size() != 0){
+        //std::cout<< "Collision Detection Initiated" << std::endl;
+        for(int i=0; i<spheres.size(); i++){
+            //std::cout<< "Sphere #" << i << ":" << std::endl;
+            if(spheres[i].getVelocity() != 0){
+                if(isCollidedOT(spheres[i])){
+                    std::cout<< "Sphere stopped." << std::endl;
+                    std::cout<< "current eye position: " << eye <<std::endl;
+                    spheres[i].stop();
+                }
+            }
+        }
+    }
+}
 
 // ***** Generate Triangles and Starting Normals *****
 
@@ -409,7 +530,7 @@ void init(){
 
     
     rt = genOctree(heightMapIndices, indexCount, heightMapVectors, vec3(8,0,8), 8.0);
-    //goThroughTree(root);
+    goThroughTree(rt);
     //redLineVertices = generateVertices(root);
     
     //myFlock =  Flock(50, vec3(16,4,16), vec3(0,2,0));
@@ -576,8 +697,7 @@ void display(){
     glDrawArrays(GL_LINES, 0, redLineVertices.size());
     glBindVertexArrayAPPLE(0);
     
-
-    collisionDetection();
+    collisionDetectionOT();
     updateSpheres();
     drawSpheres(modelView, projection);
     
@@ -629,27 +749,33 @@ void keyboard(unsigned char key, int x, int y){
 //            cam->xdown();
 //            glutPostRedisplay();
         case 'z':
-            eye.x -= 0.2;
+            if(eye.x - 0.2 > 0)
+                eye.x -= 0.2;
             glutPostRedisplay();
             break;
         case 'Z':
-            eye.x += 0.2;
+            if(eye.x + 0.2 < 16)
+                eye.x += 0.2;
             glutPostRedisplay();
             break;
         case 'x':
-            eye.y -= 0.2;
+            if(eye.y - 0.2 > -8)
+                eye.y -= 0.2;
             glutPostRedisplay();
             break;
         case 'X':
-            eye.y += 0.2;
+            if(eye.y + 0.2 < 8)
+                eye.y += 0.2;
             glutPostRedisplay();
             break;
         case 'c':
-            eye.z -= 0.2;
+            if(eye.z - 0.2 > 0)
+                eye.z -= 0.2;
             glutPostRedisplay();
             break;
         case 'C':
-            eye.z += 0.2;
+            if(eye.z + 0.2 < 16)
+                eye.z += 0.2;
             glutPostRedisplay();
             break;
         default:

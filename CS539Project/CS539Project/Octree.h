@@ -32,25 +32,34 @@ public:
     float size;
     std::vector<Triangle> data;
     std::vector<vec3> drawData;
+    vec3 cornerMin;
+    vec3 cornerMax;
+    bool hasChildren;
     OTNode (){}
     OTNode(std::vector<Triangle> a, vec3 c, float s){
         data = a;
         center = c;
         size = s;
+        cornerMin = vec3(center.x-size, center.y-size, center.z-size);
+        cornerMax = vec3(center.x+size, center.y+size, center.z+size);
         setDrawLines(center, size);
         for(int i = 0; i<8; i++){
             children[i] = NULL;
         }
+        hasChildren = false;
     }
     OTNode(std::vector<Triangle> a, OTNode* par, vec3 c, float s){
         data = a;
         center = c;
         size = s;
         parent = par;
+        cornerMin = vec3(center.x-size, center.y-size, center.z-size);
+        cornerMax = vec3(center.x+size, center.y+size, center.z+size);
         setDrawLines(center, size);
         for(int i = 0; i<8; i++){
             children[i] = NULL;
         }
+        hasChildren = false;
     }
     
     void setDrawLines(vec3 center, float size){
@@ -79,13 +88,12 @@ public:
         drawData.push_back(vec3(center.x-rad, center.y+rad, center.z-rad)); // 5
         drawData.push_back(vec3(center.x-rad, center.y+rad, center.z-rad)); // 5
         drawData.push_back(vec3(center.x-rad, center.y-rad, center.z-rad)); // 4
-
     }
 };
 
 
 OTNode root;
-int minTriangles = 300;
+int minTriangles = 600;
 
 std::vector<Triangle> trianglulate(int indices[], int length){
     std::vector<Triangle> array;
@@ -107,27 +115,36 @@ OTNode* genOctree(int indices[], int indLen, vec3 vertices[], vec3 center, float
     return subdivideTree(&root, vertices);
 }
 
+
+
 OTNode* subdivideTree(OTNode* root, vec3 vertices[]){
     unsigned long curSize = root->data.size();
     //std::cout<<root->size <<std::endl;
     if(curSize <= minTriangles){
-        //std::cout<< "LEAF NODE! size = " << root->size << std::endl;
+        std::cout<< "LEAF NODE! #Triangles = " << root->data.size() << std::endl;
         return root;
     }
     else{
-        //std::cout<<"INTERNAL NODE! size = "<< root->size << std::endl;
+        std::cout<<"INTERNAL NODE! #Triangles = " << root->data.size() << std::endl;
         std::vector<Triangle> child0Array, child1Array, child2Array, child3Array, child4Array, child5Array, child6Array, child7Array;
         float newSize = root->size*0.5;
         //std::cout<<root->size <<std::endl;
         //std::cout<<newSize<<std::endl;
 
         vec3 child0Center = vec3(root->center.x+newSize, root->center.y+newSize, root->center.z+newSize);
+        
         vec3 child1Center = vec3(root->center.x-newSize, root->center.y+newSize, root->center.z+newSize);
+        
         vec3 child2Center = vec3(root->center.x-newSize, root->center.y+newSize, root->center.z-newSize);
+        
         vec3 child3Center = vec3(root->center.x+newSize, root->center.y+newSize, root->center.z-newSize);
+        
         vec3 child4Center = vec3(root->center.x+newSize, root->center.y-newSize, root->center.z+newSize);
+        
         vec3 child5Center = vec3(root->center.x-newSize, root->center.y-newSize, root->center.z+newSize);
+        
         vec3 child6Center = vec3(root->center.x-newSize, root->center.y-newSize, root->center.z-newSize);
+        
         vec3 child7Center = vec3(root->center.x+newSize, root->center.y-newSize, root->center.z-newSize);
         
         //std::cout<<root->size <<std::endl;
@@ -140,72 +157,134 @@ OTNode* subdivideTree(OTNode* root, vec3 vertices[]){
                 float z = vertices[root->data.at(i).indices[j]].z;
                 
                 // Check if in child 0
-                if(x < child0Center.x+root->size && x > child0Center.x-root->size
-                   && y < child0Center.y+root->size && y > child0Center.y-root->size
-                   && z < child0Center.z+root->size && z > child0Center.z-root->size){
+//                if(x < child0Center.x+root->size && x > child0Center.x-root->size
+//                   && y < child0Center.y+root->size && y > child0Center.y-root->size
+//                   && z < child0Center.z+root->size && z > child0Center.z-root->size){
+//                    child0Array.push_back(root->data.at(i)); // push current Triangle to its array
+//                    break;
+//                }
+//                
+//
+//
+//                // Check if in child 1
+//                if(x < child1Center.x+root->size && x > child1Center.x-root->size
+//                   && y < child1Center.y+root->size && y > child1Center.y-root->size
+//                   && z < child1Center.z+root->size && z > child1Center.z-root->size){
+//                    child1Array.push_back(root->data.at(i)); // push current Triangle to its array
+//                    break;
+//                }
+//                
+//                // Check if in child 2
+//                if(x < child2Center.x+root->size && x > child2Center.x-root->size
+//                   && y < child2Center.y+root->size && y > child2Center.y-root->size
+//                   && z < child2Center.z+root->size && z > child2Center.z-root->size){
+//                    child2Array.push_back(root->data.at(i)); // push current Triangle to its array
+//                    break;
+//                }
+//
+//                // Check if in child 3
+//                if(x < child3Center.x+root->size && x > child3Center.x-root->size
+//                   && y < child3Center.y+root->size && y > child3Center.y-root->size
+//                   && z < child3Center.z+root->size && z > child3Center.z-root->size){
+//                    child3Array.push_back(root->data.at(i)); // push current Triangle to its array
+//                    break;
+//                }
+//                
+//                // Check if in child 4
+//                if(x < child4Center.x+root->size && x > child4Center.x-root->size
+//                   && y < child4Center.y+root->size && y > child4Center.y-root->size
+//                   && z < child4Center.z+root->size && z > child4Center.z-root->size){
+//                    child4Array.push_back(root->data.at(i)); // push current Triangle to its array
+//                    break;
+//                }
+//
+//                // Check if in child 5
+//                if(x < child5Center.x+root->size && x > child5Center.x-root->size
+//                   && y < child5Center.y+root->size && y > child5Center.y-root->size
+//                   && z < child5Center.z+root->size && z > child5Center.z-root->size){
+//                    child5Array.push_back(root->data.at(i)); // push current Triangle to its array
+//                    break;
+//                }
+//
+//                // Check if in child 6
+//                if(x < child6Center.x+root->size && x > child6Center.x-root->size
+//                   && y < child6Center.y+root->size && y > child6Center.y-root->size
+//                   && z < child6Center.z+root->size && z > child6Center.z-root->size){
+//                    child6Array.push_back(root->data.at(i)); // push current Triangle to its array
+//                    break;
+//                }
+//
+//                // Check if in child 7
+//                if(x < child7Center.x+root->size && x > child7Center.x-root->size
+//                   && y < child7Center.y+root->size && y > child7Center.y-root->size
+//                   && z < child7Center.z+root->size && z > child7Center.z-root->size){
+//                    child7Array.push_back(root->data.at(i)); // push current Triangle to its array
+//                    break;
+//                }
+                
+                // Check if in child 0
+                if(x > root->center.x &&
+                   y > root->center.y &&
+                   z > root->center.z){
                     child0Array.push_back(root->data.at(i)); // push current Triangle to its array
                     break;
                 }
-                
-                //std::cout<<root->size <<std::endl;
 
-                
                 // Check if in child 1
-                if(x < child1Center.x+root->size && x > child1Center.x-root->size
-                   && y < child1Center.y+root->size && y > child1Center.y-root->size
-                   && z < child1Center.z+root->size && z > child1Center.z-root->size){
+                if(x < root->center.x &&
+                   y > root->center.y &&
+                   z > root->center.z){
                     child1Array.push_back(root->data.at(i)); // push current Triangle to its array
                     break;
                 }
                 
                 // Check if in child 2
-                if(x < child2Center.x+root->size && x > child2Center.x-root->size
-                   && y < child2Center.y+root->size && y > child2Center.y-root->size
-                   && z < child2Center.z+root->size && z > child2Center.z-root->size){
+                if(x < root->center.x &&
+                   y > root->center.y &&
+                   z < root->center.z){
                     child2Array.push_back(root->data.at(i)); // push current Triangle to its array
                     break;
                 }
-
+                
                 // Check if in child 3
-                if(x < child3Center.x+root->size && x > child3Center.x-root->size
-                   && y < child3Center.y+root->size && y > child3Center.y-root->size
-                   && z < child3Center.z+root->size && z > child3Center.z-root->size){
+                if(x > root->center.x &&
+                   y > root->center.y &&
+                   z < root->center.z){
                     child3Array.push_back(root->data.at(i)); // push current Triangle to its array
                     break;
                 }
                 
                 // Check if in child 4
-                if(x < child4Center.x+root->size && x > child4Center.x-root->size
-                   && y < child4Center.y+root->size && y > child4Center.y-root->size
-                   && z < child4Center.z+root->size && z > child4Center.z-root->size){
+                if(x > root->center.x &&
+                   y < root->center.y &&
+                   z > root->center.z){
                     child4Array.push_back(root->data.at(i)); // push current Triangle to its array
                     break;
                 }
 
                 // Check if in child 5
-                if(x < child5Center.x+root->size && x > child5Center.x-root->size
-                   && y < child5Center.y+root->size && y > child5Center.y-root->size
-                   && z < child5Center.z+root->size && z > child5Center.z-root->size){
+                if(x < root->center.x &&
+                   y < root->center.y &&
+                   z > root->center.z){
                     child5Array.push_back(root->data.at(i)); // push current Triangle to its array
                     break;
                 }
-
+                
                 // Check if in child 6
-                if(x < child6Center.x+root->size && x > child6Center.x-root->size
-                   && y < child6Center.y+root->size && y > child6Center.y-root->size
-                   && z < child6Center.z+root->size && z > child6Center.z-root->size){
+                if(x < root->center.x &&
+                   y < root->center.y &&
+                   z < root->center.z){
                     child6Array.push_back(root->data.at(i)); // push current Triangle to its array
                     break;
                 }
-
+                
                 // Check if in child 7
-                if(x < child7Center.x+root->size && x > child7Center.x-root->size
-                   && y < child7Center.y+root->size && y > child7Center.y-root->size
-                   && z < child7Center.z+root->size && z > child7Center.z-root->size){
+                if(x > root->center.x &&
+                   y < root->center.y &&
+                   z < root->center.z){
                     child7Array.push_back(root->data.at(i)); // push current Triangle to its array
                     break;
                 }
-
             }
         }
         
@@ -236,19 +315,20 @@ OTNode* subdivideTree(OTNode* root, vec3 vertices[]){
 
         //std::cout<<'\t';
         // make vector full of Triangles in child 5
-        root->children[5] = new OTNode(child5Array, root, child4Center, newSize);
+        root->children[5] = new OTNode(child5Array, root, child5Center, newSize);
         subdivideTree(root->children[5], vertices);
 
         //std::cout<<'\t';
         // make vector full of Triangles in child 6
-        root->children[6] = new OTNode(child6Array, root, child4Center, newSize);
+        root->children[6] = new OTNode(child6Array, root, child6Center, newSize);
         subdivideTree(root->children[6], vertices);
 
         //std::cout<<'\t';
         // make vector full of Triangles in child 7
-        root->children[7] = new OTNode(child7Array, root, child4Center, newSize);
+        root->children[7] = new OTNode(child7Array, root, child7Center, newSize);
         subdivideTree(root->children[7], vertices);
 
+        root->hasChildren = true;
         
         return root;
     }
@@ -256,35 +336,42 @@ OTNode* subdivideTree(OTNode* root, vec3 vertices[]){
 
 
 void goThroughTree(OTNode* curNode){
-    if(curNode->children[0] == nullptr){
+    //curNode->children[0] == nullptr
+    if(curNode->hasChildren == false){
         std::cout<< "LEAF NODE FOUND. " << std::endl;
+        std::cout<< "  Center: " << curNode->center <<std::endl;
+        std::cout<< "  Size: " << curNode->size <<std::endl;
+        std::cout<< "  min: " << curNode->cornerMin << '\n' << "  max: " << curNode->cornerMax << std::endl;
+        std::cout<< "  Num Triangles: " << curNode->data.size() <<std::endl;
+
     }
     else{
         std::cout<< "Interal Node. Children Are:" << std::endl;
-        std::cout<< '\t';
+        std::cout<< "  Num Triangles: " << curNode->data.size() <<std::endl;
+//        std::cout<< '\t';
         goThroughTree(curNode->children[0]);
-        std::cout<< '\n';
-        std::cout<< '\t';
+//        std::cout<< '\n';
+//        std::cout<< '\t';
         goThroughTree(curNode->children[1]);
-        std::cout<< '\n';
-        std::cout<< '\t';
+//        std::cout<< '\n';
+//        std::cout<< '\t';
         goThroughTree(curNode->children[2]);
-        std::cout<< '\n';
-        std::cout<< '\t';
+//        std::cout<< '\n';
+//        std::cout<< '\t';
         goThroughTree(curNode->children[3]);
-        std::cout<< '\n';
-        std::cout<< '\t';
+//        std::cout<< '\n';
+//        std::cout<< '\t';
         goThroughTree(curNode->children[4]);
-        std::cout<< '\n';
-        std::cout<< '\t';
+//        std::cout<< '\n';
+//        std::cout<< '\t';
         goThroughTree(curNode->children[5]);
-        std::cout<< '\n';
-        std::cout<< '\t';
+//        std::cout<< '\n';
+//        std::cout<< '\t';
         goThroughTree(curNode->children[6]);
-        std::cout<< '\n';
-        std::cout<< '\t';
+//        std::cout<< '\n';
+//        std::cout<< '\t';
         goThroughTree(curNode->children[7]);
-        std::cout<< '\n';
+//        std::cout<< '\n';
     }
 }
 

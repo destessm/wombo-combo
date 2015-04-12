@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
+            timestampString = "450566671.945952"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "51"
-            endingLineNumber = "51"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
             landmarkName = "OTNode(std::vector&lt;Triangle&gt; a, OTNode* par, vec3 c, float s)"
             landmarkType = "5">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
+            timestampString = "450566671.945952"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "41"
-            endingLineNumber = "41"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
             landmarkName = "OTNode(std::vector&lt;Triangle&gt; a, vec3 c, float s)"
             landmarkType = "5">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
+            timestampString = "450569743.791778"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "260"
-            endingLineNumber = "260"
+            startingLineNumber = "342"
+            endingLineNumber = "342"
             landmarkName = "goThroughTree(OTNode* curNode)"
             landmarkType = "7">
          </BreakpointContent>
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
+            timestampString = "450569743.791778"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "263"
-            endingLineNumber = "263"
+            startingLineNumber = "350"
+            endingLineNumber = "350"
             landmarkName = "goThroughTree(OTNode* curNode)"
             landmarkType = "7">
          </BreakpointContent>
@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
+            timestampString = "450569743.791778"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "265"
-            endingLineNumber = "265"
+            startingLineNumber = "352"
+            endingLineNumber = "352"
             landmarkName = "goThroughTree(OTNode* curNode)"
             landmarkType = "7">
          </BreakpointContent>
@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
+            timestampString = "450569743.791778"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "259"
-            endingLineNumber = "259"
+            startingLineNumber = "340"
+            endingLineNumber = "340"
             landmarkName = "goThroughTree(OTNode* curNode)"
             landmarkType = "7">
          </BreakpointContent>
@@ -106,11 +106,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
+            timestampString = "450566671.945952"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "113"
-            endingLineNumber = "113"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
             landmarkName = "subdivideTree(OTNode* root, vec3 vertices[])"
             landmarkType = "7">
          </BreakpointContent>
@@ -122,71 +122,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "117"
-            endingLineNumber = "117"
-            landmarkName = "subdivideTree(OTNode* root, vec3 vertices[])"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "137"
-            endingLineNumber = "137"
-            landmarkName = "subdivideTree(OTNode* root, vec3 vertices[])"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "143"
-            endingLineNumber = "143"
-            landmarkName = "subdivideTree(OTNode* root, vec3 vertices[])"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "146"
-            endingLineNumber = "146"
-            landmarkName = "subdivideTree(OTNode* root, vec3 vertices[])"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
+            timestampString = "450569743.791778"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "154"
@@ -202,11 +138,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
+            timestampString = "450569743.791778"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "157"
-            endingLineNumber = "157"
+            startingLineNumber = "293"
+            endingLineNumber = "293"
             landmarkName = "subdivideTree(OTNode* root, vec3 vertices[])"
             landmarkType = "7">
          </BreakpointContent>
@@ -218,11 +154,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
+            timestampString = "450569743.791778"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "162"
-            endingLineNumber = "162"
+            startingLineNumber = "294"
+            endingLineNumber = "294"
             landmarkName = "subdivideTree(OTNode* root, vec3 vertices[])"
             landmarkType = "7">
          </BreakpointContent>
@@ -234,11 +170,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
+            timestampString = "450569743.791778"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "165"
-            endingLineNumber = "165"
+            startingLineNumber = "298"
+            endingLineNumber = "298"
             landmarkName = "subdivideTree(OTNode* root, vec3 vertices[])"
             landmarkType = "7">
          </BreakpointContent>
@@ -250,11 +186,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
+            timestampString = "450569743.791778"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "170"
-            endingLineNumber = "170"
+            startingLineNumber = "299"
+            endingLineNumber = "299"
             landmarkName = "subdivideTree(OTNode* root, vec3 vertices[])"
             landmarkType = "7">
          </BreakpointContent>
@@ -266,11 +202,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
+            timestampString = "450569743.791778"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "173"
-            endingLineNumber = "173"
+            startingLineNumber = "303"
+            endingLineNumber = "303"
             landmarkName = "subdivideTree(OTNode* root, vec3 vertices[])"
             landmarkType = "7">
          </BreakpointContent>
@@ -282,11 +218,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
+            timestampString = "450569743.791778"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "178"
-            endingLineNumber = "178"
+            startingLineNumber = "304"
+            endingLineNumber = "304"
             landmarkName = "subdivideTree(OTNode* root, vec3 vertices[])"
             landmarkType = "7">
          </BreakpointContent>
@@ -298,11 +234,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
+            timestampString = "450569743.791778"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "181"
-            endingLineNumber = "181"
+            startingLineNumber = "308"
+            endingLineNumber = "308"
             landmarkName = "subdivideTree(OTNode* root, vec3 vertices[])"
             landmarkType = "7">
          </BreakpointContent>
@@ -314,11 +250,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
+            timestampString = "450569743.791778"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "186"
-            endingLineNumber = "186"
+            startingLineNumber = "309"
+            endingLineNumber = "309"
             landmarkName = "subdivideTree(OTNode* root, vec3 vertices[])"
             landmarkType = "7">
          </BreakpointContent>
@@ -330,11 +266,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
+            timestampString = "450569743.791778"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "189"
-            endingLineNumber = "189"
+            startingLineNumber = "313"
+            endingLineNumber = "313"
             landmarkName = "subdivideTree(OTNode* root, vec3 vertices[])"
             landmarkType = "7">
          </BreakpointContent>
@@ -346,11 +282,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
+            timestampString = "450569743.791778"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "194"
-            endingLineNumber = "194"
+            startingLineNumber = "314"
+            endingLineNumber = "314"
             landmarkName = "subdivideTree(OTNode* root, vec3 vertices[])"
             landmarkType = "7">
          </BreakpointContent>
@@ -362,11 +298,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
+            timestampString = "450569743.791778"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "197"
-            endingLineNumber = "197"
+            startingLineNumber = "318"
+            endingLineNumber = "318"
             landmarkName = "subdivideTree(OTNode* root, vec3 vertices[])"
             landmarkType = "7">
          </BreakpointContent>
@@ -378,11 +314,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
+            timestampString = "450569743.791778"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "202"
-            endingLineNumber = "202"
+            startingLineNumber = "319"
+            endingLineNumber = "319"
             landmarkName = "subdivideTree(OTNode* root, vec3 vertices[])"
             landmarkType = "7">
          </BreakpointContent>
@@ -394,11 +330,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
+            timestampString = "450569743.791778"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "205"
-            endingLineNumber = "205"
+            startingLineNumber = "323"
+            endingLineNumber = "323"
             landmarkName = "subdivideTree(OTNode* root, vec3 vertices[])"
             landmarkType = "7">
          </BreakpointContent>
@@ -410,11 +346,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
+            timestampString = "450569743.791778"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "214"
-            endingLineNumber = "214"
+            startingLineNumber = "324"
+            endingLineNumber = "324"
             landmarkName = "subdivideTree(OTNode* root, vec3 vertices[])"
             landmarkType = "7">
          </BreakpointContent>
@@ -426,11 +362,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
+            timestampString = "450569743.791778"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "215"
-            endingLineNumber = "215"
+            startingLineNumber = "328"
+            endingLineNumber = "328"
             landmarkName = "subdivideTree(OTNode* root, vec3 vertices[])"
             landmarkType = "7">
          </BreakpointContent>
@@ -442,11 +378,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
+            timestampString = "450569743.791778"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "219"
-            endingLineNumber = "219"
+            startingLineNumber = "329"
+            endingLineNumber = "329"
             landmarkName = "subdivideTree(OTNode* root, vec3 vertices[])"
             landmarkType = "7">
          </BreakpointContent>
@@ -458,11 +394,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
+            timestampString = "450569743.791778"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "220"
-            endingLineNumber = "220"
+            startingLineNumber = "333"
+            endingLineNumber = "333"
             landmarkName = "subdivideTree(OTNode* root, vec3 vertices[])"
             landmarkType = "7">
          </BreakpointContent>
@@ -474,11 +410,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
+            timestampString = "450566671.945952"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "224"
-            endingLineNumber = "224"
+            startingLineNumber = "121"
+            endingLineNumber = "121"
             landmarkName = "subdivideTree(OTNode* root, vec3 vertices[])"
             landmarkType = "7">
          </BreakpointContent>
@@ -490,251 +426,43 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "225"
-            endingLineNumber = "225"
-            landmarkName = "subdivideTree(OTNode* root, vec3 vertices[])"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "229"
-            endingLineNumber = "229"
-            landmarkName = "subdivideTree(OTNode* root, vec3 vertices[])"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "230"
-            endingLineNumber = "230"
-            landmarkName = "subdivideTree(OTNode* root, vec3 vertices[])"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "234"
-            endingLineNumber = "234"
-            landmarkName = "subdivideTree(OTNode* root, vec3 vertices[])"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "235"
-            endingLineNumber = "235"
-            landmarkName = "subdivideTree(OTNode* root, vec3 vertices[])"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "239"
-            endingLineNumber = "239"
-            landmarkName = "subdivideTree(OTNode* root, vec3 vertices[])"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "240"
-            endingLineNumber = "240"
-            landmarkName = "subdivideTree(OTNode* root, vec3 vertices[])"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "244"
-            endingLineNumber = "244"
-            landmarkName = "subdivideTree(OTNode* root, vec3 vertices[])"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "245"
-            endingLineNumber = "245"
-            landmarkName = "subdivideTree(OTNode* root, vec3 vertices[])"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "249"
-            endingLineNumber = "249"
-            landmarkName = "subdivideTree(OTNode* root, vec3 vertices[])"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "250"
-            endingLineNumber = "250"
-            landmarkName = "subdivideTree(OTNode* root, vec3 vertices[])"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "253"
-            endingLineNumber = "253"
-            landmarkName = "subdivideTree(OTNode* root, vec3 vertices[])"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "111"
-            endingLineNumber = "111"
-            landmarkName = "subdivideTree(OTNode* root, vec3 vertices[])"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "107"
-            endingLineNumber = "107"
-            landmarkName = "genOctree(int indices[], int indLen, vec3 vertices[], vec3 center, float size)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "105"
-            endingLineNumber = "105"
-            landmarkName = "genOctree(int indices[], int indLen, vec3 vertices[], vec3 center, float size)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CS539Project/Octree.h"
-            timestampString = "447640304.164913"
+            timestampString = "450566671.945952"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "115"
             endingLineNumber = "115"
+            landmarkName = "genOctree(int indices[], int indLen, vec3 vertices[], vec3 center, float size)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CS539Project/Octree.h"
+            timestampString = "450566671.945952"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "113"
+            endingLineNumber = "113"
+            landmarkName = "genOctree(int indices[], int indLen, vec3 vertices[], vec3 center, float size)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CS539Project/Octree.h"
+            timestampString = "450566671.945952"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "125"
+            endingLineNumber = "125"
             landmarkName = "subdivideTree(OTNode* root, vec3 vertices[])"
             landmarkType = "7">
          </BreakpointContent>
@@ -808,11 +536,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/main.cpp"
-            timestampString = "450495357.118823"
+            timestampString = "450570433.351513"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "444"
-            endingLineNumber = "444"
+            startingLineNumber = "565"
+            endingLineNumber = "565"
             landmarkName = "init()"
             landmarkType = "7">
          </BreakpointContent>
@@ -824,11 +552,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/main.cpp"
-            timestampString = "450495357.118823"
+            timestampString = "450570433.351513"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "593"
-            endingLineNumber = "593">
+            startingLineNumber = "713"
+            endingLineNumber = "713">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -838,27 +566,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/main.cpp"
-            timestampString = "450495357.118823"
+            timestampString = "450570433.351513"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "248"
-            endingLineNumber = "248"
-            landmarkName = "collisionDetection()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CS539Project/main.cpp"
-            timestampString = "450495357.118823"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "253"
-            endingLineNumber = "253"
+            startingLineNumber = "354"
+            endingLineNumber = "354"
             landmarkName = "collisionDetection()"
             landmarkType = "7">
          </BreakpointContent>
@@ -870,11 +582,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/main.cpp"
-            timestampString = "450495357.118823"
+            timestampString = "450570433.351513"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "250"
-            endingLineNumber = "250"
+            startingLineNumber = "360"
+            endingLineNumber = "360"
             landmarkName = "collisionDetection()"
             landmarkType = "7">
          </BreakpointContent>
@@ -886,11 +598,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/main.cpp"
-            timestampString = "450495357.118823"
+            timestampString = "450570433.351513"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "223"
-            endingLineNumber = "223"
+            startingLineNumber = "357"
+            endingLineNumber = "357"
+            landmarkName = "collisionDetection()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CS539Project/main.cpp"
+            timestampString = "450570433.351513"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "321"
+            endingLineNumber = "321"
             landmarkName = "isCollided(Sphere Sphr)"
             landmarkType = "7">
          </BreakpointContent>
@@ -902,11 +630,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/main.cpp"
-            timestampString = "450495357.118823"
+            timestampString = "450570433.351513"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "226"
-            endingLineNumber = "226"
+            startingLineNumber = "323"
+            endingLineNumber = "323"
             landmarkName = "isCollided(Sphere Sphr)"
             landmarkType = "7">
          </BreakpointContent>
@@ -918,11 +646,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/main.cpp"
-            timestampString = "450495357.118823"
+            timestampString = "450570433.351513"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "228"
-            endingLineNumber = "228"
+            startingLineNumber = "325"
+            endingLineNumber = "325"
             landmarkName = "isCollided(Sphere Sphr)"
             landmarkType = "7">
          </BreakpointContent>
@@ -934,11 +662,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/main.cpp"
-            timestampString = "450495357.118823"
+            timestampString = "450570433.351513"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "241"
-            endingLineNumber = "241"
+            startingLineNumber = "331"
+            endingLineNumber = "331"
             landmarkName = "isCollided(Sphere Sphr)"
             landmarkType = "7">
          </BreakpointContent>
@@ -950,11 +678,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/main.cpp"
-            timestampString = "450495357.118823"
+            timestampString = "450570433.351513"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "194"
-            endingLineNumber = "194"
+            startingLineNumber = "292"
+            endingLineNumber = "292"
             landmarkName = "isCollidedWithTri(Sphere Sphr, Triangle tri)"
             landmarkType = "7">
          </BreakpointContent>
@@ -966,11 +694,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/main.cpp"
-            timestampString = "450495357.118823"
+            timestampString = "450570433.351513"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "221"
-            endingLineNumber = "221"
+            startingLineNumber = "319"
+            endingLineNumber = "319"
             landmarkName = "isCollided(Sphere Sphr)"
             landmarkType = "7">
          </BreakpointContent>
@@ -982,11 +710,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/main.cpp"
-            timestampString = "450495357.118823"
+            timestampString = "450570433.351513"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "182"
-            endingLineNumber = "182"
+            startingLineNumber = "288"
+            endingLineNumber = "288"
             landmarkName = "isCollidedWithTri(Sphere Sphr, Triangle tri)"
             landmarkType = "7">
          </BreakpointContent>
@@ -998,27 +726,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/main.cpp"
-            timestampString = "450495357.118823"
+            timestampString = "450570433.351513"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "190"
-            endingLineNumber = "190"
-            landmarkName = "isCollidedWithTri(Sphere Sphr, Triangle tri)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CS539Project/main.cpp"
-            timestampString = "450495357.118823"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "224"
-            endingLineNumber = "224"
+            startingLineNumber = "322"
+            endingLineNumber = "322"
             landmarkName = "isCollided(Sphere Sphr)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1030,11 +742,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/main.cpp"
-            timestampString = "450495357.118823"
+            timestampString = "450570433.351513"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "240"
-            endingLineNumber = "240"
+            startingLineNumber = "330"
+            endingLineNumber = "330"
             landmarkName = "isCollided(Sphere Sphr)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1046,11 +758,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/main.cpp"
-            timestampString = "450495357.118823"
+            timestampString = "450570433.351513"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "582"
-            endingLineNumber = "582"
+            startingLineNumber = "702"
+            endingLineNumber = "702"
             landmarkName = "display()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1062,11 +774,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/main.cpp"
-            timestampString = "450495357.118823"
+            timestampString = "450570433.351513"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "205"
-            endingLineNumber = "205"
+            startingLineNumber = "306"
+            endingLineNumber = "306"
             landmarkName = "isCollidedWithTri(Sphere Sphr, Triangle tri)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1078,12 +790,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/main.cpp"
-            timestampString = "450495357.118823"
+            timestampString = "450567577.998976"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "208"
-            endingLineNumber = "208"
-            landmarkName = "isCollidedWithTri(Sphere Sphr, Triangle tri)"
+            startingLineNumber = "153"
+            endingLineNumber = "153"
+            landmarkName = "pointInsideNode(OTNode root, vec3 pt)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1094,28 +806,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/main.cpp"
-            timestampString = "450495357.118823"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "152"
-            endingLineNumber = "152"
-            landmarkName = "tempCollision(Sphere sphr, Triangle tri)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CS539Project/main.cpp"
-            timestampString = "450495357.118823"
+            timestampString = "450567577.998976"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "156"
             endingLineNumber = "156"
-            landmarkName = "tempCollision(Sphere sphr, Triangle tri)"
+            landmarkName = "pointInsideNode(OTNode root, vec3 pt)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1126,12 +822,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/main.cpp"
-            timestampString = "450495408.684036"
+            timestampString = "450567577.998976"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
-            landmarkName = "tempCollision(Sphere sphr, Triangle tri)"
+            startingLineNumber = "160"
+            endingLineNumber = "160"
+            landmarkName = "pointInsideNode(OTNode root, vec3 pt)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CS539Project/main.cpp"
+            timestampString = "450570433.351513"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "177"
+            endingLineNumber = "177"
+            landmarkName = "collisionNode(OTNode root, vec3 pt)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1142,12 +854,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/main.cpp"
-            timestampString = "450495409.770695"
+            timestampString = "450570433.351513"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "137"
-            endingLineNumber = "137"
-            landmarkName = "tempCollision(Sphere sphr, Triangle tri)"
+            startingLineNumber = "369"
+            endingLineNumber = "369"
+            landmarkName = "collisionDetectionOT()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1158,12 +870,76 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CS539Project/main.cpp"
-            timestampString = "450495410.107674"
+            timestampString = "450570433.351513"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "136"
-            endingLineNumber = "136"
-            landmarkName = "tempCollision(Sphere sphr, Triangle tri)"
+            startingLineNumber = "337"
+            endingLineNumber = "337"
+            landmarkName = "isCollidedOT(Sphere Sphr)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CS539Project/main.cpp"
+            timestampString = "450570433.351513"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "338"
+            endingLineNumber = "338"
+            landmarkName = "isCollidedOT(Sphere Sphr)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CS539Project/main.cpp"
+            timestampString = "450567725.015964"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "166"
+            endingLineNumber = "166"
+            landmarkName = "collisionNode(OTNode root, vec3 pt)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CS539Project/main.cpp"
+            timestampString = "450570433.351513"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "172"
+            endingLineNumber = "172"
+            landmarkName = "collisionNode(OTNode root, vec3 pt)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CS539Project/main.cpp"
+            timestampString = "450570433.351513"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "175"
+            endingLineNumber = "175"
+            landmarkName = "collisionNode(OTNode root, vec3 pt)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
