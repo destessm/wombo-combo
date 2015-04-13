@@ -3,7 +3,7 @@ My CS539 Project
 
 Collision Dection + Octree
 
-Camera is still in the works. Directions are still below.
+Camera is still in the works. Directions are still below. Sphere fires with 'i'. I don't remember why.
 
 My collision detection worked before I implemented my octree (albeit it 
 actually took ~30 seconds between frames), so I have to figure out why 
