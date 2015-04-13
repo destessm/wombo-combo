@@ -18,8 +18,11 @@ protected:
     float distance;
     vec3 normal;
 public:
+    Plane(){ distance = 0; normal = vec3(0,0,0); }
     Plane(float, vec3);
     Plane(vec3, vec3, vec3);
+    
+    float signedDistance(vec3);
     
     //inline methods:
     float getDistance() {   return distance;    }

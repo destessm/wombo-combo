@@ -18,6 +18,7 @@
 #include "Camera2.h"
 #include "Sphere.h"
 #include "Plane.h"
+#include "Frustum.h"
 
 using namespace std;
 
@@ -79,6 +80,7 @@ vec4 at = vec4(8,0,8,0);
 vec4 eye = vec4(3,5,3,1);
 vec4 up = vec4(0,1,0,0);
 
+Frust frustu;
 
 
 // ***** Methods *****
@@ -144,19 +146,19 @@ bool pointOutsideNode(OTNode curNode, vec3 pt){
 
 bool pointInsideNode(OTNode root, vec3 pt){
     
-//    std::cout<<"Is point inside Node?"<<std::endl;
-//    std::cout<<"  Node: center = " << root.center << ", #triangles = " << root.data.size() << std::endl;
-//    std::cout<<"    corners: min = " << root.cornerMin << ", max = " << root.cornerMax << std::endl;
-//    std::cout<<"  Point: " << pt << std::endl;
+    std::cout<<"Is point inside Node?"<<std::endl;
+    std::cout<<"  Node: center = " << root.center << ", #triangles = " << root.data.size() << std::endl;
+    std::cout<<"    corners: min = " << root.cornerMin << ", max = " << root.cornerMax << std::endl;
+    std::cout<<"  Point: " << pt << std::endl;
 
     
     if((pt.x < root.cornerMax.x) && (pt.y < root.cornerMax.y) && (pt.z < root.cornerMax.z) &&
        (pt.x > root.cornerMin.x) && (pt.y > root.cornerMin.y) && (pt.z > root.cornerMin.z)){
-//        std::cout<< " --> Point was inside Node." <<std::endl;
+        std::cout<< " --> Point was inside Node." <<std::endl;
         return true;
     }
     else{
-//        std::cout<< " --> Point was not inside Node." <<std::endl;
+        std::cout<< " --> Point was not inside Node." <<std::endl;
         return false;
     }
 }
@@ -164,64 +166,64 @@ bool pointInsideNode(OTNode root, vec3 pt){
 
 OTNode collisionNode(OTNode root, vec3 pt){
     if(!pointInsideNode(root, pt)){
-//        std::cout<<"*** Point was not inside Node ***"<<std::endl;
+        std::cout<<"*** Point was not inside Node ***"<<std::endl;
         std::cout<<"*** OOPS WAS NOT IN NODE! :( ***"<<std::endl;
         std::vector<Triangle> noTries;
         return OTNode(noTries, vec3(0,0,0), 0.0);
     }
     else{
-//        std::cout<<"*** Point was inside Node ***"<< '\n' << " check if has children"<<std::endl;
+        std::cout<<"*** Point was inside Node ***"<< '\n' << " check if has children"<<std::endl;
         //if node has no children
         if(root.hasChildren == false){
-//            std::cout<<"  Node has no children. Do collision detection on it."<<std::endl;
+            std::cout<<"  Node has no children. Do collision detection on it."<<std::endl;
             return root; // return the correct root
         }
         else{
-//            std::cout<<" Check if in child 0"<<std::endl;
+            std::cout<<" Check if in child 0"<<std::endl;
             if(pointInsideNode(*root.children[0], pt)){
-//                std::cout<<"  Point is inside child 0. Search further."<<std::endl;
+                std::cout<<"  Point is inside child 0. Search further."<<std::endl;
                 return collisionNode(*root.children[0], pt);
             }
             
-//            std::cout<<" Check if in child 1"<<std::endl;
+            std::cout<<" Check if in child 1"<<std::endl;
             if(pointInsideNode(*root.children[1], pt)){
-//                std::cout<<"  Point is inside child 1. Search further."<<std::endl;
+                std::cout<<"  Point is inside child 1. Search further."<<std::endl;
                 return collisionNode(*root.children[0], pt);
             }
             
-//            std::cout<<" Check if in child 2"<<std::endl;
+            std::cout<<" Check if in child 2"<<std::endl;
             if(pointInsideNode(*root.children[2], pt)){
-//                std::cout<<"  Point is inside child 2. Search further."<<std::endl;
+                std::cout<<"  Point is inside child 2. Search further."<<std::endl;
                 return collisionNode(*root.children[2], pt);
             }
             
-//            std::cout<<" Check if in child 3"<<std::endl;
+            std::cout<<" Check if in child 3"<<std::endl;
             if(pointInsideNode(*root.children[3], pt)){
-//                std::cout<<"  Point is inside child 3. Search further."<<std::endl;
+                std::cout<<"  Point is inside child 3. Search further."<<std::endl;
                 return collisionNode(*root.children[3], pt);
             }
             
-//            std::cout<<" Check if in child 4"<<std::endl;
+            std::cout<<" Check if in child 4"<<std::endl;
             if(pointInsideNode(*root.children[4], pt)){
-//                std::cout<<"  Point is inside child 4. Search further."<<std::endl;
+                std::cout<<"  Point is inside child 4. Search further."<<std::endl;
                 return collisionNode(*root.children[4], pt);
             }
             
-//            std::cout<<" Check if in child 5"<<std::endl;
+            std::cout<<" Check if in child 5"<<std::endl;
             if(pointInsideNode(*root.children[5], pt)){
-//                std::cout<<"  Point is inside child 5. Search further."<<std::endl;
+                std::cout<<"  Point is inside child 5. Search further."<<std::endl;
                 return collisionNode(*root.children[5], pt);
             }
             
-//            std::cout<<" Check if in child 6"<<std::endl;
+            std::cout<<" Check if in child 6"<<std::endl;
             if(pointInsideNode(*root.children[6], pt)){
-//                std::cout<<"  Point is inside child 6. Search further."<<std::endl;
+                std::cout<<"  Point is inside child 6. Search further."<<std::endl;
                 return collisionNode(*root.children[6], pt);
             }
             else{
-//                std::cout<<" Check if in child 7"<<std::endl;
-                
-//                std::cout<<"  Point is inside child 7. Search further."<<std::endl;
+                std::cout<<" Check if in child 7"<<std::endl;
+                pointInsideNode(*root.children[7], pt);
+                std::cout<<"  Point is inside child 7. Search further."<<std::endl;
                 return collisionNode(*root.children[7], pt);
             }
 
@@ -379,6 +381,66 @@ void collisionDetectionOT(){
     }
 }
 
+// ***** Culling for Rendering *****
+
+//vec3 toVec3(vec4 v){
+//    return vec3(v.x, v.y, v.z);
+//}
+//
+//int fov = 70;
+//float rat = windowWidth/windowHeight;
+//float nearDist = 0.1;
+//float farDist = 100;
+//
+//std::vector<Triangle> concatenate(std::vector<Triangle> a, std::vector<Triangle> b){
+//    std::vector<Triangle> ab;
+//    ab.reserve( a.size() + b.size() );
+//    ab.insert( ab.end(), a.begin(), a.end() );
+//    ab.insert( ab.end(), b.begin(), b.end() );
+//    return ab;
+//}
+//
+//struct Frust{
+//    Plane np, fp, lp, rp, tp, bp;
+//};
+//
+//void cullAndRender(){
+//    float Hnear = 2*tan(fov / 2.0) * nearDist;
+//    float Wnear = Hnear * rat;
+//    float Hfar = 2*tan(fov / 2.0) * farDist;
+//    float Wfar = Hfar * rat;
+//    
+//    vec4 dir = normalize(at-eye);
+//    vec4 right = cross(up, dir);
+//
+//    vec4 fc = eye + dir * farDist;
+//    vec4 ftl = fc + (up * Hfar/2.0) - (right * Wfar/2.0);
+//    vec4 ftr = fc + (up * Hfar/2) + (right * Wfar/2);
+//    vec4 fbl = fc - (up * Hfar/2) - (right * Wfar/2);
+//    vec4 fbr = fc - (up * Hfar/2) + (right * Wfar/2);
+//    
+//    vec4 nc = eye + dir * nearDist;
+//    
+//    vec4 ntl = nc + (up * Hnear/2) - (right * Wnear/2);
+//    vec4 ntr = nc + (up * Hnear/2) + (right * Wnear/2);
+//    vec4 nbl = nc - (up * Hnear/2) - (right * Wnear/2);
+//    vec4 nbr = nc - (up * Hnear/2) + (right * Wnear/2);
+//    
+//    Plane nearPlane     = Plane(toVec3(nbl), toVec3(ntl), toVec3(ntr));
+//    Plane farPlane      = Plane(toVec3(fbr), toVec3(ftr), toVec3(ftl));
+//    Plane leftPlane     = Plane(toVec3(nbl), toVec3(fbl), toVec3(ftl));
+//    Plane rightPlane    = Plane(toVec3(ntr), toVec3(ftr), toVec3(fbr));
+//    Plane topPlane      = Plane(toVec3(ntl), toVec3(ftl), toVec3(ftr));
+//    Plane bottomPlane   = Plane(toVec3(nbr), toVec3(fbr), toVec3(fbl));
+//    
+//    //Frust frust;
+//}
+
+//std::vector<Triangle> nodesToRender(OTNode root){
+//    //if(
+//}
+
+
 // ***** Generate Triangles and Starting Normals *****
 
 void genTriangles(){
@@ -533,6 +595,8 @@ void init(){
     goThroughTree(rt);
     //redLineVertices = generateVertices(root);
     
+    frustu = Frust(70, windowWidth/windowHeight, 0.1, 100, eye, at, up);
+    
     //myFlock =  Flock(50, vec3(16,4,16), vec3(0,2,0));
     //myFlock.initFlock();
     
@@ -659,7 +723,8 @@ void display(){
     glUseProgram(program);
     
     modelView = LookAt(eye, at, up);
-    projection = Perspective(70, windowWidth/windowHeight, 0.1, 100);
+    frustu.updateFrustum(eye, at, up);
+    projection = Perspective(frustu.fov, frustu.fratio, frustu.nearDist, frustu.farDist);
     
     glUniform1i(glGetUniformLocation(program, "rockTex"), 0);
     glUniform1i(glGetUniformLocation(program, "grassTex"), 1);
@@ -683,6 +748,12 @@ void display(){
     glUniformMatrix4fv(projectionLoc, 1, GL_TRUE, projection);
     
     glBindVertexArrayAPPLE(gVao[0]);
+    
+//    std::vector<int> indices = cullAndRender(*rt, frustu);
+//    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gIbo);
+//    glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, indices.size(), &indices[0]);
+
+    
     glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0);
     glBindVertexArrayAPPLE(0);
     

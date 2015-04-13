@@ -34,14 +34,16 @@ public:
     std::vector<vec3> drawData;
     vec3 cornerMin;
     vec3 cornerMax;
+    vec3 corners[8];
     bool hasChildren;
     OTNode (){}
     OTNode(std::vector<Triangle> a, vec3 c, float s){
         data = a;
         center = c;
         size = s;
-        cornerMin = vec3(center.x-size, center.y-size, center.z-size);
-        cornerMax = vec3(center.x+size, center.y+size, center.z+size);
+        setCorners(center, size);
+        cornerMin = corners[6];
+        cornerMax = corners[0];
         setDrawLines(center, size);
         for(int i = 0; i<8; i++){
             children[i] = NULL;
@@ -53,13 +55,27 @@ public:
         center = c;
         size = s;
         parent = par;
-        cornerMin = vec3(center.x-size, center.y-size, center.z-size);
-        cornerMax = vec3(center.x+size, center.y+size, center.z+size);
+        setCorners(center, size);
+        cornerMin = corners[6];
+        cornerMax = corners[0];
         setDrawLines(center, size);
         for(int i = 0; i<8; i++){
             children[i] = NULL;
         }
         hasChildren = false;
+    }
+    
+    void setCorners(vec3 center, float size){
+        corners[0] = vec3(center.x+size, center.y+size, center.z+size);
+        corners[1] = vec3(center.x-size, center.y+size, center.z+size);
+        corners[2] = vec3(center.x-size, center.y+size, center.z-size);
+        corners[3] = vec3(center.x+size, center.y+size, center.z-size);
+        corners[4] = vec3(center.x+size, center.y-size, center.z+size);
+        corners[5] = vec3(center.x-size, center.y-size, center.z+size);
+        corners[6] = vec3(center.x-size, center.y-size, center.z-size);
+        corners[7] = vec3(center.x+size, center.y-size, center.z-size);
+
+
     }
     
     void setDrawLines(vec3 center, float size){

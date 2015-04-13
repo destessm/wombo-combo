@@ -195,6 +195,7 @@
 		367ECA991AA0D03D0013325B /* usage.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = usage.txt; sourceTree = "<group>"; };
 		367ECA9A1AA0D03D0013325B /* wizard.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = wizard.txt; sourceTree = "<group>"; };
 		367ECA9B1AA0D03D0013325B /* wrjpgcom.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = wrjpgcom.1; sourceTree = "<group>"; };
+		36A66D3D1ADB619200254126 /* Frustum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Frustum.h; sourceTree = "<group>"; };
 		36AB5A191AB9E405007935F7 /* Flock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Flock.cpp; sourceTree = "<group>"; };
 		36AB5A1A1AB9E405007935F7 /* Flock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flock.h; sourceTree = "<group>"; };
 		36B72A6E1AA2D26E005940D5 /* stb_image.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = stb_image.h; sourceTree = "<group>"; };
@@ -394,23 +395,24 @@
 			isa = PBXGroup;
 			children = (
 				36CEB6021AA0CE360033E923 /* main.cpp */,
-				367EC9FF1AA0CFC80013325B /* CheckError.h */,
 				367EC9FE1AA0CFC80013325B /* Angel.h */,
+				3671D5321AC845C80031C0EF /* Camera2.cpp */,
+				3671D5331AC845C80031C0EF /* Camera2.h */,
+				367EC9FF1AA0CFC80013325B /* CheckError.h */,
+				36AB5A191AB9E405007935F7 /* Flock.cpp */,
+				36AB5A1A1AB9E405007935F7 /* Flock.h */,
+				36A66D3D1ADB619200254126 /* Frustum.h */,
 				367ECA001AA0CFC80013325B /* glm.cpp */,
 				367ECA011AA0CFC80013325B /* glm.h */,
 				367ECA021AA0CFC80013325B /* InitShader.cpp */,
-				3671D5351AC8B2580031C0EF /* Sphere.cpp */,
-				3671D5361AC8B2580031C0EF /* Sphere.h */,
 				367ECA031AA0CFC80013325B /* mat.h */,
-				367ECA041AA0CFC80013325B /* vec.h */,
-				36B72A6E1AA2D26E005940D5 /* stb_image.h */,
-				3671D5321AC845C80031C0EF /* Camera2.cpp */,
-				3671D5331AC845C80031C0EF /* Camera2.h */,
+				367C2F011AAB731100E09427 /* Octree.h */,
 				3671D5381AD0B37F0031C0EF /* Plane.cpp */,
 				3671D5391AD0B37F0031C0EF /* Plane.h */,
-				367C2F011AAB731100E09427 /* Octree.h */,
-				36AB5A191AB9E405007935F7 /* Flock.cpp */,
-				36AB5A1A1AB9E405007935F7 /* Flock.h */,
+				3671D5351AC8B2580031C0EF /* Sphere.cpp */,
+				3671D5361AC8B2580031C0EF /* Sphere.h */,
+				36B72A6E1AA2D26E005940D5 /* stb_image.h */,
+				367ECA041AA0CFC80013325B /* vec.h */,
 			);
 			path = CS539Project;
 			sourceTree = "<group>";

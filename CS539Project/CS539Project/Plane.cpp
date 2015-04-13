@@ -26,3 +26,7 @@ Plane::Plane(vec3 a, vec3 b, vec3 c){
     // d = -(ax + by + cz)
     distance = -(a.x*normal.x + a.y*normal.y + a.z*normal.z);
 }
+
+float Plane::signedDistance(vec3 pt){
+    return normal.x*pt.x + normal.y*pt.y + normal.z*pt.z + distance;
+}
