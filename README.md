@@ -1,11 +1,25 @@
 # wombo-combo
 My CS539 Project
 
+Collision Dection + Octree
+
+Camera is still in the works. Directions are still below.
+
+My collision detection worked before I implemented my octree (albeit it 
+actually took ~30 seconds between frames), so I have to figure out why 
+implementing the octree broke it. Had to do a lot of work on my octree to 
+get it more functional. Rendering from my octree doesn't work yet, but it's 
+implemented. Need to figure out what's wrong with it. Didn't reaize my octree 
+was mostly wrong until saturday and it needed hours of work that took up a lot 
+of my time. I currently have my render-from-octree commented out because it made 
+the terrain disappear entirely. 
+
+
+
+// old stuff below
 Mid-point for Collision Detection
 
-Camera is still in the works, spent too much time on it with no results this 
-week, though if you want you can look at the code that I have written. Camera2
-is the more recent one.
+Camera is still in the works.
 My spheres seem to move correctly, although I haven't fully implemented 
 collision detection. Still not rendering though. I'll have to keep working on
 what ever it is that is making things not render.
