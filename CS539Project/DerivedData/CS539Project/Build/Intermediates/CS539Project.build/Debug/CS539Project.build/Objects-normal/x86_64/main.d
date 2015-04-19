@@ -11,4 +11,5 @@ dependencies: \
   /Users/class2016/Documents/CS539_wombocombo/wombo-combo/CS539Project/CS539Project/Camera2.h \
   /Users/class2016/Documents/CS539_wombocombo/wombo-combo/CS539Project/CS539Project/Sphere.h \
   /Users/class2016/Documents/CS539_wombocombo/wombo-combo/CS539Project/CS539Project/Plane.h \
-  /Users/class2016/Documents/CS539_wombocombo/wombo-combo/CS539Project/CS539Project/Frustum.h
+  /Users/class2016/Documents/CS539_wombocombo/wombo-combo/CS539Project/CS539Project/Frustum.h \
+  /Users/class2016/Documents/CS539_wombocombo/wombo-combo/CS539Project/CS539Project/Particles.h

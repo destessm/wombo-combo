@@ -19,6 +19,7 @@
 #include "Sphere.h"
 #include "Plane.h"
 #include "Frustum.h"
+#include "Particles.h"
 
 using namespace std;
 
@@ -61,6 +62,9 @@ vec2 textureCoord[indexCount];
 std::vector<vec3> redLineVertices;
 
 //Flock myFlock;
+
+ParticleEffect fountain = ParticleEffect(5000, 50);
+GLuint programParticleEffect;
 
 
 GLuint gVao[2], gVbo[2], gIbo, program, lineProgram;
@@ -589,6 +593,9 @@ void init(){
     avgNormals();
     
     programSphere = InitShader("sphere_vShader.glsl", "sphere_fShader.glsl");
+    programParticleEffect = InitShader("particle_vShader.glsl", "particle_fShader.glsl");
+    
+    fountain.initParticleEffet(programParticleEffect);
 
     
     rt = genOctree(heightMapIndices, indexCount, heightMapVectors, vec3(8,0,8), 8.0);
@@ -775,6 +782,10 @@ void display(){
     
     float time = glutGet(GLUT_ELAPSED_TIME);
     
+    glUseProgram(programParticleEffect);
+    fountain.Update(time/5000.0);
+    fountain.Draw(modelView, projection, programParticleEffect);
+    
     //glUseProgram(myFlock.program);
     //myFlock.updateFlock(time/1000.0);
     //myFlock.renderFlock(modelView, projection);
@@ -847,6 +858,36 @@ void keyboard(unsigned char key, int x, int y){
         case 'C':
             if(eye.z + 0.2 < 16)
                 eye.z += 0.2;
+            glutPostRedisplay();
+            break;
+        case 'a':
+            if(at.x - 0.2 > 0)
+                at.x -= 0.2;
+            glutPostRedisplay();
+            break;
+        case 'A':
+            if(at.x + 0.2 < 16)
+                at.x += 0.2;
+            glutPostRedisplay();
+            break;
+        case 's':
+            if(at.y - 0.2 > -8)
+                at.y -= 0.2;
+            glutPostRedisplay();
+            break;
+        case 'S':
+            if(at.y + 0.2 < 8)
+                at.y += 0.2;
+            glutPostRedisplay();
+            break;
+        case 'd':
+            if(at.z - 0.2 > 0)
+                at.z -= 0.2;
+            glutPostRedisplay();
+            break;
+        case 'D':
+            if(at.z + 0.2 < 16)
+                at.z += 0.2;
             glutPostRedisplay();
             break;
         default:

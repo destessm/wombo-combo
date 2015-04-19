@@ -195,6 +195,7 @@
 		367ECA991AA0D03D0013325B /* usage.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = usage.txt; sourceTree = "<group>"; };
 		367ECA9A1AA0D03D0013325B /* wizard.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = wizard.txt; sourceTree = "<group>"; };
 		367ECA9B1AA0D03D0013325B /* wrjpgcom.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = wrjpgcom.1; sourceTree = "<group>"; };
+		36930B3A1AE17E9E00011427 /* Particles.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Particles.h; sourceTree = "<group>"; };
 		36A66D3D1ADB619200254126 /* Frustum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Frustum.h; sourceTree = "<group>"; };
 		36AB5A191AB9E405007935F7 /* Flock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Flock.cpp; sourceTree = "<group>"; };
 		36AB5A1A1AB9E405007935F7 /* Flock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flock.h; sourceTree = "<group>"; };
@@ -407,6 +408,7 @@
 				367ECA021AA0CFC80013325B /* InitShader.cpp */,
 				367ECA031AA0CFC80013325B /* mat.h */,
 				367C2F011AAB731100E09427 /* Octree.h */,
+				36930B3A1AE17E9E00011427 /* Particles.h */,
 				3671D5381AD0B37F0031C0EF /* Plane.cpp */,
 				3671D5391AD0B37F0031C0EF /* Plane.h */,
 				3671D5351AC8B2580031C0EF /* Sphere.cpp */,
