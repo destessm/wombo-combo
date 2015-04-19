@@ -43,9 +43,6 @@ struct Particle{
         life += dT;
     }
     // current pos = initPos + initVel*life + (0.5)*accel*life*life;
-    // if(life > ttl){
-    //   get rid of this particle
-    //}
 };
 
 
@@ -54,6 +51,7 @@ protected:
     std::vector<Particle> parts;
     int maxParticles;
     int rate;
+    int numCreated;
     
     GLuint modelMatrixLoc, projectionMatrixLoc, initVelLoc, initPosLoc, accelLoc, lifeLoc;
     GLuint vao, vbo;
@@ -63,11 +61,11 @@ protected:
         srand(time(NULL)+rand()%100);
         int thetai = rand()%360;
         float thetaf = thetai * (3.1415926/180.0);
-        float radius = 1.0;
-        vec3 pos = vec3(0,0,0);
-        vec3 vel = vec3(pos.x + radius*cos(thetaf), 1, pos.z + radius*sin(thetaf));
-        vec3 acc = vec3(0.1, -0.2, 0.1);
-        float ttl = 100;
+        float radius = 10.0;
+        vec3 pos = vec3(8,1,8);
+        vec3 vel = vec3(radius*cos(thetaf), 10, radius*sin(thetaf));
+        vec3 acc = vec3(2, -50, 2);
+        float ttl = 0.5 + (rand()%100)/1000;
         return Particle(vel, pos, acc, 0, ttl);
     }
     
@@ -86,9 +84,8 @@ public:
         initVelLoc = glGetUniformLocation(program, "initVel");
         initPosLoc = glGetUniformLocation(program, "initPos");
         accelLoc = glGetUniformLocation(program, "accel");
-        lifeLoc = glGetUniformLocation(program, "life");
+        lifeLoc = glGetAttribLocation(program, "life");
 
-//        lifeLoc = glGetAttribLocation(program, "life");
         
         glGenBuffers(1, &vbo);
         glGenVertexArraysAPPLE(1, &vao);
@@ -99,7 +96,9 @@ public:
 
         
         glEnableVertexAttribArray(lifeLoc);
-        glVertexAttribPointer(lifeLoc, 3, GL_FLOAT, GL_FALSE, 0, 0);
+        glVertexAttribPointer(lifeLoc, 1, GL_FLOAT, GL_FALSE, 0, 0);
+        
+
         
         glBindVertexArrayAPPLE(0);
 
@@ -113,15 +112,15 @@ public:
                 //std::cout<< "NEW PARTICLE~ "<<count <<std::endl;
                 //count++;
                 parts.erase(parts.begin() + i);
-                parts.push_back(createParticle());
+                //parts.push_back(createParticle());
                 i--;
             }
         }
-//        for(int i=0; i <= rate; i++){
-//            if(parts.size() < maxParticles){
-//                parts.push_back(createParticle());
-//            }
-//        }
+        for(int i=0; i <= rate; i++){
+            if(parts.size() < maxParticles){
+                parts.push_back(createParticle());
+            }
+        }
     }
     
     void Draw(mat4 modelMatrix, mat4 projectionMatrix, GLuint program){
@@ -136,15 +135,14 @@ public:
             glUniform3fv(initVelLoc, 1, parts[i].initVel);
             glUniform3fv(initPosLoc, 1, parts[i].initPos);
             glUniform3fv(accelLoc, 1, parts[i].accel);
-            glUniform1f(lifeLoc, parts[i].life);
             
-            glPointSize(3);
+            glPointSize(10);
 
             glBindVertexArrayAPPLE(vao);
             glBindBuffer(GL_ARRAY_BUFFER, vbo);
             float data[] = {parts[i].life};
             glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float), data);
-            glDrawArrays(GL_POINTS, 0, 1);
+            glDrawArrays(GL_POINTS, 0, 10);
             glBindVertexArrayAPPLE(0);
 
         }

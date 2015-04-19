@@ -63,7 +63,7 @@ std::vector<vec3> redLineVertices;
 
 //Flock myFlock;
 
-ParticleEffect fountain = ParticleEffect(5000, 50);
+ParticleEffect fountain = ParticleEffect(1000, 50);
 GLuint programParticleEffect;
 
 
@@ -723,6 +723,8 @@ void init(){
 
 // ***** Display *****
 
+float prevTime = 0;
+
 void display(){
     
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -756,9 +758,9 @@ void display(){
     
     glBindVertexArrayAPPLE(gVao[0]);
     
-//    std::vector<int> indices = cullAndRender(*rt, frustu);
-//    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gIbo);
-//    glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, indices.size(), &indices[0]);
+    std::vector<int> indices = cullAndRender(*rt, frustu);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gIbo);
+    glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, indices.size(), &indices[0]);
 
     
     glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0);
@@ -766,14 +768,14 @@ void display(){
     
     //std::cout << "GL_ERROR: " << glGetError() << std::endl;
     
-    glUseProgram(lineProgram);
-    
-    glUniformMatrix4fv(modelViewLineLoc, 1, GL_TRUE, modelView);
-    glUniformMatrix4fv(projectionLineLoc, 1, GL_TRUE, projection);
-
-    glBindVertexArrayAPPLE(gVao[1]);
-    glDrawArrays(GL_LINES, 0, redLineVertices.size());
-    glBindVertexArrayAPPLE(0);
+//    glUseProgram(lineProgram);
+//    
+//    glUniformMatrix4fv(modelViewLineLoc, 1, GL_TRUE, modelView);
+//    glUniformMatrix4fv(projectionLineLoc, 1, GL_TRUE, projection);
+//
+//    glBindVertexArrayAPPLE(gVao[1]);
+//    glDrawArrays(GL_LINES, 0, redLineVertices.size());
+//    glBindVertexArrayAPPLE(0);
     
     collisionDetectionOT();
     updateSpheres();
@@ -782,8 +784,13 @@ void display(){
     
     float time = glutGet(GLUT_ELAPSED_TIME);
     
+    float deltaTime = time-prevTime;
+    
+    prevTime = time;
+    
     glUseProgram(programParticleEffect);
-    fountain.Update(time/5000.0);
+    fountain.Update(deltaTime/5000.0);
+    //std::cout<< "Delta Time: " << deltaTime/1000.0<<std::endl;
     fountain.Draw(modelView, projection, programParticleEffect);
     
     //glUseProgram(myFlock.program);
