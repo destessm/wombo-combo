@@ -63,7 +63,7 @@ std::vector<vec3> redLineVertices;
 
 //Flock myFlock;
 
-ParticleEffect fountain = ParticleEffect(1000, 50);
+ParticleEffect fountain = ParticleEffect(15000, 10);
 GLuint programParticleEffect;
 
 

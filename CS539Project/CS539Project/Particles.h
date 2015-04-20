@@ -58,16 +58,42 @@ protected:
 
     int count;
     Particle createParticle(){
-        srand(time(NULL)+rand()%100);
+        srand(time(NULL)+rand()%1000);
         int thetai = rand()%360;
         float thetaf = thetai * (3.1415926/180.0);
         float radius = 10.0;
         vec3 pos = vec3(8,1,8);
-        vec3 vel = vec3(radius*cos(thetaf), 10, radius*sin(thetaf));
+        vec3 vel = vec3(radius*cos(thetaf), 15, radius*sin(thetaf));
         vec3 acc = vec3(2, -50, 2);
-        float ttl = 0.5 + (rand()%100)/1000;
+        float ttl = 1 + (rand()%100)/100;
         return Particle(vel, pos, acc, 0, ttl);
     }
+    
+//    int countRotation = 0;
+//    int thetai = 0;
+//    Particle createRotatingParticle(){
+//        float radius = 10.0;
+//        vec3 pos = vec3(8,1,8);
+//        vec3 acc = vec3(2, -50, 2);
+//        srand(time(NULL));
+//        float ttl = 1 + (rand()%100)/100;
+//
+//        if(countRotation%2 == 0){
+//            float thetaf = thetai * (3.1415926/180.0);
+//            float radius = 10.0;
+//            vec3 pos = vec3(8,1,8);
+//            vec3 vel = vec3(radius*cos(thetaf), 15, radius*sin(thetaf));
+//            return Particle(vel, pos, acc, 0, ttl);
+//
+//        }
+//        else{
+//            float thetaf = ((thetai+180)%360) * (3.1415926/180.0);
+//            vec3 vel = vec3(radius*cos(thetaf), 15, radius*sin(thetaf));
+//            return Particle(vel, pos, acc, 0, ttl);
+//            thetai++;
+//        }
+//        countRotation++;
+//    }
     
 public:
     ParticleEffect(int max, int r){
@@ -136,7 +162,7 @@ public:
             glUniform3fv(initPosLoc, 1, parts[i].initPos);
             glUniform3fv(accelLoc, 1, parts[i].accel);
             
-            glPointSize(10);
+            glPointSize(2);
 
             glBindVertexArrayAPPLE(vao);
             glBindBuffer(GL_ARRAY_BUFFER, vbo);
