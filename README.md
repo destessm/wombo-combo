@@ -5,6 +5,9 @@ My CS539 Project
 Particle Effects!
 
 Started working on a new camera, might get that done post-submission (if so, I'll resend the repo after)
+I actually added a small functionality to the bad camera I am using: a, s and d now move the position
+ of the "At" away from the center of my terrain. Works the same as moving the eye. Terrible, I know,
+but I just wanted to get it to look at something besides the center. 
 
 This time everything seems to actually be working! My only small issue is with the 
 randomness of the directions for my particles; sometimes they form lines because
