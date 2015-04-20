@@ -1,6 +1,20 @@
 # wombo-combo
 My CS539 Project
 
+
+Particle Effects!
+
+Started working on a new camera, might get that done post-submission (if so, I'll resend the repo after)
+
+This time everything seems to actually be working! My only small issue is with the 
+randomness of the directions for my particles; sometimes they form lines because
+they keep the same x-z direction between multiple particles. We can look at it in
+class maybe or I can take a quick look at it later. Otherwise this works!
+
+
+
+
+//old stuff below
 Collision Dection + Octree
 
 Camera is still in the works. Directions are still below. Sphere fires with 'i'. I don't remember why.
