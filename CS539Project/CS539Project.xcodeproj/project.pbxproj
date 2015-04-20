@@ -16,6 +16,7 @@
 		367ECA061AA0CFC80013325B /* InitShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 367ECA021AA0CFC80013325B /* InitShader.cpp */; };
 		36AB5A1B1AB9E406007935F7 /* Flock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 36AB5A191AB9E405007935F7 /* Flock.cpp */; };
 		36CEB6031AA0CE360033E923 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 36CEB6021AA0CE360033E923 /* main.cpp */; };
+		36FD2D721AE4884300BEAD5F /* Controls.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 36FD2D701AE4884200BEAD5F /* Controls.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -202,6 +203,8 @@
 		36B72A6E1AA2D26E005940D5 /* stb_image.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = stb_image.h; sourceTree = "<group>"; };
 		36CEB5FF1AA0CE360033E923 /* CS539Project */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CS539Project; sourceTree = BUILT_PRODUCTS_DIR; };
 		36CEB6021AA0CE360033E923 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		36FD2D701AE4884200BEAD5F /* Controls.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Controls.cpp; path = CS539Project/Controls.cpp; sourceTree = "<group>"; };
+		36FD2D711AE4884200BEAD5F /* Controls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Controls.h; path = CS539Project/Controls.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -376,6 +379,8 @@
 		36CEB5F61AA0CE360033E923 = {
 			isa = PBXGroup;
 			children = (
+				36FD2D701AE4884200BEAD5F /* Controls.cpp */,
+				36FD2D711AE4884200BEAD5F /* Controls.h */,
 				367ECA071AA0D03D0013325B /* jpeg-9a */,
 				367EC9FA1AA0CF660013325B /* GLUT.framework */,
 				367EC9FB1AA0CF660013325B /* OpenGL.framework */,
@@ -476,6 +481,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				367ECA051AA0CFC80013325B /* glm.cpp in Sources */,
+				36FD2D721AE4884300BEAD5F /* Controls.cpp in Sources */,
 				3671D5341AC845C80031C0EF /* Camera2.cpp in Sources */,
 				36AB5A1B1AB9E406007935F7 /* Flock.cpp in Sources */,
 				367ECA061AA0CFC80013325B /* InitShader.cpp in Sources */,
