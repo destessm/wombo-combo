@@ -19,7 +19,7 @@
 #include "Sphere.h"
 #include "Plane.h"
 #include "Frustum.h"
-#include "Particles.h"
+#include "Particles2.h"
 
 using namespace std;
 
