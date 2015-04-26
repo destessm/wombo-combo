@@ -220,13 +220,14 @@ public:
         srand(time(NULL)+rand()%1000);
         int thetai = rand()%360;
         float thetaf = thetai * (3.1415926/180.0);
-        float radius = 3.5;
-        vec3 pos = vec3(8,1,8);
-        vec3 vel = vec3(radius*cos(thetaf), 0, radius*sin(thetaf));
-        vec3 iAcc = vec3(1*radius*cos(thetaf-3.1415926), 1.5, 1*radius*sin(thetaf-3.1415926));
-        //vec3 fAcc = vec3(1.2*radius*sin(thetaf-3.1415926), -1, -1.2*radius*cos(thetaf-3.1415926)); // flat spiral
-        vec3 fAcc = vec3(2*radius*cos(thetaf-3.1415926), 8, 2*radius*sin(thetaf-3.1415926)); // flame
-        //vec3 fAcc = vec3(0, 6, 0); // flame 2
+        float radius = 3.0;
+        vec3 pos = vec3(8-0.1*sin(thetaf), 2, 8+0.1*cos(thetaf));
+        vec3 vel = vec3(radius*cos(thetaf), 2, radius*sin(thetaf));
+        vec3 iAcc = vec3(radius*cos(thetaf),2,radius*sin(thetaf));
+        vec3 fAcc = vec3(3*radius*cos(thetaf-3.1415926), -5, 3*radius*sin(thetaf-3.1415926)); // flat spiral
+
+        
+        
 
         float ttl = 2 + (rand()%100)/100;
         //vec4 col = vec4(0,0,1, 1);
@@ -265,7 +266,7 @@ public:
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         
-        glActiveTexture(GL_TEXTURE0); //?
+        glActiveTexture(GL_TEXTURE4); //?
         
         glGenBuffers(1, &vbo);
         glGenVertexArraysAPPLE(1, &vao);
@@ -292,7 +293,7 @@ public:
         glUniformMatrix4fv(modelMatrixLoc, 1, GL_TRUE, modelMatrix);
         glUniformMatrix4fv(projectionMatrixLoc, 1, GL_TRUE, projectionMatrix);
         
-        glUniform1i(glGetUniformLocation(program, "texture"), 0);
+        glUniform1i(glGetUniformLocation(program, "texture"), 4);
         
         glBindTexture(GL_TEXTURE_2D, texture);
 
