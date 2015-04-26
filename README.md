@@ -2,6 +2,19 @@
 My CS539 Project
 
 
+Particle Effects Part 2!
+
+pretty much everything works. My only problems are the same that I sent you an email about. 
+The stb_image.h library doesn't work for me still, so I had to use readPPM, which didn't
+have an alpha channel. The color changing also doesn't work properly and is a little bit
+terrifying. With the image as the particle, it actually runs really slowly. I was able to
+max out my particles at around 20,000 before using the image for this project, but now it
+caps at about 10,000. Hopefully these are small errors that we'll be able to fix in class.
+
+The camera is still the same terrible camera as below.
+
+// old stuff below
+
 Particle Effects!
 
 Started working on a new camera, might get that done post-submission (if so, I'll resend the repo after)

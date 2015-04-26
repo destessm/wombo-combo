@@ -1,4 +1,3 @@
-//
 //  main.cpp
 //  CS539Project
 //
@@ -12,7 +11,7 @@
 #include <vector>
 #include "Angel.h"
 #include "glm.h"
-#include "stb_image.h"
+//#include "stb_image.h"
 #include "Octree.h"
 #include "Flock.h"
 #include "Camera2.h"
@@ -38,7 +37,7 @@ Camera *cam;
 
 vector<Sphere> spheres;
 
-OTNode* rt;
+//OTNode* rt;
 
 // HeightMap Height Values
 float heightMapValues[heightMapWidth*heightMapHeight];
@@ -63,7 +62,9 @@ std::vector<vec3> redLineVertices;
 
 //Flock myFlock;
 
-ParticleEffect fountain = ParticleEffect(15000, 10);
+//ParticleEffect fountain = ParticleEffect(15000, 10);
+ParticleEffect effect;
+
 GLuint programParticleEffect;
 
 
@@ -593,13 +594,14 @@ void init(){
     avgNormals();
     
     programSphere = InitShader("sphere_vShader.glsl", "sphere_fShader.glsl");
-    programParticleEffect = InitShader("particle_vShader.glsl", "particle_fShader.glsl");
+    programParticleEffect = InitShader("particle2_vShader.glsl", "particle2_fShader.glsl");
     
-    fountain.initParticleEffet(programParticleEffect);
+    //fountain.initParticleEffet(programParticleEffect);
+    effect.init(programParticleEffect);
 
     
-    rt = genOctree(heightMapIndices, indexCount, heightMapVectors, vec3(8,0,8), 8.0);
-    goThroughTree(rt);
+    //rt = genOctree(heightMapIndices, indexCount, heightMapVectors, vec3(8,0,8), 8.0);
+    //goThroughTree(rt);
     //redLineVertices = generateVertices(root);
     
     frustu = Frust(70, windowWidth/windowHeight, 0.1, 100, eye, at, up);
@@ -758,9 +760,9 @@ void display(){
     
     glBindVertexArrayAPPLE(gVao[0]);
     
-    std::vector<int> indices = cullAndRender(*rt, frustu);
+    //std::vector<int> indices = cullAndRender(*rt, frustu);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gIbo);
-    glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, indices.size(), &indices[0]);
+    //glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, indices.size(), &indices[0]);
 
     
     glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0);
@@ -788,10 +790,14 @@ void display(){
     
     prevTime = time;
     
-    glUseProgram(programParticleEffect);
-    fountain.Update(deltaTime/5000.0);
+    //fountain.Update(deltaTime/5000.0);
     //std::cout<< "Delta Time: " << deltaTime/1000.0<<std::endl;
-    fountain.Draw(modelView, projection, programParticleEffect);
+    //fountain.Draw(modelView, projection, programParticleEffect);
+    
+    glUseProgram(programParticleEffect);
+    effect.update(deltaTime/1000.0, eye, at, up);
+    effect.render(programParticleEffect, modelView, projection);
+    
     
     //glUseProgram(myFlock.program);
     //myFlock.updateFlock(time/1000.0);
