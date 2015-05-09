@@ -10,6 +10,7 @@
 #define __CS539Project__Plane__
 
 #include <stdio.h>
+#include <iostream>
 #include "Angel.h"
 
 class Plane{
@@ -23,10 +24,19 @@ public:
     Plane(vec3, vec3, vec3);
     
     float signedDistance(vec3);
+    void update(float, vec3);
+    void update(vec3, vec3, vec3);
     
     //inline methods:
     float getDistance() {   return distance;    }
     vec3 getNormal()    {   return normal;      }
+    
+    friend std::ostream& operator<<(std::ostream& os, const Plane& pl){
+        return os << "Distance: " << pl.distance << ", Normal: " << pl.normal;
+    }
+
 };
+
+
 
 #endif /* defined(__CS539Project__Plane__) */

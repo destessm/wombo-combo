@@ -146,8 +146,6 @@ void Sphere::update(){
 
 void Sphere::draw(mat4 modelMatrix, mat4 projectionMatrix, GLuint program){
     glUseProgram(program);
-    
-    
     glUniformMatrix4fv(modelMatrixLoc, 1, GL_TRUE, modelMatrix);
     glUniformMatrix4fv(projectionMatrixLoc, 1, GL_TRUE, projectionMatrix);
     

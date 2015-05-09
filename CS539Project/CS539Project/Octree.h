@@ -12,6 +12,8 @@
 #include <stdio.h>
 #include "Angel.h"
 #include <vector>
+#include "Plane.h"
+//#include "Frustum.h"
 
 struct Triangle{
     int indices[3];
@@ -109,7 +111,7 @@ public:
 
 
 OTNode root;
-int minTriangles = 600;
+int minTriangles = 1500;
 
 std::vector<Triangle> trianglulate(int indices[], int length){
     std::vector<Triangle> array;
@@ -166,12 +168,14 @@ OTNode* subdivideTree(OTNode* root, vec3 vertices[]){
         //std::cout<<root->size <<std::endl;
         
         
-        for(int i =0; i < root->data.size(); i++){ // loop through Triangles in root
+        //for(int i =0; i < root->data.size(); i++){ // loop through Triangles in root
+        while(root->data.size() != 0){
             for(int j=0; j<3; j++){ // loop through indices in each Triangle
-                float x = vertices[root->data.at(i).indices[j]].x;
-                float y = vertices[root->data.at(i).indices[j]].y;
-                float z = vertices[root->data.at(i).indices[j]].z;
+                float x = vertices[root->data.at(0).indices[j]].x;
+                float y = vertices[root->data.at(0).indices[j]].y;
+                float z = vertices[root->data.at(0).indices[j]].z;
                 
+                /*
                 // Check if in child 0
                 //                if(x < child0Center.x+root->size && x > child0Center.x-root->size
                 //                   && y < child0Center.y+root->size && y > child0Center.y-root->size
@@ -237,68 +241,77 @@ OTNode* subdivideTree(OTNode* root, vec3 vertices[]){
                 //                    child7Array.push_back(root->data.at(i)); // push current Triangle to its array
                 //                    break;
                 //                }
+                */
                 
                 // Check if in child 0
-                if(x > root->center.x &&
-                   y > root->center.y &&
-                   z > root->center.z){
-                    child0Array.push_back(root->data.at(i)); // push current Triangle to its array
+                if(x >= root->center.x &&
+                   y >= root->center.y &&
+                   z >= root->center.z){
+                    child0Array.push_back(root->data.at(0)); // push current Triangle to its array
+                    root->data.erase(root->data.begin());
                     break;
                 }
                 
                 // Check if in child 1
-                if(x < root->center.x &&
-                   y > root->center.y &&
-                   z > root->center.z){
-                    child1Array.push_back(root->data.at(i)); // push current Triangle to its array
+                if(x <= root->center.x &&
+                   y >= root->center.y &&
+                   z >= root->center.z){
+                    child1Array.push_back(root->data.at(0)); // push current Triangle to its array
+                    root->data.erase(root->data.begin());
                     break;
                 }
                 
                 // Check if in child 2
-                if(x < root->center.x &&
-                   y > root->center.y &&
-                   z < root->center.z){
-                    child2Array.push_back(root->data.at(i)); // push current Triangle to its array
+                if(x <= root->center.x &&
+                   y >= root->center.y &&
+                   z <= root->center.z){
+                    child2Array.push_back(root->data.at(0)); // push current Triangle to its array
+                    root->data.erase(root->data.begin());
                     break;
                 }
                 
                 // Check if in child 3
-                if(x > root->center.x &&
-                   y > root->center.y &&
-                   z < root->center.z){
-                    child3Array.push_back(root->data.at(i)); // push current Triangle to its array
+                if(x >= root->center.x &&
+                   y >= root->center.y &&
+                   z <= root->center.z){
+                    child3Array.push_back(root->data.at(0)); // push current Triangle to its array
+                    root->data.erase(root->data.begin());
                     break;
                 }
                 
                 // Check if in child 4
-                if(x > root->center.x &&
-                   y < root->center.y &&
-                   z > root->center.z){
-                    child4Array.push_back(root->data.at(i)); // push current Triangle to its array
+                if(x >= root->center.x &&
+                   y <= root->center.y &&
+                   z >= root->center.z){
+                    child4Array.push_back(root->data.at(0)); // push current Triangle to its array
+                    root->data.erase(root->data.begin());
                     break;
                 }
                 
                 // Check if in child 5
-                if(x < root->center.x &&
-                   y < root->center.y &&
-                   z > root->center.z){
-                    child5Array.push_back(root->data.at(i)); // push current Triangle to its array
+                if(x <= root->center.x &&
+                   y <= root->center.y &&
+                   z >= root->center.z){
+                    child5Array.push_back(root->data.at(0)); // push current Triangle to its array
+                    root->data.erase(root->data.begin());
                     break;
                 }
                 
                 // Check if in child 6
-                if(x < root->center.x &&
-                   y < root->center.y &&
-                   z < root->center.z){
-                    child6Array.push_back(root->data.at(i)); // push current Triangle to its array
+                if(x <= root->center.x &&
+                   y <= root->center.y &&
+                   z <= root->center.z){
+                    child6Array.push_back(root->data.at(0)); // push current Triangle to its array
+                    root->data.erase(root->data.begin());
                     break;
                 }
                 
                 // Check if in child 7
-                if(x > root->center.x &&
-                   y < root->center.y &&
-                   z < root->center.z){
-                    child7Array.push_back(root->data.at(i)); // push current Triangle to its array
+                if(x >= root->center.x &&
+                   y <= root->center.y &&
+                   z <= root->center.z){
+                    child7Array.push_back(root->data.at(0)); // push current Triangle to its array
+                    root->data.erase(root->data.begin());
                     break;
                 }
             }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3608C3751AF7241E001676D0 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3608C3741AF7241E001676D0 /* ApplicationServices.framework */; };
 		3671D5341AC845C80031C0EF /* Camera2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3671D5321AC845C80031C0EF /* Camera2.cpp */; };
 		3671D5371AC8B2580031C0EF /* Sphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3671D5351AC8B2580031C0EF /* Sphere.cpp */; };
 		3671D53A1AD0B3800031C0EF /* Plane.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3671D5381AD0B37F0031C0EF /* Plane.cpp */; };
@@ -32,6 +33,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3608C3741AF7241E001676D0 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
 		3657B53B1AEAF9CB0017FDE8 /* Particles2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Particles2.h; sourceTree = "<group>"; };
 		3671D5321AC845C80031C0EF /* Camera2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Camera2.cpp; sourceTree = "<group>"; };
 		3671D5331AC845C80031C0EF /* Camera2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Camera2.h; sourceTree = "<group>"; };
@@ -213,6 +215,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3608C3751AF7241E001676D0 /* ApplicationServices.framework in Frameworks */,
 				367EC9FC1AA0CF660013325B /* GLUT.framework in Frameworks */,
 				367EC9FD1AA0CF660013325B /* OpenGL.framework in Frameworks */,
 			);
@@ -380,6 +383,7 @@
 		36CEB5F61AA0CE360033E923 = {
 			isa = PBXGroup;
 			children = (
+				3608C3741AF7241E001676D0 /* ApplicationServices.framework */,
 				367ECA071AA0D03D0013325B /* jpeg-9a */,
 				367EC9FA1AA0CF660013325B /* GLUT.framework */,
 				367EC9FB1AA0CF660013325B /* OpenGL.framework */,
@@ -584,6 +588,7 @@
 			buildSettings = {
 				MACH_O_TYPE = mh_execute;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				"OTHER_LDFLAGS[arch=*]" = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

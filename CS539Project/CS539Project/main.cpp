@@ -13,20 +13,21 @@
 #include "glm.h"
 //#include "stb_image.h"
 #include "Octree.h"
+#include "Frustum.h"
 #include "Flock.h"
 #include "Camera2.h"
 #include "Sphere.h"
 #include "Plane.h"
-#include "Frustum.h"
 #include "Particles2.h"
+#include "ApplicationServices/ApplicationServices.h"
 
 using namespace std;
 
 // ***** Fields *****
 
 // window size
-int windowWidth = 512;
-int windowHeight = 512;
+int windowWidth = 1024;
+int windowHeight = 1024;
 
 
 //I know this is bad, I just never got around to fixing it
@@ -37,7 +38,7 @@ Camera *cam;
 
 vector<Sphere> spheres;
 
-//OTNode* rt;
+OTNode* rt;
 
 // HeightMap Height Values
 float heightMapValues[heightMapWidth*heightMapHeight];
@@ -81,8 +82,19 @@ GLuint rockTexLoc, grassTexLoc, dirtTexLoc, snowTexLoc;
 mat4 modelView;
 mat4 projection;
 
-vec4 at = vec4(8,0,8,0);
-vec4 eye = vec4(3,5,3,1);
+float horizontalAngle = 1.5*3.1415;
+float verticalAngle = 3.1415f;//0.0f;
+
+//vec4 at = vec4(8,0,8,0);
+vec4 eye = vec4(8,5,8,1);
+vec4 at =  vec4(cos(verticalAngle) * sin(horizontalAngle),
+                sin(verticalAngle),
+                cos(verticalAngle) * cos(horizontalAngle),
+                0);//normalize(vec4(8,5,8,0) - eye);
+vec4 rightVec = vec4(sin(horizontalAngle - 3.1415926f/2.0f),
+                0,
+                cos(horizontalAngle - 3.1415926f/2.0f), 1);
+
 vec4 up = vec4(0,1,0,0);
 
 Frust frustu;
@@ -386,64 +398,7 @@ void collisionDetectionOT(){
     }
 }
 
-// ***** Culling for Rendering *****
 
-//vec3 toVec3(vec4 v){
-//    return vec3(v.x, v.y, v.z);
-//}
-//
-//int fov = 70;
-//float rat = windowWidth/windowHeight;
-//float nearDist = 0.1;
-//float farDist = 100;
-//
-//std::vector<Triangle> concatenate(std::vector<Triangle> a, std::vector<Triangle> b){
-//    std::vector<Triangle> ab;
-//    ab.reserve( a.size() + b.size() );
-//    ab.insert( ab.end(), a.begin(), a.end() );
-//    ab.insert( ab.end(), b.begin(), b.end() );
-//    return ab;
-//}
-//
-//struct Frust{
-//    Plane np, fp, lp, rp, tp, bp;
-//};
-//
-//void cullAndRender(){
-//    float Hnear = 2*tan(fov / 2.0) * nearDist;
-//    float Wnear = Hnear * rat;
-//    float Hfar = 2*tan(fov / 2.0) * farDist;
-//    float Wfar = Hfar * rat;
-//    
-//    vec4 dir = normalize(at-eye);
-//    vec4 right = cross(up, dir);
-//
-//    vec4 fc = eye + dir * farDist;
-//    vec4 ftl = fc + (up * Hfar/2.0) - (right * Wfar/2.0);
-//    vec4 ftr = fc + (up * Hfar/2) + (right * Wfar/2);
-//    vec4 fbl = fc - (up * Hfar/2) - (right * Wfar/2);
-//    vec4 fbr = fc - (up * Hfar/2) + (right * Wfar/2);
-//    
-//    vec4 nc = eye + dir * nearDist;
-//    
-//    vec4 ntl = nc + (up * Hnear/2) - (right * Wnear/2);
-//    vec4 ntr = nc + (up * Hnear/2) + (right * Wnear/2);
-//    vec4 nbl = nc - (up * Hnear/2) - (right * Wnear/2);
-//    vec4 nbr = nc - (up * Hnear/2) + (right * Wnear/2);
-//    
-//    Plane nearPlane     = Plane(toVec3(nbl), toVec3(ntl), toVec3(ntr));
-//    Plane farPlane      = Plane(toVec3(fbr), toVec3(ftr), toVec3(ftl));
-//    Plane leftPlane     = Plane(toVec3(nbl), toVec3(fbl), toVec3(ftl));
-//    Plane rightPlane    = Plane(toVec3(ntr), toVec3(ftr), toVec3(fbr));
-//    Plane topPlane      = Plane(toVec3(ntl), toVec3(ftl), toVec3(ftr));
-//    Plane bottomPlane   = Plane(toVec3(nbr), toVec3(fbr), toVec3(fbl));
-//    
-//    //Frust frust;
-//}
-
-//std::vector<Triangle> nodesToRender(OTNode root){
-//    //if(
-//}
 
 
 // ***** Generate Triangles and Starting Normals *****
@@ -573,6 +528,7 @@ void avgNormals(){
 
 // ***** Initialization *****
 
+
 void init(){
     
     cam = new Camera();
@@ -597,14 +553,14 @@ void init(){
     programParticleEffect = InitShader("particle2_vShader.glsl", "particle2_fShader.glsl");
     
     //fountain.initParticleEffet(programParticleEffect);
-    effect.init(programParticleEffect);
+//    effect.init(programParticleEffect);
 
     
-    //rt = genOctree(heightMapIndices, indexCount, heightMapVectors, vec3(8,0,8), 8.0);
+    rt = genOctree(heightMapIndices, indexCount, heightMapVectors, vec3(8,0,8), 8.0);
     //goThroughTree(rt);
     //redLineVertices = generateVertices(root);
     
-    frustu = Frust(70, windowWidth/windowHeight, 0.1, 100, eye, at, up);
+    frustu = Frust(70, windowWidth/windowHeight, 0.1, 100, eye, at, rightVec, up, lineProgram);
     
     //myFlock =  Flock(50, vec3(16,4,16), vec3(0,2,0));
     //myFlock.initFlock();
@@ -625,8 +581,9 @@ void init(){
     
     
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gIbo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(heightMapIndices), heightMapIndices, GL_STATIC_DRAW);
-    
+//    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(heightMapIndices), NULL, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(heightMapIndices), NULL, GL_STATIC_DRAW);
+
     
     glEnableVertexAttribArray(vPositionLoc);
     glVertexAttribPointer(vPositionLoc, 3, GL_FLOAT, GL_FALSE, 0, 0);
@@ -726,6 +683,17 @@ void init(){
 // ***** Display *****
 
 float prevTime = 0;
+bool pauseFrustum = false;
+bool drawFrustum = false;
+std::vector<int> indices;
+
+Frust temp = frustu;
+
+float fps;
+float frame;
+float fpsElapsedTime;
+float fpsPrevTime;
+
 
 void display(){
     
@@ -733,8 +701,8 @@ void display(){
     
     glUseProgram(program);
     
-    modelView = LookAt(eye, at, up);
-    frustu.updateFrustum(eye, at, up);
+    modelView = LookAt(eye, eye+at, up);
+    frustu.updateFrustum(eye, at, up, rightVec);
     projection = Perspective(frustu.fov, frustu.fratio, frustu.nearDist, frustu.farDist);
     
     glUniform1i(glGetUniformLocation(program, "rockTex"), 0);
@@ -758,16 +726,39 @@ void display(){
     glUniformMatrix4fv(modelViewLoc, 1, GL_TRUE, modelView);
     glUniformMatrix4fv(projectionLoc, 1, GL_TRUE, projection);
     
+    
     glBindVertexArrayAPPLE(gVao[0]);
-    
-    //std::vector<int> indices = cullAndRender(*rt, frustu);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gIbo);
-    //glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, indices.size(), &indices[0]);
+    if(!pauseFrustum){
+//        indices.clear();
+//        std::vector<int> tmp = cullAndRender(*rt, frustu);
+//        indices.reserve(tmp.size());
+//        indices.insert(indices.begin(), tmp.begin(), tmp.end());
+        indices = cullAndRender(*rt, frustu);
+        int before = indices.size();
+        for(int i=0; i < indexCount-before; i++){
+            //zero out the rest of the size
+            indices.push_back(NULL);
+        }
+        std::cout<<"Max Size: " << indexCount << " Cur Size: " <<before<<std::endl;
 
-    
+    }
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gIbo);
+    glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, indices.size(), &indices[0]);
+    //glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, indices.size(), heightMapIndices);
+
     glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0);
     glBindVertexArrayAPPLE(0);
     
+    
+    if(!drawFrustum){
+        temp = frustu;
+    }
+    else{
+        temp.draw(modelView, projection, lineProgram);
+    }
+
+    
+    /*
     //std::cout << "GL_ERROR: " << glGetError() << std::endl;
     
 //    glUseProgram(lineProgram);
@@ -779,29 +770,27 @@ void display(){
 //    glDrawArrays(GL_LINES, 0, redLineVertices.size());
 //    glBindVertexArrayAPPLE(0);
     
-    collisionDetectionOT();
-    updateSpheres();
-    drawSpheres(modelView, projection);
+//    collisionDetectionOT();
+//    updateSpheres();
+//    drawSpheres(modelView, projection);
+    */
     
-    
-    float time = glutGet(GLUT_ELAPSED_TIME);
-    
-    float deltaTime = time-prevTime;
-    
-    prevTime = time;
-    
+
+    std::cout<<"fps: "<<fps<<std::endl;
+    /*
     //fountain.Update(deltaTime/5000.0);
     //std::cout<< "Delta Time: " << deltaTime/1000.0<<std::endl;
     //fountain.Draw(modelView, projection, programParticleEffect);
     
-    glUseProgram(programParticleEffect);
-    effect.update(deltaTime/1000.0, eye, at, up);
-    effect.render(programParticleEffect, modelView, projection);
+//    glUseProgram(programParticleEffect);
+//    effect.update(deltaTime/1000.0, eye, at, up);
+//    effect.render(programParticleEffect, modelView, projection);
     
     
     //glUseProgram(myFlock.program);
     //myFlock.updateFlock(time/1000.0);
     //myFlock.renderFlock(modelView, projection);
+     */
     
     glutSwapBuffers();
 }
@@ -814,16 +803,69 @@ void reshape(GLsizei w, GLsizei h){
     windowHeight = h;
 }
 
-// ***** Keyboard *****
+// ***** Keyboard & Mouse *****
+
+float mouseSpeed = 0.5;
+
+float currentTimeMouse, lastTimeMouse, deltaTimeMouse;
+int32_t deltaX, deltaY;
+CGPoint center = CGPointMake(windowWidth/2.0f, windowHeight/2.0f);
+
+/*
+ adapted from http://www.opengl-tutorial.org/beginners-tutorials/tutorial-6-keyboard-and-mouse/
+ */
+void mouseMotion(int x, int y){
+    
+    currentTimeMouse = glutGet(GLUT_ELAPSED_TIME)/1000.0f;
+    deltaTimeMouse = currentTimeMouse - lastTimeMouse;
+    lastTimeMouse = currentTimeMouse;
+
+    
+    //move pointer to center
+    //glutWarpPointer(windowWidth/2, windowHeight/2);
+    
+    CGGetLastMouseDelta(&deltaX, &deltaY);
+    
+    CGWarpMouseCursorPosition(center);
+    
+    
+    horizontalAngle -= mouseSpeed * float(deltaX) * deltaTimeMouse * mouseSpeed; //* deltaTimeMouse * float(windowWidth/2 - x);
+    verticalAngle   -= mouseSpeed * float(deltaY)  * deltaTimeMouse * mouseSpeed; //deltaTimeMouse * float(windowHeight/2 - y);
+    
+    at = vec4(cos(verticalAngle) * sin(horizontalAngle),
+              sin(verticalAngle),
+              cos(verticalAngle) * cos(horizontalAngle),
+              0);
+    
+    rightVec = vec4(sin(horizontalAngle - 3.1415926f/2.0f),
+                    0,
+                    cos(horizontalAngle - 3.1415926f/2.0f), 1);
+    
+    up = cross(rightVec, at);
+    
+    
+    //glutPostRedisplay();
+}
+
+
+float currentTimeKey, lastTimeKey, deltaTimeKey;
+float speed = 0.6f;
 
 void keyboard(unsigned char key, int x, int y){
+    
+    currentTimeKey = glutGet(GLUT_ELAPSED_TIME)/1000.0f;
+    deltaTimeKey = currentTimeKey - lastTimeKey;
+    lastTimeKey = currentTimeKey;
+
+    
     switch (key){
         case 'q': case 'Q': case 033: // esc key
             exit( EXIT_SUCCESS);
             break;
-        case 032: case 'i':
-            spheres.push_back(Sphere(vec3(eye.x, eye.y, eye.z), 0.1,(at-eye), programSphere));
-            break;
+//        case 032: case 'i':
+//            spheres.push_back(Sphere(vec3(eye.x, eye.y, eye.z), 0.1,(at-eye), programSphere));
+//            break;
+        /*
 //        case 'w': case 'W':
 //            cam->moveForward();
 //            glutPostRedisplay();
@@ -843,70 +885,133 @@ void keyboard(unsigned char key, int x, int y){
 //        case 'c': case 'C':
 //            cam->xdown();
 //            glutPostRedisplay();
-        case 'z':
-            if(eye.x - 0.2 > 0)
-                eye.x -= 0.2;
-            glutPostRedisplay();
-            break;
-        case 'Z':
-            if(eye.x + 0.2 < 16)
-                eye.x += 0.2;
-            glutPostRedisplay();
-            break;
-        case 'x':
-            if(eye.y - 0.2 > -8)
-                eye.y -= 0.2;
-            glutPostRedisplay();
-            break;
-        case 'X':
-            if(eye.y + 0.2 < 8)
-                eye.y += 0.2;
-            glutPostRedisplay();
-            break;
-        case 'c':
-            if(eye.z - 0.2 > 0)
-                eye.z -= 0.2;
-            glutPostRedisplay();
-            break;
-        case 'C':
-            if(eye.z + 0.2 < 16)
-                eye.z += 0.2;
-            glutPostRedisplay();
-            break;
-        case 'a':
-            if(at.x - 0.2 > 0)
-                at.x -= 0.2;
-            glutPostRedisplay();
-            break;
-        case 'A':
-            if(at.x + 0.2 < 16)
-                at.x += 0.2;
+//        case 'z':
+//            if(eye.x - 0.2 > 0)
+//                eye.x -= 0.2;
+//            glutPostRedisplay();
+//            break;
+//        case 'Z':
+//            if(eye.x + 0.2 < 16)
+//                eye.x += 0.2;
+//            glutPostRedisplay();
+//            break;
+//        case 'x':
+//            if(eye.y - 0.2 > -8)
+//                eye.y -= 0.2;
+//            glutPostRedisplay();
+//            break;
+//        case 'X':
+//            if(eye.y + 0.2 < 8)
+//                eye.y += 0.2;
+//            glutPostRedisplay();
+//            break;
+//        case 'c':
+//            if(eye.z - 0.2 > 0)
+//                eye.z -= 0.2;
+//            glutPostRedisplay();
+//            break;
+//        case 'C':
+//            if(eye.z + 0.2 < 16)
+//                eye.z += 0.2;
+//            glutPostRedisplay();
+//            break;
+//        case 'a':
+//            if(at.x - 0.2 > 0)
+//                at.x -= 0.2;
+//            glutPostRedisplay();
+//            break;
+//        case 'A':
+//            if(at.x + 0.2 < 16)
+//                at.x += 0.2;
+//            glutPostRedisplay();
+//            break;
+//        case 's':
+//            if(at.y - 0.2 > -8)
+//                at.y -= 0.2;
+//            glutPostRedisplay();
+//            break;
+//        case 'S':
+//            if(at.y + 0.2 < 8)
+//                at.y += 0.2;
+//            glutPostRedisplay();
+//            break;
+//        case 'd':
+//            if(at.z - 0.2 > 0)
+//                at.z -= 0.2;
+//            glutPostRedisplay();
+//            break;
+//        case 'D':
+//            if(at.z + 0.2 < 16)
+//                at.z += 0.2;
+//            glutPostRedisplay();
+//            break;
+        */
+        case 'w':
+            eye += at * speed * deltaTimeKey;
+            //mouseMotion(x, y);
             glutPostRedisplay();
             break;
         case 's':
-            if(at.y - 0.2 > -8)
-                at.y -= 0.2;
-            glutPostRedisplay();
-            break;
-        case 'S':
-            if(at.y + 0.2 < 8)
-                at.y += 0.2;
+            eye -= at * speed * deltaTimeKey;
+            //mouseMotion(x, y);
             glutPostRedisplay();
             break;
         case 'd':
-            if(at.z - 0.2 > 0)
-                at.z -= 0.2;
+            eye += rightVec * speed * deltaTimeKey;
+            //at += rightVec * speed;
+            //mouseMotion(x,y);
+            glutPostRedisplay();
+            break;
+        case 'a':
+            eye -= rightVec * speed * deltaTimeKey;
+            //at -= rightVec * speed;
+            //mouseMotion(x,y);
+            glutPostRedisplay();
+            break;
+        case 'W':
+            eye += at * speed * 2* deltaTimeKey;
+            //mouseMotion(x, y);
+            glutPostRedisplay();
+            break;
+        case 'S':
+            eye -= at * speed * 2* deltaTimeKey;
+            //mouseMotion(x, y);
             glutPostRedisplay();
             break;
         case 'D':
-            if(at.z + 0.2 < 16)
-                at.z += 0.2;
+            eye += rightVec * speed * 2 * deltaTimeKey;
+            //at += rightVec * speed;
+            //mouseMotion(x,y);
+            glutPostRedisplay();
+            break;
+        case 'A':
+            eye -= rightVec * speed * 2 * deltaTimeKey;
+            //at -= rightVec * speed;
+            //mouseMotion(x,y);
+            glutPostRedisplay();
+            break;
+        case 'b': case 'B':
+            pauseFrustum = !pauseFrustum;
+            glutPostRedisplay();
+            break;
+        case 'x':
+            std::cout<<"Eye: " <<eye<<std::endl;
+            break;
+        case 'h':
+            eye = vec4(8,5,8,1);
+            glutPostRedisplay();
+            break;
+        case 'f':
+            drawFrustum = !drawFrustum;
+            //temp = frustu;
             glutPostRedisplay();
             break;
         default:
+            mouseMotion(x, y);
             break;
     }
 }
+
 /*
 void keyboardUp(unsigned char key, int x, int y){
     switch (key){
@@ -932,6 +1037,19 @@ void handleMouseMove(int mouseX, int mouseY){
     cam->mouseMovement(mouseX, mouseY);
 }
 
+
+void handleIdle(){
+    frame++;
+    fpsElapsedTime = glutGet(GLUT_ELAPSED_TIME);
+    if(fpsElapsedTime - fpsPrevTime > 1000){
+        fps = frame*1000.0/(fpsElapsedTime-fpsPrevTime);
+        fpsPrevTime = fpsElapsedTime;
+        frame = 0;
+    }
+    glutPostRedisplay();
+}
+
+
 // ***** Main *****
 
 int main(int argc, char** argv) {
@@ -941,12 +1059,15 @@ int main(int argc, char** argv) {
     glutCreateWindow("Height Map Terrain Generation");
     
     init();
+    glutSetCursor(GLUT_CURSOR_NONE);
+    //glutWarpPointer(windowWidth/2.0f, windowHeight/2.0f);
     
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
     glutKeyboardFunc(keyboard);
-    glutPassiveMotionFunc(handleMouseMove);
-    glutIdleFunc(glutPostRedisplay);
+    glutPassiveMotionFunc(mouseMotion);
+    //glutMouseFunc(mouseMotion);
+    glutIdleFunc(handleIdle);
 
     glutMainLoop();
     return 0;
