@@ -15,7 +15,6 @@
 #include "Octree.h"
 #include "Frustum.h"
 #include "Flock.h"
-#include "Camera2.h"
 #include "Sphere.h"
 #include "Plane.h"
 #include "Particles2.h"
@@ -34,7 +33,7 @@ int windowHeight = 1024;
 const int heightMapWidth = 512;
 const int heightMapHeight = 512;
 
-Camera *cam;
+//Camera *cam;
 
 vector<Sphere> spheres;
 
@@ -248,34 +247,6 @@ OTNode collisionNode(OTNode root, vec3 pt){
     }
 }
 
-/*
-bool tempCollision(Sphere sphr, Triangle tri){
-    vec3 a = heightMapVectors[tri.indices[0]];
-    vec3 b = heightMapVectors[tri.indices[1]];
-    vec3 c = heightMapVectors[tri.indices[2]];
-
-    vec3 p = sphr.getCenter();
-    
-    float distA = sqrt(pow(a.x-p.x, 2)+pow(a.y-p.y,2)+pow(a.z-p.z,2));
-    float distB = sqrt(pow(b.x-p.x, 2)+pow(b.y-p.y,2)+pow(b.z-p.z,2));
-    float distC = sqrt(pow(c.x-p.x, 2)+pow(c.y-p.y,2)+pow(c.z-p.z,2));
-    
-    float radius = sphr.getRadius();
-    
-    //std::cout << "Radius = " << radius << '\n' << "Distance A: " << distA << '\n' << "Distance B: " << distB<< '\n' << "Distance C: " << distC << std::endl;
-    
-    if(distA < radius || distB < radius || distC < radius){
-        //std::cout << "  true" <<std::endl;
-        return true;
-    }
-    else{
-        //std::cout << "  false" <<std::endl;
-        return false;
-    }
-}
-*/
-
-
 bool sameSide(vec3 p1, vec3 p2, vec3 a, vec3 b){
     vec3 cp1 = cross(b-a, p1-a);
     vec3 cp2 = cross(b-a, p2-a);
@@ -445,9 +416,6 @@ void genTriangles(){
             normalIndex++;
         }
     }
-    //delete [] curVecStart;
-    //delete [] curVecA;
-    //delete [] curVecB;
 
 }
 
@@ -531,7 +499,7 @@ void avgNormals(){
 
 void init(){
     
-    cam = new Camera();
+    //cam = new Camera();
     
     program = InitShader("HeightMap_vShader.glsl", "HeightMap_fShader.glsl");
     modelViewLoc = glGetUniformLocation(program, "modelView");
@@ -685,6 +653,7 @@ void init(){
 float prevTime = 0;
 bool pauseFrustum = false;
 bool drawFrustum = false;
+bool pauseMouse = false;
 std::vector<int> indices;
 
 Frust temp = frustu;
@@ -728,29 +697,11 @@ void display(){
     
     
     glBindVertexArrayAPPLE(gVao[0]);
-    if(!pauseFrustum){
-//        indices.clear();
-//        std::vector<int> tmp = cullAndRender(*rt, frustu);
-//        indices.reserve(tmp.size());
-//        indices.insert(indices.begin(), tmp.begin(), tmp.end());
-        indices = cullAndRender(*rt, frustu);
-        int before = indices.size();
-        for(int i=0; i < indexCount-before; i++){
-            //zero out the rest of the size
-            indices.push_back(NULL);
-        }
-        std::cout<<"Max Size: " << indexCount << " Cur Size: " <<before<<std::endl;
-
-    }
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gIbo);
-    glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, indices.size(), &indices[0]);
-    //glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, indices.size(), heightMapIndices);
-
     glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0);
     glBindVertexArrayAPPLE(0);
     
     
-    if(!drawFrustum){
+    if(!pauseFrustum){
         temp = frustu;
     }
     else{
@@ -769,7 +720,10 @@ void display(){
 //    glBindVertexArrayAPPLE(gVao[1]);
 //    glDrawArrays(GL_LINES, 0, redLineVertices.size());
 //    glBindVertexArrayAPPLE(0);
-    
+     //    collisionDetectionOT();
+     //    updateSpheres();
+     //    drawSpheres(modelView, projection);
+     
 //    collisionDetectionOT();
 //    updateSpheres();
 //    drawSpheres(modelView, projection);
@@ -815,36 +769,32 @@ CGPoint center = CGPointMake(windowWidth/2.0f, windowHeight/2.0f);
  adapted from http://www.opengl-tutorial.org/beginners-tutorials/tutorial-6-keyboard-and-mouse/
  */
 void mouseMotion(int x, int y){
-    
-    currentTimeMouse = glutGet(GLUT_ELAPSED_TIME)/1000.0f;
-    deltaTimeMouse = currentTimeMouse - lastTimeMouse;
-    lastTimeMouse = currentTimeMouse;
-
-    
-    //move pointer to center
-    //glutWarpPointer(windowWidth/2, windowHeight/2);
-    
-    CGGetLastMouseDelta(&deltaX, &deltaY);
-    
-    CGWarpMouseCursorPosition(center);
-    
-    
-    horizontalAngle -= mouseSpeed * float(deltaX) * deltaTimeMouse * mouseSpeed; //* deltaTimeMouse * float(windowWidth/2 - x);
-    verticalAngle   -= mouseSpeed * float(deltaY)  * deltaTimeMouse * mouseSpeed; //deltaTimeMouse * float(windowHeight/2 - y);
-    
-    at = vec4(cos(verticalAngle) * sin(horizontalAngle),
-              sin(verticalAngle),
-              cos(verticalAngle) * cos(horizontalAngle),
-              0);
-    
-    rightVec = vec4(sin(horizontalAngle - 3.1415926f/2.0f),
-                    0,
-                    cos(horizontalAngle - 3.1415926f/2.0f), 1);
-    
-    up = cross(rightVec, at);
-    
-    
-    //glutPostRedisplay();
+    if(!pauseMouse){
+        currentTimeMouse = glutGet(GLUT_ELAPSED_TIME)/1000.0f;
+        deltaTimeMouse = currentTimeMouse - lastTimeMouse;
+        lastTimeMouse = currentTimeMouse;
+        
+        CGGetLastMouseDelta(&deltaX, &deltaY);
+        //move pointer to center
+        CGWarpMouseCursorPosition(center);
+        
+        horizontalAngle -= mouseSpeed * float(deltaX) * deltaTimeMouse * mouseSpeed; //* deltaTimeMouse * float(windowWidth/2 - x);
+        verticalAngle   -= mouseSpeed * float(deltaY)  * deltaTimeMouse * mouseSpeed; //deltaTimeMouse * float(windowHeight/2 - y);
+        
+        at = vec4(cos(verticalAngle) * sin(horizontalAngle),
+                  sin(verticalAngle),
+                  cos(verticalAngle) * cos(horizontalAngle),
+                  0);
+        
+        rightVec = vec4(sin(horizontalAngle - 3.1415926f/2.0f),
+                        0,
+                        cos(horizontalAngle - 3.1415926f/2.0f), 1);
+        
+        up = cross(rightVec, at);
+        
+        
+        glutPostRedisplay();
+    }
 }
 
 
@@ -865,87 +815,6 @@ void keyboard(unsigned char key, int x, int y){
 //        case 032: case 'i':
 //            spheres.push_back(Sphere(vec3(eye.x, eye.y, eye.z), 0.1,(at-eye), programSphere));
 //            break;
-        /*
-//        case 'w': case 'W':
-//            cam->moveForward();
-//            glutPostRedisplay();
-//            break;
-//        case 's': case 'S':
-//            cam->moveBackward();
-//            glutPostRedisplay();
-//        case 'a': case 'A':
-//            cam->turnLeft();
-//            glutPostRedisplay();
-//        case 'd': case 'D':
-//            cam->turnRight();
-//            glutPostRedisplay();
-//        case 'z': case 'Z':
-//            cam->xup();
-//            glutPostRedisplay();
-//        case 'c': case 'C':
-//            cam->xdown();
-//            glutPostRedisplay();
-//        case 'z':
-//            if(eye.x - 0.2 > 0)
-//                eye.x -= 0.2;
-//            glutPostRedisplay();
-//            break;
-//        case 'Z':
-//            if(eye.x + 0.2 < 16)
-//                eye.x += 0.2;
-//            glutPostRedisplay();
-//            break;
-//        case 'x':
-//            if(eye.y - 0.2 > -8)
-//                eye.y -= 0.2;
-//            glutPostRedisplay();
-//            break;
-//        case 'X':
-//            if(eye.y + 0.2 < 8)
-//                eye.y += 0.2;
-//            glutPostRedisplay();
-//            break;
-//        case 'c':
-//            if(eye.z - 0.2 > 0)
-//                eye.z -= 0.2;
-//            glutPostRedisplay();
-//            break;
-//        case 'C':
-//            if(eye.z + 0.2 < 16)
-//                eye.z += 0.2;
-//            glutPostRedisplay();
-//            break;
-//        case 'a':
-//            if(at.x - 0.2 > 0)
-//                at.x -= 0.2;
-//            glutPostRedisplay();
-//            break;
-//        case 'A':
-//            if(at.x + 0.2 < 16)
-//                at.x += 0.2;
-//            glutPostRedisplay();
-//            break;
-//        case 's':
-//            if(at.y - 0.2 > -8)
-//                at.y -= 0.2;
-//            glutPostRedisplay();
-//            break;
-//        case 'S':
-//            if(at.y + 0.2 < 8)
-//                at.y += 0.2;
-//            glutPostRedisplay();
-//            break;
-//        case 'd':
-//            if(at.z - 0.2 > 0)
-//                at.z -= 0.2;
-//            glutPostRedisplay();
-//            break;
-//        case 'D':
-//            if(at.z + 0.2 < 16)
-//                at.z += 0.2;
-//            glutPostRedisplay();
-//            break;
-        */
         case 'w':
             eye += at * speed * deltaTimeKey;
             //mouseMotion(x, y);
@@ -994,47 +863,21 @@ void keyboard(unsigned char key, int x, int y){
             pauseFrustum = !pauseFrustum;
             glutPostRedisplay();
             break;
-        case 'x':
+        case 'x': case 'X':
             std::cout<<"Eye: " <<eye<<std::endl;
             break;
-        case 'h':
+        case 'h': case 'H':
             eye = vec4(8,5,8,1);
             glutPostRedisplay();
             break;
-        case 'f':
-            drawFrustum = !drawFrustum;
-            //temp = frustu;
+        case 'p': case 'P':
+            pauseMouse = !pauseMouse;
             glutPostRedisplay();
             break;
         default:
             mouseMotion(x, y);
             break;
     }
-}
-
-/*
-void keyboardUp(unsigned char key, int x, int y){
-    switch (key){
-        case 'w': case 'W':
-            cam->holdingForward = false;
-            glutPostRedisplay();
-            break;
-        case 's': case 'S':
-            cam->holdingBackward = false;
-            glutPostRedisplay();
-        case 'a': case 'A':
-            cam->holdingLeftStrafe = false;
-            glutPostRedisplay();
-        case 'd': case 'D':
-            cam->holdingRightStrafe = false;
-            glutPostRedisplay();
-        default:
-            break;
-    }
-}*/
-
-void handleMouseMove(int mouseX, int mouseY){
-    cam->mouseMovement(mouseX, mouseY);
 }
 
 
@@ -1046,6 +889,28 @@ void handleIdle(){
         fpsPrevTime = fpsElapsedTime;
         frame = 0;
     }
+    
+    if(!pauseFrustum){
+        std::vector<int> iboUpdates = cullAndRender(*rt, frustu);
+        int iboIndices[indexCount];
+        for(int i = 0;  i< iboUpdates.size(); i++){
+            if(i < iboUpdates.size()){
+                iboIndices[i] = iboUpdates[i];
+            }
+            else{
+                break;
+            }
+        }
+        for(int i = iboUpdates.size(); i < indexCount; i++){
+            iboIndices[i] = 0;
+        }
+        std::cout<<"Max: "<<indexCount<<"  Current: "<<iboUpdates.size()<<std::endl;
+        
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gIbo);
+        glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(iboIndices), iboIndices);
+
+    }
+    
     glutPostRedisplay();
 }
 

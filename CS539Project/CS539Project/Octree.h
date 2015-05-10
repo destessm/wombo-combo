@@ -111,7 +111,7 @@ public:
 
 
 OTNode root;
-int minTriangles = 1500;
+int minTriangles = 300;
 
 std::vector<Triangle> trianglulate(int indices[], int length){
     std::vector<Triangle> array;

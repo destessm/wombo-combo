@@ -232,62 +232,6 @@ std::vector<Triangle> concatenate(std::vector<Triangle> a, std::vector<Triangle>
 
 
 std::vector<Triangle> nodesToRender(OTNode root, Frust f){
-    
-    /*
-    //std::cout<< "Root: " << root.hasChildren << std::endl;
-    // loop through each corner to see if it's inside the frustum
-//    for(int i=0; i<8; i++){
-//        if(f.np.signedDistance(root.corners[i]) > 0 ||
-//           f.fp.signedDistance(root.corners[i]) > 0 ||
-//           f.lp.signedDistance(root.corners[i]) > 0 ||
-//           f.rp.signedDistance(root.corners[i]) > 0 ||
-//           f.tp.signedDistance(root.corners[i]) > 0 ||
-//           f.bp.signedDistance(root.corners[i]) > 0){
-//            // this corner is inside the frustum
-//            if(root.hasChildren){
-//                //has chidlren
-//
-//                std::vector<Triangle> c0 = nodesToRender(*root.children[0], f);
-//                std::vector<Triangle> c1 = nodesToRender(*root.children[1], f);
-//                std::vector<Triangle> c2 = nodesToRender(*root.children[2], f);
-//                std::vector<Triangle> c3 = nodesToRender(*root.children[3], f);
-//                std::vector<Triangle> c4 = nodesToRender(*root.children[4], f);
-//                std::vector<Triangle> c5 = nodesToRender(*root.children[5], f);
-//                std::vector<Triangle> c6 = nodesToRender(*root.children[6], f);
-//                std::vector<Triangle> c7 = nodesToRender(*root.children[7], f);
-//                return concatenate(c0, c1, c2, c3, c4, c5, c6, c7);
-//
-//                std::vector<Triangle> total;
-//                std::vector<Triangle> current;
-//                for(int j=0; j<8; j++){
-//                    current = nodesToRender(*root.children[j], f);
-//                    total.reserve(total.size() + current.size());
-//                    move(current.begin(), current.end(), inserter(total, total.end()));
-//                }
-//                return total;
-//            }
-//            else{
-//                //has no children
-//                return root.data;
-//            }
-//        }
-//    }
-//    
-//    //otherwise, return no triangles, as this isn't inside the frustum
-//    std::vector<Triangle> r;
-//    r.clear();
-//    return r;
-    
-//    if(f.np.signedDistance(root.corners[i]) >= 0 ||
-//       f.fp.signedDistance(root.corners[i]) >= 0 ||
-//       f.lp.signedDistance(root.corners[i]) >= 0 ||
-//       f.rp.signedDistance(root.corners[i]) >= 0 ||
-//       f.tp.signedDistance(root.corners[i]) >= 0 ||
-//       f.bp.signedDistance(root.corners[i]) >= 0){
-//        intersect = true;
-//    }
-    */
-    
     std::vector<Triangle> returnData;
     if(root.hasChildren){
         std::vector<Triangle> total;
@@ -299,28 +243,32 @@ std::vector<Triangle> nodesToRender(OTNode root, Frust f){
         }
         returnData = total;
     }
-    else{
+    else{ // is leaf node
         bool intersect = false;
         Plane pls[] = {f.np, f.fp, f.lp, f.rp, f.tp, f.bp};
         for(int i=0; i<6; i++){ // loop through planes
-            bool in = false;
-            bool out = false;
-            for(int j=0; j<8 && (!in && !out); j++){ //loop through corners
-                if(pls[i].signedDistance(root.corners[j] > 0)){
+            for(int j=0; j<8; j++){ //loop through corners
+                //std::cout<<"Signed Distance: "<< pls[i].signedDistance(root.corners[j]) <<std::endl;
+                if(pls[i].signedDistance(root.corners[j]) > 10){
+                    //std::cout<<"Is In Frustum  ["<<j<<"]"<<std::endl;
                     intersect = true;
                     break;
                 }
+//                else{
+//                    //std::cout<<"Not In Frustum ["<<j<<"]"<<std::endl;
+//                }
             }
         }
         if(intersect){
             returnData = root.data;
+            //std::cout<<"Return Data Size: " <<returnData.size()<<std::endl;
+        }
+        else{
+            returnData.clear();
         }
     }
     return returnData;
 };
-
-
-
 
 std::vector<int> cullAndRender(OTNode root, Frust f){
     //Plane pls[] = {f.np, f.fp, f.lp, f.rp, f.tp, f.bp};
@@ -331,7 +279,7 @@ std::vector<int> cullAndRender(OTNode root, Frust f){
         allInds.push_back(allTris[i].indices[1]);
         allInds.push_back(allTris[i].indices[2]);
     }
-    std::cout<<"Num Triangles = " << allInds.size()<<std::endl;
+    //std::cout<<"Num Triangles = " << allInds.size()<<std::endl;
     return allInds;
 }
 
