@@ -1,6 +1,41 @@
 # wombo-combo
 My CS539 Project
 
+Final Turn In:
+
+New Camera Controls (yay!):
+Mouse - turn / tilt
+wasd - forward, left, backward, right
+b - pause frustum (also renders frustum as red lines)
+p - pause mouse (basically to get out of the window without closing)
+h - return to center of the map
+x - print current position (mostly for debugging)
+
+Everything actually works! I fixed my camera so that it runs smoothly with the mouse. 
+Getting frustum culling was really quite difficult because I had done it completely wrong
+previously. I was not checking if the current node had children first, so I think it would
+actually check "internal" nodes for culling, which was bad. I also had to optimize my 
+octree so that it wouldn't take a full three minutes to load (I timed it, it was that bad). 
+I also had a long-standing bug that my culling would only work behind the camera. This 
+actually got fixed with an optimization that I found for my previous culling algorithm. 
+This fix, though, created a bug where it would cull things that were on the edge of the 
+screen. After widening my frustum a little bit (which barely helped), I figured out how to
+give it some head room by changing what I was comparing the signed distance to my frustum
+planes against from 0 to -15000. This seems like a lot, but it's really just far enough
+to stop this culling issue. I still have a small remnant of this bug (some nodes will 
+still get culled even if they're just barely on screen) but it did fix most of it. The
+biggest break I had was when I realized that I was still using a 512x512 height map. This
+was aparently too much work for my computer to cull, limiting my FPS to something around
+ten, which was abysmal. Once I changed back to a 256x256 height map, I jumped to about 45
+FPS (this was right before I found the culling optimization). This was a great learning 
+experience, and now I can truly appreciate how beautifully smooth most games run, even 
+though they're using thousands of times more triangles per scene than I am. 
+
+
+
+
+//Old stuff below
+
 
 Particle Effects Part 2!
 
