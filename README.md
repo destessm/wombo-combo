@@ -6,6 +6,7 @@ Final Turn In:
 New Camera Controls (yay!):
 Mouse - turn / tilt
 wasd - forward, left, backward, right
+Shift+WASD - faster movement
 b - pause frustum (also renders frustum as red lines)
 p - pause mouse (basically to get out of the window without closing)
 h - return to center of the map
