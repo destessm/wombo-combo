@@ -52,38 +52,25 @@ public:
         Hfar = 2*tan(fov / 2.0f) * farDist;
         Wfar = Hfar * rat;
         
-        //vec4 dir = normalize(at-eye);
-        //vec4 right = cross(up, dir);
-        
         fc = eye + dir * farDist;
-        ftl = fc + (up * Hfar/1.2f) - (right * Wfar/1.2f);
+        ftl = fc + (up * Hfar/1.0f) - (right * Wfar/1.0f);
         ftl.w = 1;
-        ftr = fc + (up * Hfar/1.2f) + (right * Wfar/1.2f);
+        ftr = fc + (up * Hfar/1.0f) + (right * Wfar/1.0f);
         ftr.w = 1;
-        fbl = fc - (up * Hfar/1.2f) - (right * Wfar/1.2f);
+        fbl = fc - (up * Hfar/1.0f) - (right * Wfar/1.0f);
         fbl.w = 1;
-        fbr = fc - (up * Hfar/1.2f) + (right * Wfar/1.2f);
+        fbr = fc - (up * Hfar/1.0f) + (right * Wfar/1.0f);
         fbr.w = 1;
         
-        //        std::cout<<"ftl: "<<ftl<<std::endl;
-        //        std::cout<<"ftr: "<<ftr<<std::endl;
-        //        std::cout<<"fbl: "<<fbl<<std::endl;
-        //        std::cout<<"fbr: "<<fbr<<std::endl;
-        
         nc = eye + dir * nearDist;
-        ntl = nc + (up * Hnear/1.2f) - (right * Wnear/1.2f);
+        ntl = nc + (up * Hnear/1.0f) - (right * Wnear/1.0f);
         ntl.w = 1;
-        ntr = nc + (up * Hnear/1.2f) + (right * Wnear/1.2f);
+        ntr = nc + (up * Hnear/1.0f) + (right * Wnear/1.0f);
         ntr.w = 1;
-        nbl = nc - (up * Hnear/1.2f) - (right * Wnear/1.2f);
+        nbl = nc - (up * Hnear/1.0f) - (right * Wnear/1.0f);
         nbl.w = 1;
-        nbr = nc - (up * Hnear/1.2f) + (right * Wnear/1.2f);
+        nbr = nc - (up * Hnear/1.0f) + (right * Wnear/1.0f);
         nbr.w = 1;
-        
-        //        std::cout<<"ntl: "<<ntl<<std::endl;
-        //        std::cout<<"ntr: "<<ntr<<std::endl;
-        //        std::cout<<"nbl: "<<nbl<<std::endl;
-        //        std::cout<<"nbr: "<<nbr<<std::endl;
         
         np = Plane(toVec3(nbl), toVec3(ntl), toVec3(ntr));
         fp = Plane(toVec3(fbr), toVec3(ftr), toVec3(ftl));
@@ -120,41 +107,26 @@ public:
     }
     
     void updateFrustum(vec4 eye, vec4 dir, vec4 up, vec4 right){
-        //vec4 dir = normalize(at-eye);
-        //vec4 right = cross(up, dir);
-        
-        //vec4 dir = normalize(at-eye);
-        //vec4 right = cross(up, dir);
         
         fc = eye + dir * farDist;
-        ftl = fc + (up * Hfar/1.2f) - (right * Wfar/1.2f);
+        ftl = fc + (up * Hfar/1.0f) - (right * Wfar/1.0f);
         ftl.w = 1;
-        ftr = fc + (up * Hfar/1.2f) + (right * Wfar/1.2f);
+        ftr = fc + (up * Hfar/1.0f) + (right * Wfar/1.0f);
         ftr.w = 1;
-        fbl = fc - (up * Hfar/1.2f) - (right * Wfar/1.2f);
+        fbl = fc - (up * Hfar/1.0f) - (right * Wfar/1.0f);
         fbl.w = 1;
-        fbr = fc - (up * Hfar/1.2f) + (right * Wfar/1.2f);
+        fbr = fc - (up * Hfar/1.0f) + (right * Wfar/1.0f);
         fbr.w = 1;
         
-        //        std::cout<<"ftl: "<<ftl<<std::endl;
-        //        std::cout<<"ftr: "<<ftr<<std::endl;
-        //        std::cout<<"fbl: "<<fbl<<std::endl;
-        //        std::cout<<"fbr: "<<fbr<<std::endl;
-        
         nc = eye + dir * nearDist;
-        ntl = nc + (up * Hnear/1.2f) - (right * Wnear/1.2f);
+        ntl = nc + (up * Hnear/1.0f) - (right * Wnear/1.0f);
         ntl.w = 1;
-        ntr = nc + (up * Hnear/1.2f) + (right * Wnear/1.2f);
+        ntr = nc + (up * Hnear/1.0f) + (right * Wnear/1.0f);
         ntr.w = 1;
-        nbl = nc - (up * Hnear/1.2f) - (right * Wnear/1.2f);
+        nbl = nc - (up * Hnear/1.0f) - (right * Wnear/1.0f);
         nbl.w = 1;
-        nbr = nc - (up * Hnear/1.2f) + (right * Wnear/1.2f);
+        nbr = nc - (up * Hnear/1.0f) + (right * Wnear/1.0f);
         nbr.w = 1;
-        
-        //        std::cout<<"ntl: "<<ntl<<std::endl;
-        //        std::cout<<"ntr: "<<ntr<<std::endl;
-        //        std::cout<<"nbl: "<<nbl<<std::endl;
-        //        std::cout<<"nbr: "<<nbr<<std::endl;
 
         np.update(toVec3(nbl), toVec3(ntl), toVec3(ntr));
         fp.update(toVec3(fbr), toVec3(ftr), toVec3(ftl));
@@ -243,6 +215,7 @@ std::vector<Triangle> nodesToRender(OTNode root, Frust f){
     }
     else{ // is leaf node
         bool intersect = false;
+        /*
         for(int i=0; i<6; i++){ // loop through frustumPlanes
             for(int j=0; j<8; j++){ //loop through frustum corners
                 if(f.frustumPlanes[i].signedDistance(root.corners[j]) < 0){
@@ -252,6 +225,19 @@ std::vector<Triangle> nodesToRender(OTNode root, Frust f){
                     intersect = true;
                     break;
                 }
+            }
+        }*/
+        
+        /*
+         adaped from http://www.lighthouse3d.com/tutorials/view-frustum-culling/geometric-approach-testing-boxes-ii/
+         */
+        for(int i=0; i<6; i++){
+            if(f.frustumPlanes[i].signedDistance(root.cornerMax) < -15000){ // give it a little room around the edges
+                intersect = false;
+                break;
+            }
+            else if(f.frustumPlanes[i].signedDistance(root.cornerMin) > -15000){
+                intersect = true;
             }
         }
         

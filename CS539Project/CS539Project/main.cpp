@@ -708,7 +708,7 @@ void display(){
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gIbo);
         glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(iboIndices), iboIndices);
         
-        //temp = frustu;
+        temp = frustu;
     }
 
     
@@ -716,9 +716,9 @@ void display(){
     glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0);
     glBindVertexArrayAPPLE(0);
     
-//    if(pauseFrustum){
-//        temp.draw(modelView, projection, lineProgram);
-//    }
+    if(pauseFrustum){
+        temp.draw(modelView, projection, lineProgram);
+    }
 
     
 
