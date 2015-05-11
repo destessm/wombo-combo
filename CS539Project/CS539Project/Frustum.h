@@ -30,6 +30,7 @@ public:
     float fratio;
     float nearDist;
     float farDist;
+    Plane frustumPlanes[6];
     
     float Hnear, Wnear, Hfar, Wfar;
     vec4 fc, ftl, ftr, fbl, fbr;
@@ -110,7 +111,12 @@ public:
         
         updateLines();
 
-
+        frustumPlanes[0] = np;
+        frustumPlanes[1] = fp;
+        frustumPlanes[2] = lp;
+        frustumPlanes[3] = rp;
+        frustumPlanes[4] = tp;
+        frustumPlanes[5] = bp;
     }
     
     void updateFrustum(vec4 eye, vec4 dir, vec4 up, vec4 right){
@@ -158,6 +164,13 @@ public:
         bp.update(toVec3(nbr), toVec3(fbr), toVec3(fbl));
         
         updateLines();
+        
+        frustumPlanes[0] = np;
+        frustumPlanes[1] = fp;
+        frustumPlanes[2] = lp;
+        frustumPlanes[3] = rp;
+        frustumPlanes[4] = tp;
+        frustumPlanes[5] = bp;
     }
     
     void updateLines(){
@@ -214,65 +227,46 @@ public:
     }
 };
 
-
-std::vector<Triangle> concatenate(std::vector<Triangle> a, std::vector<Triangle> b, std::vector<Triangle> c, std::vector<Triangle> d, std::vector<Triangle> e, std::vector<Triangle> f, std::vector<Triangle> g, std::vector<Triangle> h){
-    std::vector<Triangle> total;
-    total.reserve(a.size() + b.size() + c.size() + d.size() + e.size() + f.size() + g.size() + h.size());
-    total.insert(total.end(), a.begin(), a.end());
-    total.insert(total.end(), b.begin(), b.end());
-    total.insert(total.end(), c.begin(), c.end());
-    total.insert(total.end(), d.begin(), d.end());
-    total.insert(total.end(), e.begin(), e.end());
-    total.insert(total.end(), f.begin(), f.end());
-    total.insert(total.end(), g.begin(), g.end());
-    total.insert(total.end(), h.begin(), h.end());
-    return total;
-}
-
-
-
+std::vector<Triangle> emptyVector;
 std::vector<Triangle> nodesToRender(OTNode root, Frust f){
-    std::vector<Triangle> returnData;
+    //std::vector<Triangle> returnData;
     if(root.hasChildren){
         std::vector<Triangle> total;
         std::vector<Triangle> current;
         for(int j=0; j<8; j++){
             current = nodesToRender(*root.children[j], f);
-            total.reserve(total.size() + current.size());
-            move(current.begin(), current.end(), inserter(total, total.end()));
+            for(int i=0; i<current.size(); i++){
+                total.push_back(current[i]);
+            }
         }
-        returnData = total;
+        return total;
     }
     else{ // is leaf node
         bool intersect = false;
-        Plane pls[] = {f.np, f.fp, f.lp, f.rp, f.tp, f.bp};
-        for(int i=0; i<6; i++){ // loop through planes
-            for(int j=0; j<8; j++){ //loop through corners
-                //std::cout<<"Signed Distance: "<< pls[i].signedDistance(root.corners[j]) <<std::endl;
-                if(pls[i].signedDistance(root.corners[j]) > 10){
-                    //std::cout<<"Is In Frustum  ["<<j<<"]"<<std::endl;
+        for(int i=0; i<6; i++){ // loop through frustumPlanes
+            for(int j=0; j<8; j++){ //loop through frustum corners
+                if(f.frustumPlanes[i].signedDistance(root.corners[j]) < 0){
+                    intersect = false;
+                }
+                else{
                     intersect = true;
                     break;
                 }
-//                else{
-//                    //std::cout<<"Not In Frustum ["<<j<<"]"<<std::endl;
-//                }
             }
         }
+        
         if(intersect){
-            returnData = root.data;
-            //std::cout<<"Return Data Size: " <<returnData.size()<<std::endl;
+            return root.data;
         }
         else{
-            returnData.clear();
+            return emptyVector;
         }
     }
-    return returnData;
+    //return returnData;
 };
 
 std::vector<int> cullAndRender(OTNode root, Frust f){
-    //Plane pls[] = {f.np, f.fp, f.lp, f.rp, f.tp, f.bp};
-    std::vector<Triangle> allTris = nodesToRender(root, f);//root.checkFrustumCollision(pls);//nodesToRender(root, f);
+    std::vector<Triangle> allTris = nodesToRender(root, f);
     std::vector<int> allInds;
     for(int i=0; i<allTris.size(); i++){
         allInds.push_back(allTris[i].indices[0]);

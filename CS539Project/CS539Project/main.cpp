@@ -30,8 +30,8 @@ int windowHeight = 1024;
 
 
 //I know this is bad, I just never got around to fixing it
-const int heightMapWidth = 512;
-const int heightMapHeight = 512;
+const int heightMapWidth = 256;
+const int heightMapHeight = 256;
 
 //Camera *cam;
 
@@ -117,7 +117,7 @@ void readHeightMap(char* filename, int width, int height){
             heightMapValues[count] = (float) heightMapBytes[(i*heightMapHeight+j)*3];
             float curVal = heightMapValues[count]/64;
             float curCol = heightMapValues[count]/256;
-            heightMapVectors[count] = vec3((float)j/32, curVal, (float)i/32);
+            heightMapVectors[count] = vec3((float)j/16, curVal, (float)i/16);
             heightMapColors[count] = vec4(curCol, curCol, curCol, 1);
             count++;
         }
@@ -513,7 +513,7 @@ void init(){
     projectionLineLoc = glGetUniformLocation(lineProgram, "projection");
     vPositionLineLoc = glGetAttribLocation(lineProgram, "vPosition");
     
-    readHeightMap("heightmap512_1.ppm", 512, 512);
+    readHeightMap("heightmap256.ppm", 256, 256);
     genTriangles();
     avgNormals();
     
@@ -695,18 +695,32 @@ void display(){
     glUniformMatrix4fv(modelViewLoc, 1, GL_TRUE, modelView);
     glUniformMatrix4fv(projectionLoc, 1, GL_TRUE, projection);
     
+    if(!pauseFrustum){
+        std::vector<int> iboUpdates = cullAndRender(*rt, frustu);
+        int iboIndices[indexCount];
+        for(int i = 0;  i< iboUpdates.size(); i++){
+            iboIndices[i] = iboUpdates[i];
+        }
+        for(int i = (int)iboUpdates.size(); i < indexCount; i++){
+            iboIndices[i] = 0;
+        }
+        
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gIbo);
+        glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(iboIndices), iboIndices);
+        
+        //temp = frustu;
+    }
+
     
     glBindVertexArrayAPPLE(gVao[0]);
     glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0);
     glBindVertexArrayAPPLE(0);
     
+//    if(pauseFrustum){
+//        temp.draw(modelView, projection, lineProgram);
+//    }
+
     
-    if(!pauseFrustum){
-        temp = frustu;
-    }
-    else{
-        temp.draw(modelView, projection, lineProgram);
-    }
 
     
     /*
@@ -730,7 +744,6 @@ void display(){
     */
     
 
-    std::cout<<"fps: "<<fps<<std::endl;
     /*
     //fountain.Update(deltaTime/5000.0);
     //std::cout<< "Delta Time: " << deltaTime/1000.0<<std::endl;
@@ -885,31 +898,13 @@ void handleIdle(){
     frame++;
     fpsElapsedTime = glutGet(GLUT_ELAPSED_TIME);
     if(fpsElapsedTime - fpsPrevTime > 1000){
-        fps = frame*1000.0/(fpsElapsedTime-fpsPrevTime);
+        fps = frame*1000/(fpsElapsedTime-fpsPrevTime);
         fpsPrevTime = fpsElapsedTime;
         frame = 0;
-    }
-    
-    if(!pauseFrustum){
-        std::vector<int> iboUpdates = cullAndRender(*rt, frustu);
-        int iboIndices[indexCount];
-        for(int i = 0;  i< iboUpdates.size(); i++){
-            if(i < iboUpdates.size()){
-                iboIndices[i] = iboUpdates[i];
-            }
-            else{
-                break;
-            }
-        }
-        for(int i = iboUpdates.size(); i < indexCount; i++){
-            iboIndices[i] = 0;
-        }
-        std::cout<<"Max: "<<indexCount<<"  Current: "<<iboUpdates.size()<<std::endl;
+        std::cout<<"fps: "<<fps<<std::endl;
         
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gIbo);
-        glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(iboIndices), iboIndices);
-
     }
+
     
     glutPostRedisplay();
 }
